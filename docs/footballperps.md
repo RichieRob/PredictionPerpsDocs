@@ -13,7 +13,7 @@ FootballPerps is the flagship product of PredictionPerps and the pioneer in a gr
 
 ## PredictionPerps Roadmap
 - Integrate FootballPerps with the DeFi ecosystem including leveraged perpetuals, order books, and additional derivatives.
-- Develop Perpetual Prediction Markets in other sports, events, or asset classes, creating a scalable, versatile ecosystem for PredictionPerps’ future products.
+- Develop Perpetual Prediction Markets in other sports, events, or asset classes, creatinag a scalable, versatile ecosystem for PredictionPerps’ future products.
 
 ## How It Works
 - **Take a Position**: Buy bullish or bearish shares on football teams using USDC. These shares reflect your view on whether a team’s performance will rise or fall, allowing profits from buying low and selling high.
