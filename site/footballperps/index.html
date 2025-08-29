@@ -1,0 +1,589 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../PredictionPerps/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.34">
+    
+    
+      
+        <title>Football Perps Specification - PredictionPerpsDocs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.35f28582.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#football-perps-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="PredictionPerpsDocs" class="md-header__button md-logo" aria-label="PredictionPerpsDocs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PredictionPerpsDocs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Football Perps Specification
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="PredictionPerpsDocs" class="md-nav__button md-logo" aria-label="PredictionPerpsDocs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    PredictionPerpsDocs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Welcome to MkDocs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PredictionPerps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    What are Prediction Perps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Football Perps Specification
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Football Perps Specification
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-of-perpetual-prediction-markets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose of Perpetual Prediction Markets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predictionperps-roadmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      PredictionPerps Roadmap
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Components
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functionality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functionality
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scope
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-of-perpetual-prediction-markets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose of Perpetual Prediction Markets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#predictionperps-roadmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      PredictionPerps Roadmap
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Components
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functionality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Functionality
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scope
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="football-perps-specification">Football Perps Specification</h1>
+<h2 id="overview">Overview</h2>
+<p>FootballPerps is the flagship product of PredictionPerps and the pioneer in a groundbreaking new asset class - Perpetual Prediction Markets! FootballPerps enables users to buy and sell perpetual positions on the performance of football teams.</p>
+<h2 id="purpose-of-perpetual-prediction-markets">Purpose of Perpetual Prediction Markets</h2>
+<ul>
+<li>A fun new mechanism for speculation.</li>
+<li>Removes centralisation from prediction markets.</li>
+<li>Introduce a perpetual asset class.</li>
+<li>Create a new crypto primitive that can be built upon.</li>
+<li>Allow the full range of DeFi products to be used in conjunction with prediction markets.</li>
+<li>Allow Centralised Exchanges to sell prediction tokens.</li>
+</ul>
+<h2 id="predictionperps-roadmap">PredictionPerps Roadmap</h2>
+<ul>
+<li>Integrate FootballPerps with the DeFi ecosystem including leveraged perpetuals, order books, and additional derivatives.</li>
+<li>Develop Perpetual Prediction Markets in other sports, events, or asset classes, creatinag a scalable, versatile ecosystem for PredictionPerps’ future products.</li>
+</ul>
+<h2 id="how-it-works">How It Works</h2>
+<ul>
+<li><strong>Take a Position</strong>: Buy bullish or bearish shares on football teams using USDC. These shares reflect your view on whether a team’s performance will rise or fall, allowing profits from buying low and selling high.</li>
+<li><strong>Earn Daily Rewards</strong>: Receive native FootballPerps tokens daily based on your team’s recent game results. Stronger performance rewards bullish holders, while weaker performance benefits bearish holders, driving dynamic price shifts and enabling profit through token accumulation.</li>
+<li><strong>No Loss from Interest</strong>: Tokens are backed by interest generated through Aave, ensuring users don’t lose out, unlike traditional prediction markets.</li>
+<li><strong>Powered by DeFi</strong>: Uniswap liquidity pools and Aave ensure a stable, efficient market, with the FootballPerps frontend optimizing trades, especially for large purchases.</li>
+<li><strong>Distributed and Timeless</strong>: As a distributed protocol, shares never expire and can be traded across the entire crypto ecosystem, maximizing access and liquidity.</li>
+<li><strong>Premier League and Championship</strong>: Starts with markets for all Premier League teams.</li>
+</ul>
+<p>FootballPerps blends the excitement of football with decentralized finance, creating boundless opportunities for speculation and innovation.</p>
+<h2 id="components">Components</h2>
+<ul>
+<li><strong>Shares</strong>: Users can hold bullish or bearish shares representing their position on a football team’s performance, purchased using USDC or USSD via FootballPerps-managed interactions with Uniswap liquidity pools.</li>
+<li><strong>Funding Mechanism</strong>: FootballPerps distributes native perp payment tokens daily based on team performance metrics, backed by interest generated on USDC held by FootballPerps through Aave.</li>
+<li><strong>Team Performance Tracking</strong>: Tracks rolling cumulative point scores over the last 38 games for Premier League teams (with adjustment for Championship teams).</li>
+<li><strong>Perp Payment Tokens</strong>: Native tokens distributed daily to share holders, backed by interest on USDC held by FootballPerps, with potential market floatation and additional utility (e.g., burning for governance tokens).</li>
+<li><strong>USSD Stablecoin</strong>: A stablecoin pegged 1:1 with USDC through minting and burning mechanisms.</li>
+<li><strong>Liquidity Pools</strong>: Two liquidity pools (bullish USSD and bearish USSD) on Uniswap provide synthetic liquidity for trading bullish and bearish shares, utilized by FootballPerps to facilitate trades, with imbalances equalized by arbitrage bots.</li>
+<li><strong>Frontend Algorithm</strong>: An algorithm that optimizes the buy/sell path for users, providing the best execution (especially for large purchases) by leveraging four bidirectional operations to execute trades through FootballPerps, without direct user access to Uniswap liquidity pools:</li>
+<li>USDC&lt;-&gt;USSD: Contract-based minting or burning of USSD to maintain a 1:1 peg with USDC.</li>
+<li>USSD&lt;-&gt;bullish,bearish pair: Minting or burning a pair of bullish and bearish shares for 1 USSD.</li>
+<li>USSD&lt;-&gt;bullish pool: Swapping USSD for bullish shares (or vice versa) via the Uniswap bullish USSD pool.</li>
+<li>USSD&lt;-&gt;bearish pool: Swapping USSD for bearish shares (or vice versa) via the Uniswap bearish USSD pool.</li>
+<li><strong>Further components TBD</strong>: Based on Championship adjustment details, token management, and platform implementation.</li>
+</ul>
+<h2 id="functionality">Functionality</h2>
+<ul>
+<li><strong>Position Types</strong>:</li>
+<li>Users can take perpetual bullish (expecting team performance to rise) or bearish (expecting team performance to decline) positions on football teams.</li>
+<li>Positions are represented as shares, split into bullish and bearish categories, similar to Polymarket’s share system.</li>
+<li>Users purchase bullish or bearish shares using USDC, which can be converted to USSD for FootballPerps-managed interactions with Uniswap liquidity pools.</li>
+<li><strong>Funding Mechanism</strong>:</li>
+<li>For Premier League teams, FootballPerps uses a rolling cumulative point score from a team’s last 38 games. The bullish ratio is calculated as the cumulative point score divided by 114 (38 games × 3 points per game). The bearish ratio is calculated as 1 minus the bullish ratio.</li>
+<li>For Championship teams, a discount factor (e.g., 1/5) is applied to points to reflect their lower value compared to Premier League points.</li>
+<li>The bearish ratio is capped at a maximum of 0.93 (equivalent to a minimum bullish ratio of 0.07, or approximately 8 points in the Premier League and 40 points in the Championship after discounting), preventing teams in terminal decline from draining FootballPerps liquidity.</li>
+<li>Each day, holders of bullish shares receive perp payment tokens proportional to the bullish ratio.</li>
+<li>Each day, holders of bearish shares receive perp payment tokens proportional to the bearish ratio.</li>
+<li><strong>NB</strong>: For teams relegated to the Championship, FootballPerps may use a 46-game rolling window (reflecting the Championship’s season length) instead of a 38-game window, with adjustments needed to account for the different league structure (details TBD).</li>
+<li>For teams relegated from the Championship, tracking of games ceases, as their discounted points cannot exceed the 0.07 bullish ratio threshold.</li>
+<li><strong>Perp Payment Tokens</strong>:</li>
+<li>Tokens are native to FootballPerps and backed by the interest generated on USDC held by FootballPerps through Aave, establishing a floor price.</li>
+<li>Tokens may be floated on the market, possibly introducing additional utility, such as burning tokens to acquire governance tokens.</li>
+<li><em>Details on token distribution mechanics and governance token functionality TBD.</em></li>
+<li><strong>Interest Generation</strong>:</li>
+<li>FootballPerps holds USDC paid by users to open bullish or bearish positions.</li>
+<li>Interest on USDC is generated using Aave, which backs the perp payment tokens.</li>
+<li><em>Details on Aave integration, security, and reliability mechanisms TBD.</em></li>
+<li><strong>USSD Stablecoin and Liquidity Pools</strong>:</li>
+<li>USSD is a stablecoin pegged 1:1 with USDC through minting and burning mechanisms.</li>
+<li>At t=0, two liquidity pools are created on Uniswap: bullish USSD and bearish USSD. The pools are initialized with a depth (D) and a weighting factor (W) to set the starting price. For example, with D = 10,000 and W = 0.8, the bullish pool contains 10,000 bullish shares against 8,000 USSD, and the bearish pool contains 10,000 bearish shares against 2,000 USSD, establishing synthetic liquidity.</li>
+<li>A pair of bullish and bearish tokens can be minted or burned for 1 USSD, capping the price of bullish and bearish shares between 0 and 1.</li>
+<li>Users buy or sell shares through FootballPerps, which utilizes Uniswap’s bullish and bearish USSD liquidity pools to execute trades. Direct interaction with Uniswap pools is suboptimal, while the FootballPerps frontend provides optimal execution, especially for large purchases.</li>
+<li>The Uniswap liquidity pools are open to the broader crypto ecosystem, allowing anyone to buy tokens directly, with imbalances quickly equalized by arbitrage bots.</li>
+<li>A frontend algorithm optimizes the buy/sell path for users by leveraging four bidirectional operations:<ul>
+<li>USDC&lt;-&gt;USSD: Contract-based minting or burning of USSD to maintain a 1:1 peg with USDC.</li>
+<li>USSD&lt;-&gt;bullish,bearish pair: Minting or burning a pair of bullish and bearish shares for 1 USSD.</li>
+<li>USSD&lt;-&gt;bullish pool: Swapping USSD for bullish shares (or vice versa) via the Uniswap bullish USSD pool.</li>
+<li>USSD&lt;-&gt;bearish pool: Swapping USSD for bearish shares (or vice versa) via the Uniswap bearish USSD pool.</li>
+</ul>
+</li>
+<li>Arbitrage prevention is handled through optimized mechanisms via the frontend, ensuring efficient trading.</li>
+</ul>
+<h2 id="scope">Scope</h2>
+<ul>
+<li>FootballPerps supports positions on teams in the English Premier League and the Championship, with initial markets covering current Premier League teams.</li>
+<li>FootballPerps accommodates teams relegated from the Premier League, allowing positions on non-Premier League teams over time.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      
+    
+  </body>
+</html>
