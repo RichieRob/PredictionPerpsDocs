@@ -1,0 +1,18 @@
+.rubric-chart {
+    max-width: 1000px;
+    margin: 1rem auto;
+    height: 800px; /* tall */
+  }
+  
+  .rubric-controls,
+  .figure-caption {
+    max-width: 1000px;
+    margin: 0.5rem auto 1rem auto;
+  }
+  
+  .figure-caption {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--md-default-fg-color, #555);
+  }
+  
