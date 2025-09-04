@@ -1,0 +1,40 @@
+/* Target headers within MkDocs content area */
+.md-content h2 {
+    color: #2c3e50; /* Dark blue */
+    margin: 2rem 0 1rem;
+    border-bottom: 2px solid #3498db; /* Blue underline */
+    padding-bottom: 0.3rem;
+}
+
+.md-content h3 {
+    color: #2980b9; /* Lighter blue */
+    margin: 1.5rem 0 0.8rem;
+}
+
+.md-content h4 {
+    color: #e74c3c; /* Red */
+    margin: 1.2rem 0 0.6rem;
+}
+
+.md-content h5 {
+    color: #8e44ad; /* Purple */
+    margin: 1rem 0 0.5rem;
+}
+
+.md-content h6, .md-content h6 {
+    color: #7f8c8d; /* Gray */
+    margin: 0.8rem 0 0.4rem;
+}
+
+/* Improve paragraph spacing */
+.md-content p {
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Style code blocks */
+.md-content pre, .md-content code {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+}

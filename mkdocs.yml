@@ -20,7 +20,8 @@ extra_javascript:
   - https://cdn.plot.ly/plotly-2.35.2.min.js
   - docs/assets/rubric.js
 extra_css:
-  - docs/assets/rubric.css
+
+  - stylesheets/extra.css
 nav:
   - Home: index.md
   - Perpetual Bounded Phenomena: BoundedPhenomena.md
