@@ -18,9 +18,9 @@ plugins:
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - https://cdn.plot.ly/plotly-2.35.2.min.js
-  - assets/rubric.js
+  - docs/assets/rubric.js
 extra_css:
-  - assets/rubric.css
+  - docs/assets/rubric.css
 nav:
   - Home: index.md
   - Perpetual Bounded Phenomena: BoundedPhenomena.md
