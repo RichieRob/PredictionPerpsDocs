@@ -49,9 +49,9 @@ This pair \( (80, 34) \) reflects Liverpool’s points earned versus points miss
 ### Example 3: Cooling Degree Days in New York
 
 #### Cooling Degree Days (CDD) Definition
-Cooling Degree Days (CDD) measure the demand for cooling based on how much warmer the average daily temperature is compared to a baseline of 65°F. For a given day, CDD is calculated as the difference between the average daily temperature and 65°F, or zero if the temperature is 65°F or cooler. This quantifies the energy needed for air conditioning in warmer climates.
+Cooling Degree Days (CDD) measure the demand for cooling based on how much warmer the average daily temperature is compared to a baseline of 18°C. For a given day, CDD is calculated as the difference between the average daily temperature and 18°C, or zero if the temperature is 18°C or cooler. This quantifies the energy needed for air conditioning in warmer climates.
 
-This PBP models the total Cooling Degree Days (CDD) in New York over a rolling 30-day period. Each day is a time step \( t \), with the outcome being the CDD, calculated as \( X_t = \max(0, T_t - 65) \), where \( T_t \) is the average daily temperature in °F, capped at 30 CDD per day to reflect realistic temperatures. Thus:
+This PBP models the total Cooling Degree Days (CDD) in New York over a rolling 30-day period. Each day is a time step \( t \), with the outcome being the CDD, calculated as \( X_t = \max(0, T_t - 18) \), where \( T_t \) is the average daily temperature in °C, capped at 30 CDD per day to reflect realistic temperatures. Thus:
 
 $$
 X_t \in \{0, 0.1, 0.2, \dots, 29.8, 29.9, 30\}

@@ -141,7 +141,7 @@ Tracks cooling demand for August using NOAA data for seasonal hedging.
 
 **Events**: 
 
- - Daily CDD, $X_t = \max(0, T_t - 65)$, in °F, capped at 30 ($X_t \in \{0, 0.1, \dots, 30\}, m = 30$).
+ - Daily CDD, $X_t = \max(0, T_t - 18)$, in °C, capped at 30 ($X_t \in \{0, 0.1, \dots, 30\}, m = 30$).
 
 **Value**:  
 
