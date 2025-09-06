@@ -26,5 +26,5 @@
 
 {!sections/6applications.md!}
 
-{!sections/7conclusion.md!}
+{!sections/8new_ideas.md!}
 

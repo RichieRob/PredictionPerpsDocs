@@ -23,20 +23,6 @@ flowchart LR
 ```
 </div>
 
-## What Does Price Mean?
-
-- $P(T)$: Present value of token $T$’s future yields ($YT$).
-- $P(\overline{T})$: Present value of token $\overline{T}$’s yields ($Y\overline{T}$).
-
-i.e.:
-
-$$
-P(T) = \sum_{t=1}^{\infty} \frac{YT_t}{(1 + r_t)^t}
-$$
-
-$$
-P(\overline{T}) = \sum_{t=1}^{\infty} \frac{Y\overline{T}_t}{(1 + r_t)^t}
-$$
 
 ## Rubrics
 
@@ -55,12 +41,41 @@ The constraint for the function is:
 - Ratios must sum to 1:
   - $\rho_T(S) + \rho_{\bar{T}}(S) = 1$
 
-**Properties**:
+
+## What Does Price Mean?
+
+- $P(T)$: Present value of token $T$’s future yields ($YT$).
+- $P(\overline{T})$: Present value of token $\overline{T}$’s yields ($Y\overline{T}$).
+
+i.e.:
+
+$$
+P(T) = \sum_{t=1}^{\infty} \frac{YT_t}{(1 + r_t)^t}
+$$
+
+$$
+P(\overline{T}) = \sum_{t=1}^{\infty} \frac{Y\overline{T}_t}{(1 + r_t)^t}
+$$
+
+
+
+**Linear Rubric**:
 
 There are infinitely many pairs of $\rho_T$ and $\rho_{\bar{T}}$ functions that satisfy the rubric conditions. We anticipate the most widely used will be the linear mapping:
   
   - $\rho_T(S) = \frac{S}{S_{max}}$
   - $\rho_{\bar{T}}(S) = 1 - \frac{S}{S_{max}}$
+
+
+## Price under the linear Rubric
+
+
+The price of token \( T \), denoted \( P(T) \), is derived by substituting the yield relation \( YT_t = \frac{S_t}{S_{\max}} \cdot r_t \) into the price formula:
+
+$$
+P(T) = \sum_{t=1}^{\infty} \frac{\frac{S_t}{S_{\max}} \cdot r_t}{(1 + r_t)^t} = \frac{1}{S_{\max}} \cdot \sum_{t=1}^{\infty} \frac{S_t \cdot r_t}{(1 + r_t)^t}
+$$
+
 
 ## Yield Distribution
 
