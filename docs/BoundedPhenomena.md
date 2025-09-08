@@ -28,3 +28,5 @@
 
 {!sections/8new_ideas.md!}
 
+{!sections/9new_ideas2.md!}
+
