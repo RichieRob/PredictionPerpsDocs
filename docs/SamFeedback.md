@@ -5,7 +5,7 @@
    PPGT will likely trade from day one, as users or speculators create liquidity pools (e.g., on DEXs). This could lead to volatility or misalignment with the protocol's planned valuation at the transition phase.
 
 3. **Low Reward Shave Percentage**  
-   Shaving 10% of rewards may be too small to cover operational costs or build significant reserves for backing PPGT's floor price, especially in a slow-start scenario.
+   Shaving 10% of rewards is very small 
 
 4. **Scale of Reward Distribution**  
    Reaching 1 billion USDC in rewards (to distribute 1 billion PPGT) implies ~$20 billion in deposits. This could take 5–10 years, even with a successful system, delaying the transition phase significantly.
@@ -19,5 +19,5 @@
 7. **Post-Deflationary User Incentives**  
    In Phase 2, when PPGT is no longer distributed with rewards, new users receive only USDPP/USDC. This shifts their role to "just users" without ownership, potentially reducing loyalty or engagement compared to early adopters.
 
-8. **Diverging Incentives Post-Cutoff**  
-   Once PPGT distribution stops, platform ownership is no longer distributed to new users. This creates a divide where token holders’ incentives (e.g., maximizing protocol revenue or token price) may diverge from those of new users, who lack skin in the game and focus solely on earning rewards.
+8. **Divergent Incentives**  
+   Once PPGT distribution stops, platform ownership is no longer distributed to new users. This creates a divide where token holders’ incentives (e.g., maximizing protocol revenue or token price) which may diverge from those of new users. 
