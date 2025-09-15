@@ -145,3 +145,6 @@ ie
 
 ### Governance
 - Ensures depositor dominance, flexible strategy.
+
+
+![Alt text](images/graph1.png)
