@@ -30,3 +30,4 @@
 
 {!sections/9new_ideas2.md!}
 
+{!sections/10RebasingSketch.md!}
