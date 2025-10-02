@@ -25,7 +25,7 @@ extra_css:
 nav:
   - Tech Stack Overview: TechStackOverview.md
   - Ledger: Ledger.md
-  - TokenManger: TokenManger.md
+  - TokenManger: TokenManager.md
   - PieMarket: PieMarket.md
   - ConstantProduct: ConstantProduct.md
   - UniswapHooks: UniswapHooks.md
