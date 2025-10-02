@@ -23,5 +23,15 @@ extra_css:
 
   - stylesheets/extra.css
 nav:
-  - Home: index.md
-  - Perpetual Bounded Phenomena: BoundedPhenomena.md
+  - Tech Stack Overview: TechStackOverview.md
+  - Ledger: Ledger.md
+  - TokenManger: TokenManger.md
+  - PieMarket: PieMarket.md
+  - ConstantProduct: ConstantProduct.md
+  - UniswapHooks: UniswapHooks.md
+  - CAMMBehindHook: CAMMBehindHook.md
+  - CAMMOPtions: CAMMOptions.md
+  - CAMMROle: CAMMRole.md
+
+
+

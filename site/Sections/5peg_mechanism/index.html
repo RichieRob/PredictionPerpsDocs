@@ -6,13 +6,13 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <link href="../../assets/images/favicon.png" rel="icon"/>
-<meta content="mkdocs-1.6.1, mkdocs-material-9.6.18" name="generator"/>
+<meta content="mkdocs-1.6.0, mkdocs-material-9.5.34" name="generator"/>
 <title>5peg mechanism - PredictionPerpsDocs</title>
-<link href="../../assets/stylesheets/main.7e37652d.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/main.35f28582.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-<link href="../../docs/assets/rubric.css" rel="stylesheet"/>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
 <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
 </head>
 <body dir="ltr">
@@ -100,8 +100,7 @@
 <li class="md-nav__item">
 <a class="md-nav__link" href="../..">
 <span class="md-ellipsis">
-    Home
-    
+    NotHome
   </span>
 </a>
 </li>
@@ -109,7 +108,20 @@
 <a class="md-nav__link" href="../../BoundedPhenomena/">
 <span class="md-ellipsis">
     Perpetual Bounded Phenomena
-    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../CircleAmm/">
+<span class="md-ellipsis">
+    Circle AMM
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../CircleAmm2/">
+<span class="md-ellipsis">
+    Circle AMM2
   </span>
 </a>
 </li>
@@ -135,6 +147,13 @@
 </a>
 </li>
 <li class="md-nav__item">
+<a class="md-nav__link" href="#rubrics">
+<span class="md-ellipsis">
+      Rubrics
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
 <a class="md-nav__link" href="#what-does-price-mean">
 <span class="md-ellipsis">
       What Does Price Mean?
@@ -142,9 +161,9 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#rubrics">
+<a class="md-nav__link" href="#price-under-the-linear-rubric">
 <span class="md-ellipsis">
-      Rubrics
+      Price under the linear Rubric
     </span>
 </a>
 </li>
@@ -183,18 +202,6 @@ YT + Y\overline{T} = r
     yield --&gt; Rubric
 </div>
 </div>
-<h2 id="what-does-price-mean">What Does Price Mean?<a class="headerlink" href="#what-does-price-mean" title="Permanent link">¶</a></h2>
-<ul>
-<li><span class="arithmatex">\(P(T)\)</span>: Present value of token <span class="arithmatex">\(T\)</span>’s future yields (<span class="arithmatex">\(YT\)</span>).</li>
-<li><span class="arithmatex">\(P(\overline{T})\)</span>: Present value of token <span class="arithmatex">\(\overline{T}\)</span>’s yields (<span class="arithmatex">\(Y\overline{T}\)</span>).</li>
-</ul>
-<p>i.e.:</p>
-<div class="arithmatex">\[
-P(T) = \sum_{t=1}^{\infty} \frac{YT_t}{(1 + r_t)^t}
-\]</div>
-<div class="arithmatex">\[
-P(\overline{T}) = \sum_{t=1}^{\infty} \frac{Y\overline{T}_t}{(1 + r_t)^t}
-\]</div>
 <h2 id="rubrics">Rubrics<a class="headerlink" href="#rubrics" title="Permanent link">¶</a></h2>
 <p><strong>Definitions</strong>:</p>
 <ul>
@@ -211,12 +218,29 @@ P(\overline{T}) = \sum_{t=1}^{\infty} \frac{Y\overline{T}_t}{(1 + r_t)^t}
 <li>Ratios must sum to 1:</li>
 <li><span class="arithmatex">\(\rho_T(S) + \rho_{\bar{T}}(S) = 1\)</span></li>
 </ul>
-<p><strong>Properties</strong>:</p>
+<h2 id="what-does-price-mean">What Does Price Mean?<a class="headerlink" href="#what-does-price-mean" title="Permanent link">¶</a></h2>
+<ul>
+<li><span class="arithmatex">\(P(T)\)</span>: Present value of token <span class="arithmatex">\(T\)</span>’s future yields (<span class="arithmatex">\(YT\)</span>).</li>
+<li><span class="arithmatex">\(P(\overline{T})\)</span>: Present value of token <span class="arithmatex">\(\overline{T}\)</span>’s yields (<span class="arithmatex">\(Y\overline{T}\)</span>).</li>
+</ul>
+<p>i.e.:</p>
+<div class="arithmatex">\[
+P(T) = \sum_{t=1}^{\infty} \frac{YT_t}{(1 + r_t)^t}
+\]</div>
+<div class="arithmatex">\[
+P(\overline{T}) = \sum_{t=1}^{\infty} \frac{Y\overline{T}_t}{(1 + r_t)^t}
+\]</div>
+<p><strong>Linear Rubric</strong>:</p>
 <p>There are infinitely many pairs of <span class="arithmatex">\(\rho_T\)</span> and <span class="arithmatex">\(\rho_{\bar{T}}\)</span> functions that satisfy the rubric conditions. We anticipate the most widely used will be the linear mapping:</p>
 <ul>
 <li><span class="arithmatex">\(\rho_T(S) = \frac{S}{S_{max}}\)</span></li>
 <li><span class="arithmatex">\(\rho_{\bar{T}}(S) = 1 - \frac{S}{S_{max}}\)</span></li>
 </ul>
+<h2 id="price-under-the-linear-rubric">Price under the linear Rubric<a class="headerlink" href="#price-under-the-linear-rubric" title="Permanent link">¶</a></h2>
+<p>The price of token <span class="arithmatex">\( T \)</span>, denoted <span class="arithmatex">\( P(T) \)</span>, is derived by substituting the yield relation <span class="arithmatex">\( YT_t = \frac{S_t}{S_{\max}} \cdot r_t \)</span> into the price formula:</p>
+<div class="arithmatex">\[
+P(T) = \sum_{t=1}^{\infty} \frac{\frac{S_t}{S_{\max}} \cdot r_t}{(1 + r_t)^t} = \frac{1}{S_{\max}} \cdot \sum_{t=1}^{\infty} \frac{S_t \cdot r_t}{(1 + r_t)^t}
+\]</div>
 <h2 id="yield-distribution">Yield Distribution<a class="headerlink" href="#yield-distribution" title="Permanent link">¶</a></h2>
 <p>The peg is maintained through daily yield distributions from the USDC yield <span class="arithmatex">\(r\)</span>, as described earlier. The yields are allocated to <span class="arithmatex">\(T\)</span> and <span class="arithmatex">\(\overline{T}\)</span> holders based on the performance of <span class="arithmatex">\(S\)</span> relative to the maximum possible performance <span class="arithmatex">\(S_{max}\)</span>, using the linear mapping defined in the rubric:</p>
 <div class="arithmatex">\[
@@ -250,8 +274,8 @@ Y_T + Y_{\overline{T}} = r
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
-<script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+<script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.07f07601.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
 <script src="../../docs/assets/rubric.js"></script>
