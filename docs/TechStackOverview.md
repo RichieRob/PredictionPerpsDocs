@@ -104,10 +104,15 @@ Opinion markets, backed by iUSDC.
 ## Innovations
 
 1) Native yield generation USDC deposits all stored in aave to generate yield
+
 2) Lazy minting - liquidity providers dont need to mint any tokens, or manage splits and merges etc
+
 3) Expanding markets - Ledger allows markets to expand to an indefinite number of positions
+
 4) Flexible CAMMs - the market makers are not integral to the system so the liquidity provision and pricing dynamics can be adjusted
+
 5) Eash Market Making - market makers can choose a CAMM and passive market make without actively managing splitting and merging
+
 6) Clear auditting Ledger-Token Manager system ringfenced from the CAMMs. 
 
 
