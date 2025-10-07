@@ -1,0 +1,14 @@
+/* Custom Solidity highlighting tweaks */
+.highlight .k { color: #4EC9B0; } /* Keywords like function, external (teal) */
+.highlight .n { color: #DCDCAA; } /* Types like uint256, address (light yellow) */
+.highlight .c { color: #6A9955; } /* Comments (green) */
+.highlight .s { color: #CE9178; } /* Strings (salmon) */
+.highlight .o { color: #569CD6; } /* Operators like =, + (blue) */
+.highlight .p { color: #D4D4D4; } /* Punctuation (light gray) */
+.md-typeset pre { background-color: #1E1E1E; color: #D4D4D4; } /* Dark background with light text */
+.md-typeset pre code { padding: 1em; } /* Ensure padding for readability */
+
+.md-typeset pre {
+    background-color: #1E1E1E !important;
+    color: #D4D4D4 !important;
+}

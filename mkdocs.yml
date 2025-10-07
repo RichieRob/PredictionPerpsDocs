@@ -1,6 +1,8 @@
 site_name: PredictionPerpsDocs
 theme:
   name: material
+  features:
+    - content.code.copy
 markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
@@ -22,6 +24,7 @@ extra_javascript:
 extra_css:
 
   - stylesheets/extra.css
+  - stylesheets/solidity.css
 nav:
   - Tech Stack Overview: TechStackOverview.md
   - Ledger: Ledger.md

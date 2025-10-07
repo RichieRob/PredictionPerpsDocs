@@ -12,7 +12,6 @@ The current system is designed for not-pegged markets but small adjustments can 
 ### Collateral Layer
 USDC is deposited into Aave, where it earns interest.  
 
-Markets use **iUSDC**.  
 
 ---
 
