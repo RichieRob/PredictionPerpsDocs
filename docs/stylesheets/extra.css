@@ -1,40 +1,87 @@
-/* Target headers within MkDocs content area */
-.md-content h2 {
-    color: #2c3e50; /* Dark blue */
-    margin: 2rem 0 1rem;
-    border-bottom: 2px solid #3498db; /* Blue underline */
-    padding-bottom: 0.3rem;
-}
+/* extra.css */
 
-.md-content h3 {
-    color: #2980b9; /* Lighter blue */
-    margin: 1.5rem 0 0.8rem;
-}
-
-.md-content h4 {
-    color: #e74c3c; /* Red */
-    margin: 1.2rem 0 0.6rem;
-}
-
-.md-content h5 {
-    color: #8e44ad; /* Purple */
-    margin: 1rem 0 0.5rem;
-}
-
-.md-content h6, .md-content h6 {
-    color: #7f8c8d; /* Gray */
-    margin: 0.8rem 0 0.4rem;
-}
-
-/* Improve paragraph spacing */
+/* General Content Typography */
 .md-content p {
     margin-bottom: 1.2rem;
-    line-height: 1.6;
-}
-
-/* Style code blocks */
-.md-content pre, .md-content code {
-    background-color: #f8f9fa;
+    line-height: 1.65;
+    color: var(--md-typeset-color);
+  }
+  
+  /* Headings */
+  .md-content h2 {
+    color: #2609ce;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid #3498db;
+    font-weight: 700;
+  }
+  
+  .md-content h3 {
+    color: #2c3e50;
+    margin: 1.6rem 0 0.8rem;
+    font-weight: 600;
+  }
+  
+  .md-content h4 {
+    color: #2980b9;
+    margin: 1.4rem 0 0.6rem;
+    font-weight: 600;
+  }
+  
+  .md-content h5 {
+    color: #ab0b19;
+    margin: 1rem 0 0.5rem;
+    font-weight: 600;
+  }
+  
+  .md-content h6 {
+    color: #7f8c8d;
+    margin: 0.8rem 0 0.4rem;
+    font-weight: 500;
+  }
+  
+  /* Inline & Small Code Blocks */
+  .md-content code {
+    background-color: #f0f2f6;
+    color: #5e17db;
     border-radius: 4px;
-    padding: 0.2rem 0.4rem;
-}
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    padding: 0.15rem 0.35rem;
+    font-size: 0.92em;
+    font-weight: 500;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  
+  /* Dark mode for inline code */
+  [data-md-color-scheme="slate"] .md-content code {
+    background-color: #2b2f3a;
+    color: #f39c12;
+    border-color: rgba(255,255,255,0.08);
+  }
+  
+  /* Full Code Blocks (Fenced), excluding Mermaid */
+  .md-content pre:not(.language-mermaid) {
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  
+  /* Dark mode for fenced code blocks, excluding Mermaid */
+  [data-md-color-scheme="slate"] .md-content pre:not(.language-mermaid) {
+    background-color: #16191f;
+    border-color: rgba(255,255,255,0.06);
+  }
+  
+  /* Improve readability of inline code within links */
+  a code {
+    color: inherit;
+    text-decoration: underline dotted rgba(0,0,0,0.3);
+  }
+  [data-md-color-scheme="slate"] a code {
+    text-decoration: underline dotted rgba(255,255,255,0.3);
+  }

@@ -1,40 +1,49 @@
 site_name: PredictionPerpsDocs
+
 theme:
   name: material
   features:
     - content.code.copy
+    - content.code.annotate
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light
+
 markdown_extensions:
-  - pymdownx.arithmatex:
-      generic: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid
   - pymdownx.highlight:
       use_pygments: true
+      anchor_linenums: true
+      linenums: true
+      linenums_style: pymdownx-inline
+      pygments_lang_class: true
+      extend_pygments_lang:
+        - name: solidity
+          lang: solidity
+          lexer: Solidity
+        - name: sol
+          lang: solidity
+          lexer: Solidity
   - attr_list
-  - markdown_include.include:
-      base_path: docs
   - toc:
       permalink: true
       toc_depth: 2-6
+
 plugins:
   - search
-  - mermaid2
-extra_javascript:
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-  - https://cdn.plot.ly/plotly-2.35.2.min.js
-  - docs/assets/rubric.js
-extra_css:
+  - mermaid2:
+      version: "10.9.1"
 
+extra_css:
   - stylesheets/extra.css
   - stylesheets/solidity.css
-nav:
-  - Tech Stack Overview: TechStackOverview.md
-  - Ledger: Ledger.md
-  - TokenManger: TokenManager.md
-  - PieMarket: PieMarket.md
-  - ConstantProduct: ConstantProduct.md
-  - UniswapHooks: UniswapHooks.md
-  - CAMMBehindHook: CAMMBehindHook.md
-  - CAMMOPtions: CAMMOptions.md
-  - CAMMROle: CAMMRole.md
-
-
-
