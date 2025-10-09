@@ -1,12 +1,9 @@
-// SPDX-License-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 import "./StorageLib.sol";
 import "./Types.sol";
-
-contract PositionToken {
-    constructor(string memory name, string memory symbol, address _ledger) {}
-}
+import "./PositionToken.sol";
 
 library MarketManagementLib {
     //region MarketManagement
@@ -36,7 +33,10 @@ library MarketManagementLib {
         PositionToken backToken = new PositionToken(
             string.concat("Back ", name, " ", s.marketNames[marketId]),
             string.concat("B", ticker, s.marketTickers[marketId]),
-            address(this)
+            address(this),
+            marketId,
+            positionId,
+            true
         );
         s.tokenAddresses[marketId][positionId][true] = address(backToken);
 
@@ -44,7 +44,10 @@ library MarketManagementLib {
         PositionToken layToken = new PositionToken(
             string.concat("Lay ", name, " ", s.marketNames[marketId]),
             string.concat("L", ticker, s.marketTickers[marketId]),
-            address(this)
+            address(this),
+            marketId,
+            positionId,
+            false
         );
         s.tokenAddresses[marketId][positionId][false] = address(layToken);
 

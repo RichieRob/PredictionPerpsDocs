@@ -22,9 +22,22 @@ interface IAavePool {
 // Custom ERC20 for positions, with mint/burn restricted to ledger
 contract PositionToken is ERC20 {
     address public immutable ledger;
+    uint256 public immutable marketId;
+    uint256 public immutable positionId;
+    bool public immutable isBack;
 
-    constructor(string memory name, string memory symbol, address _ledger) ERC20(name, symbol) {
+    constructor(
+        string memory name,
+        string memory symbol,
+        address _ledger,
+        uint256 _marketId,
+        uint256 _positionId,
+        bool _isBack
+    ) ERC20(name, symbol) {
         ledger = _ledger;
+        marketId = _marketId;
+        positionId = _positionId;
+        isBack = _isBack;
     }
 
     /// @notice Mint tokens (only callable by ledger)
