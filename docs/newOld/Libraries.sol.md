@@ -1,3 +1,4 @@
+```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -20,13 +21,15 @@ library StorageLib {
         IAavePool aavePool;
         address owner;
         uint256 globalCapitalization; // Sum of all mmCapitalization
-        mapping(address => uint256) freeCollateral; // MM -> free USDC
-        mapping(address => mapping(uint256 => uint256)) marketExposure; // MM -> market_id -> USDC
-        mapping(address => mapping(uint256 => mapping(uint256 => int128))) tilt; // MM -> market_id -> position_id -> tilt
-        mapping(address => uint256) mmCapitalization; // MM -> freeCollateral + sum(marketExposure)
+        mapping(uint256 => address) mmIdToAddress; // MMId -> MM address
+        uint256 nextMMId; // Next available MMId
+        mapping(uint256 => uint256) freeCollateral; // MMId -> free USDC
+        mapping(uint256 => mapping(uint256 => uint256)) marketExposure; // MMId -> market_id -> USDC
+        mapping(uint256 => mapping(uint256 => mapping(uint256 => int128))) tilt; // MMId -> market_id -> position_id -> tilt
+        mapping(uint256 => uint256) mmCapitalization; // MMId -> freeCollateral + sum(marketExposure)
         mapping(uint256 => mapping(uint256 => mapping(bool => address))) tokenAddresses; // market_id -> position_id -> isBack -> token address
-        mapping(address => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockData; // MM -> market_id -> block_id -> BlockData
-        mapping(address => mapping(uint256 => uint256[])) topHeap; // MM -> market_id -> heap of block indices
+        mapping(uint256 => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockData; // MMId -> market_id -> block_id -> BlockData
+        mapping(uint256 => mapping(uint256 => uint256[])) topHeap; // MMId -> market_id -> heap of block indices
         uint256 nextMarketId;
         uint256[] allMarkets;
         mapping(uint256 => string) marketNames;
@@ -49,25 +52,38 @@ library StorageLib {
 library DepositWithdrawLib {
     //region DepositWithdraw
     /// @notice Deposits USDC to MM's freeCollateral, supplies to Aave, updates capitalizations
-    function deposit(address mm, uint256 amount) internal {
+    /// @param mmId The market maker's ID
+    /// @param amount The intended USDC deposit amount
+    /// @param minUSDCDeposited The minimum USDC amount to record (optional, 0 if not enforced)
+    /// @return recordedAmount The actual aUSDC amount received and recorded
+    function deposit(uint256 mmId, uint256 amount, uint256 minUSDCDeposited) internal returns (uint256 recordedAmount) {
         StorageLib.Storage storage s = StorageLib.getStorage();
-        s.freeCollateral[mm] += amount;
-        s.mmCapitalization[mm] += amount;
-        s.globalCapitalization += amount;
-        require(s.usdc.transferFrom(mm, address(this), amount), "Transfer failed");
+        require(s.usdc.transferFrom(s.mmIdToAddress[mmId], address(this), amount), "Transfer failed");
         s.usdc.approve(address(s.aavePool), amount);
+
+        uint256 aUSDCBefore = s.aUSDC.balanceOf(address(this));
         s.aavePool.supply(address(s.usdc), amount, address(this), 0);
+        uint256 aUSDCAfter = s.aUSDC.balanceOf(address(this));
+        recordedAmount = aUSDCAfter - aUSDCBefore;
+
+        require(recordedAmount >= minUSDCDeposited, "Deposit below minimum");
+        s.freeCollateral[mmId] += recordedAmount;
+        s.mmCapitalization[mmId] += recordedAmount;
+        s.globalCapitalization += recordedAmount;
     }
 
     /// @notice Withdraws USDC from MM's freeCollateral, pulls from Aave, updates capitalizations
-    function withdraw(address mm, uint256 amount) internal {
+    /// @param mmId The market maker's ID
+    /// @param amount The USDC amount to withdraw
+    function withdraw(uint256 mmId, uint256 amount) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
-        require(s.freeCollateral[mm] >= amount, "Insufficient free collateral");
+        require(s.mmIdToAddress[mmId] == msg.sender, "Invalid MMId");
+        require(s.freeCollateral[mmId] >= amount, "Insufficient free collateral");
         require(s.usdc.balanceOf(address(this)) >= amount, "Insufficient contract balance");
-        s.freeCollateral[mm] -= amount;
-        s.mmCapitalization[mm] -= amount;
+        s.freeCollateral[mmId] -= amount;
+        s.mmCapitalization[mmId] -= amount;
         s.globalCapitalization -= amount;
-        s.aavePool.withdraw(address(s.usdc), amount, mm);
+        s.aavePool.withdraw(address(s.usdc), amount, s.mmIdToAddress[mmId]);
     }
 
     /// @notice Withdraws accrued interest (aUSDC.balance - globalCapitalization) to owner
@@ -116,29 +132,29 @@ library TokenOpsLib {
 library SolvencyLib {
     //region Solvency
     /// @notice Ensures H_k >= 0 after tilt/exposure change, pulling from freeCollateral if needed
-    function ensureSolvency(address mm, uint256 marketId, uint256 positionId, int128 tiltChange, int128 exposureChange) internal {
-        (int128 minVal, ) = HeapLib.getMinTilt(mm, marketId);
+    function ensureSolvency(uint256 mmId, uint256 marketId, uint256 positionId, int128 tiltChange, int128 exposureChange) internal {
+        (int128 minVal, ) = HeapLib.getMinTilt(mmId, marketId);
         int128 minH_k = minVal + exposureChange;
-        if (tiltChange > 0 && positionId == HeapLib.getMinTiltPosition(mm, marketId)) {
+        if (tiltChange > 0 && positionId == HeapLib.getMinTiltPosition(mmId, marketId)) {
             minH_k = minH_k < tiltChange ? minH_k : tiltChange;
         }
         if (minH_k < 0) {
             StorageLib.Storage storage s = StorageLib.getStorage();
             uint256 shortfall = uint256(-minH_k);
-            require(s.freeCollateral[mm] >= shortfall, "Insufficient free collateral");
-            s.freeCollateral[mm] -= shortfall;
-            s.marketExposure[mm][marketId] += shortfall;
+            require(s.freeCollateral[mmId] >= shortfall, "Insufficient free collateral");
+            s.freeCollateral[mmId] -= shortfall;
+            s.marketExposure[mmId][marketId] += shortfall;
         }
     }
 
     /// @notice Deallocates excess marketExposure to freeCollateral based on min H_k
-    function deallocateExcess(address mm, uint256 marketId) internal {
-        (int128 minVal, ) = HeapLib.getMinTilt(mm, marketId);
+    function deallocateExcess(uint256 mmId, uint256 marketId) internal {
+        (int128 minVal, ) = HeapLib.getMinTilt(mmId, marketId);
         StorageLib.Storage storage s = StorageLib.getStorage();
-        uint256 amount = uint256(int256(s.marketExposure[mm][marketId]) + minVal);
-        if (amount > 0 && amount <= s.marketExposure[mm][marketId]) {
-            s.marketExposure[mm][marketId] -= amount;
-            s.freeCollateral[mm] += amount;
+        uint256 amount = uint256(int256(s.marketExposure[mmId][marketId]) + minVal);
+        if (amount > 0 && amount <= s.marketExposure[mmId][marketId]) {
+            s.marketExposure[mmId][marketId] -= amount;
+            s.freeCollateral[mmId] += amount;
         }
     }
 
@@ -150,35 +166,35 @@ library SolvencyLib {
 library HeapLib {
     //region Tilt Management
     /// @notice Updates tilt and block-min + top-heap for position k by delta
-    function updateTilt(address mm, uint256 marketId, uint256 positionId, int128 delta) internal {
+    function updateTilt(uint256 mmId, uint256 marketId, uint256 positionId, int128 delta) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
         uint256 blockId = positionId / Types.BLOCK_SIZE;
-        Types.BlockData storage block = s.blockData[mm][marketId][blockId];
-        int128 newTilt = s.tilt[mm][marketId][positionId] + delta;
-        s.tilt[mm][marketId][positionId] = newTilt;
+        Types.BlockData storage block = s.blockData[mmId][marketId][blockId];
+        int128 newTilt = s.tilt[mmId][marketId][positionId] + delta;
+        s.tilt[mmId][marketId][positionId] = newTilt;
 
         if (positionId != block.minId && newTilt >= block.secondMinVal) return;
         if (positionId != block.minId && newTilt < block.minVal) {
             block.secondMinVal = block.minVal;
             block.minVal = newTilt;
             block.minId = positionId;
-            updateTopHeap(mm, marketId, blockId);
+            updateTopHeap(mmId, marketId, blockId);
             return;
         }
         if (positionId == block.minId) {
             if (newTilt <= block.minVal) {
                 block.minVal = newTilt;
-                updateTopHeap(mm, marketId, blockId);
+                updateTopHeap(mmId, marketId, blockId);
                 return;
             }
-            rescanBlock(mm, marketId, blockId);
+            rescanBlock(mmId, marketId, blockId);
         }
     }
     //endregion Tilt Management
 
     //region Block Scanning
     /// @notice Rescans block to update minId, minVal, secondMinVal
-    function rescanBlock(address mm, uint256 marketId, uint256 blockId) internal {
+    function rescanBlock(uint256 mmId, uint256 marketId, uint256 blockId) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
         uint256 start = blockId * Types.BLOCK_SIZE;
         uint256 end = start + Types.BLOCK_SIZE;
@@ -190,7 +206,7 @@ library HeapLib {
         uint256 minId = 0;
         for (uint256 i = start; i < end; i++) {
             uint256 k = positions[i];
-            int128 val = s.tilt[mm][marketId][k];
+            int128 val = s.tilt[mmId][marketId][k];
             if (val < minVal) {
                 secondMinVal = minVal;
                 minVal = val;
@@ -200,24 +216,24 @@ library HeapLib {
             }
         }
 
-        Types.BlockData storage block = s.blockData[mm][marketId][blockId];
+        Types.BlockData storage block = s.blockData[mmId][marketId][blockId];
         block.minVal = minVal;
         block.minId = minId;
         block.secondMinVal = secondMinVal;
-        updateTopHeap(mm, marketId, blockId);
+        updateTopHeap(mmId, marketId, blockId);
     }
     //endregion Block Scanning
 
     //region Heap Operations
     /// @notice Updates top-heap for blockId (4-ary heap)
-    function updateTopHeap(address mm, uint256 marketId, uint256 blockId) internal {
+    function updateTopHeap(uint256 mmId, uint256 marketId, uint256 blockId) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
-        uint256[] storage heap = s.topHeap[mm][marketId];
+        uint256[] storage heap = s.topHeap[mmId][marketId];
         uint256 index = findHeapIndex(heap, blockId);
-        int128 newVal = s.blockData[mm][marketId][blockId].minVal;
+        int128 newVal = s.blockData[mmId][marketId][blockId].minVal;
 
-        bubbleUp(heap, index, newVal, mm, marketId);
-        bubbleDown(heap, index, newVal, mm, marketId);
+        bubbleUp(heap, index, newVal, mmId, marketId);
+        bubbleDown(heap, index, newVal, mmId, marketId);
         heap[index] = blockId;
     }
 
@@ -230,18 +246,18 @@ library HeapLib {
     }
 
     /// @notice Bubbles up the heap to maintain min-heap property
-    function bubbleUp(uint256[] storage heap, uint256 index, int128 newVal, address mm, uint256 marketId) private {
+    function bubbleUp(uint256[] storage heap, uint256 index, int128 newVal, uint256 mmId, uint256 marketId) private {
         StorageLib.Storage storage s = StorageLib.getStorage();
         while (index > 0) {
             uint256 parent = (index - 1) / 4;
-            if (s.blockData[mm][marketId][heap[parent]].minVal <= newVal) break;
+            if (s.blockData[mmId][marketId][heap[parent]].minVal <= newVal) break;
             heap[index] = heap[parent];
             index = parent;
         }
     }
 
     /// @notice Bubbles down the heap to maintain min-heap property
-    function bubbleDown(uint256[] storage heap, uint256 index, int128 newVal, address mm, uint256 marketId) private {
+    function bubbleDown(uint256[] storage heap, uint256 index, int128 newVal, uint256 mmId, uint256 marketId) private {
         StorageLib.Storage storage s = StorageLib.getStorage();
         while (true) {
             uint256 minChild = index;
@@ -249,9 +265,9 @@ library HeapLib {
             for (uint256 i = 1; i <= 4; i++) {
                 uint256 child = index * 4 + i;
                 if (child >= heap.length) break;
-                if (s.blockData[mm][marketId][heap[child]].minVal < minChildVal) {
+                if (s.blockData[mmId][marketId][heap[child]].minVal < minChildVal) {
                     minChild = child;
-                    minChildVal = s.blockData[mm][marketId][heap[child]].minVal;
+                    minChildVal = s.blockData[mmId][marketId][heap[child]].minVal;
                 }
             }
             if (minChild == index) break;
@@ -263,18 +279,18 @@ library HeapLib {
 
     //region Getters
     /// @notice Returns (minVal, minId) for MM's market
-    function getMinTilt(address mm, uint256 marketId) internal view returns (int128, uint256) {
+    function getMinTilt(uint256 mmId, uint256 marketId) internal view returns (int128, uint256) {
         StorageLib.Storage storage s = StorageLib.getStorage();
-        uint256[] memory heap = s.topHeap[mm][marketId];
+        uint256[] memory heap = s.topHeap[mmId][marketId];
         if (heap.length == 0) return (0, 0);
         uint256 blockId = heap[0];
-        Types.BlockData memory block = s.blockData[mm][marketId][blockId];
+        Types.BlockData memory block = s.blockData[mmId][marketId][blockId];
         return (block.minVal, block.minId);
     }
 
     /// @notice Returns positionId of min tilt
-    function getMinTiltPosition(address mm, uint256 marketId) internal view returns (uint256) {
-        (, uint256 minId) = getMinTilt(mm, marketId);
+    function getMinTiltPosition(uint256 mmId, uint256 marketId) internal view returns (uint256) {
+        (, uint256 minId) = getMinTilt(mmId, marketId);
         return minId;
     }
     //endregion Getters
@@ -344,47 +360,147 @@ library MarketManagementLib {
     //endregion MarketManagement
 }
 
-// === Trading Operations ===
-library TradingLib {
-    //region Trading
-    /// @notice Buys q Back or Lay tokens for a position, depositing USDC
-    function processBuy(address to, uint256 marketId, uint256 AMMId, uint256 positionId, bool isBack, uint256 usdcIn, uint256 tokensOut) internal {
+// === Liquidity Management ===
+library LiquidityLib {
+    //region Liquidity
+    /// @notice Transfers all liquidity for an MMId to a new address
+    /// @param mmId The market maker's ID
+    /// @param newAddress The new address to own the MMId
+    function transferLiquidity(uint256 mmId, address newAddress) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
-        require(AMMId == msg.sender, "Invalid AMM");
-        DepositWithdrawLib.deposit(msg.sender, usdcIn);
-        if (isBack) {
-            SolvencyLib.ensureSolvency(msg.sender, marketId, positionId, -int128(uint128(tokensOut)), 0);
-            HeapLib.updateTilt(msg.sender, marketId, positionId, -int128(uint128(tokensOut)));
-            TokenOpsLib.mintToken(marketId, positionId, true, tokensOut, to);
-        } else {
-            SolvencyLib.ensureSolvency(msg.sender, marketId, positionId, int128(uint128(tokensOut)), -int128(uint128(tokensOut)));
-            s.marketExposure[msg.sender][marketId] -= tokensOut;
-            s.mmCapitalization[msg.sender] -= tokensOut;
-            s.globalCapitalization -= tokensOut;
-            HeapLib.updateTilt(msg.sender, marketId, positionId, int128(uint128(tokensOut)));
-            TokenOpsLib.mintToken(marketId, positionId, false, tokensOut, to);
-        }
+        require(s.mmIdToAddress[mmId] == msg.sender || msg.sender == s.owner, "Unauthorized");
+        require(newAddress != address(0), "Invalid address");
+        s.mmIdToAddress[mmId] = newAddress;
     }
-
-    /// @notice Sells q Back or Lay tokens for a position, withdrawing USDC
-    function processSell(address to, uint256 marketId, uint256 AMMId, uint256 positionId, bool isBack, uint256 tokensIn, uint256 usdcOut) internal {
-        StorageLib.Storage storage s = StorageLib.getStorage();
-        require(AMMId == msg.sender, "Invalid AMM");
-        if (isBack) {
-            HeapLib.updateTilt(msg.sender, marketId, positionId, int128(uint128(tokensIn)));
-            SolvencyLib.deallocateExcess(msg.sender, marketId);
-            TokenOpsLib.burnToken(marketId, positionId, true, tokensIn, msg.sender);
-        } else {
-            s.marketExposure[msg.sender][marketId] += tokensIn;
-            s.mmCapitalization[msg.sender] += tokensIn;
-            s.globalCapitalization += tokensIn;
-            HeapLib.updateTilt(msg.sender, marketId, positionId, -int128(uint128(tokensIn)));
-            SolvencyLib.deallocateExcess(msg.sender, marketId);
-            TokenOpsLib.burnToken(marketId, positionId, false, tokensIn, msg.sender);
-        }
-        DepositWithdrawLib.withdraw(to, usdcOut);
-    }
-
-    // Add new trading-related functions here, e.g., batch buy/sell, limit orders
-    //endregion Trading
+    //endregion Liquidity
 }
+
+// === Ledger Reading Operations ===
+library LedgerLib {
+    //region Ledger
+    /// @notice Reads all MM balances across all markets
+    /// @param mmId The market maker's ID
+    /// @return freeCollateral The MM's free USDC
+    /// @return mmCapitalization The MM's total capitalization
+    /// @return marketIds Array of market IDs
+    /// @return marketExposures Array of exposure values for each market
+    /// @return positionIds Array of position IDs for each market
+    /// @return tilts Array of tilt arrays for each market's positions
+    function readAllBalances(uint256 mmId)
+        internal
+        view
+        returns (
+            uint256 freeCollateral,
+            uint256 mmCapitalization,
+            uint256[] memory marketIds,
+            uint256[] memory marketExposures,
+            uint256[][] memory positionIds,
+            int128[][] memory tilts
+        )
+    {
+        StorageLib.Storage storage s = StorageLib.getStorage();
+        freeCollateral = s.freeCollateral[mmId];
+        mmCapitalization = s.mmCapitalization[mmId];
+        marketIds = MarketManagementLib.getMarkets();
+        marketExposures = new uint256[](marketIds.length);
+        positionIds = new uint256[][](marketIds.length);
+        tilts = new int128[][](marketIds.length);
+
+        for (uint256 i = 0; i < marketIds.length; i++) {
+            uint256 marketId = marketIds[i];
+            marketExposures[i] = s.marketExposure[mmId][marketId];
+            positionIds[i] = MarketManagementLib.getMarketPositions(marketId);
+            tilts[i] = new int128[](positionIds[i].length);
+            for (uint256 j = 0; j < positionIds[i].length; j++) {
+                tilts[i][j] = s.tilt[mmId][marketId][positionIds[i][j]];
+            }
+        }
+    }
+
+    /// @notice Reads MM's balances for a specific market
+    /// @param mmId The market maker's ID
+    /// @param marketId The market ID
+    /// @return freeCollateral The MM's free USDC
+    /// @return mmCapitalization The MM's total capitalization
+    /// @return marketExposure The MM's exposure in the market
+    /// @return positionIds Array of position IDs in the market
+    /// @return tilts Array of tilt values for each position
+    function readBalances(uint256 mmId, uint256 marketId)
+        internal
+        view
+        returns (
+            uint256 freeCollateral,
+            uint256 mmCapitalization,
+            uint256 marketExposure,
+            uint256[] memory positionIds,
+            int128[] memory tilts
+        )
+    {
+        StorageLib.Storage storage s = StorageLib.getStorage();
+        freeCollateral = s.freeCollateral[mmId];
+        mmCapitalization = s.mmCapitalization[mmId];
+        marketExposure = s.marketExposure[mmId][marketId];
+        positionIds = MarketManagementLib.getMarketPositions(marketId);
+        tilts = new int128[](positionIds.length);
+        for (uint256 i = 0; i < positionIds.length; i++) {
+            tilts[i] = s.tilt[mmId][marketId][positionIds[i]];
+        }
+    }
+
+    /// @notice Returns MM's free collateral
+    /// @param mmId The market maker's ID
+    /// @return The MM's free USDC
+    function getFreeCollateral(uint256 mmId) internal view returns (uint256) {
+        return StorageLib.getStorage().freeCollateral[mmId];
+    }
+
+    /// @notice Returns MM's exposure for a market
+    /// @param mmId The market maker's ID
+    /// @param marketId The market ID
+    /// @return The MM's exposure in the market
+    function getMarketExposure(uint256 mmId, uint256 marketId) internal view returns (uint256) {
+        return StorageLib.getStorage().marketExposure[mmId][marketId];
+    }
+
+    /// @notice Returns MM's tilt for a position
+    /// @param mmId The market maker's ID
+    /// @param marketId The market ID
+    /// @param positionId The position ID
+    /// @return The MM's tilt for the position
+    function getTilt(uint256 mmId, uint256 marketId, uint256 positionId) internal view returns (int128) {
+        return StorageLib.getStorage().tilt[mmId][marketId][positionId];
+    }
+
+    /// @notice Returns MM's liquidity details for a specific position
+    /// @param mmId The market maker's ID
+    /// @param marketId The market ID
+    /// @param positionId The position ID
+    /// @return freeCollateral The MM's free USDC
+    /// @return marketExposure The MM's exposure in the market
+    /// @return tilt The MM's tilt for the position
+    function getPositionLiquidity(uint256 mmId, uint256 marketId, uint256 positionId)
+        internal
+        view
+        returns (
+            uint256 freeCollateral,
+            uint256 marketExposure,
+            int128 tilt
+        )
+    {
+        StorageLib.Storage storage s = StorageLib.getStorage();
+        freeCollateral = s.freeCollateral[mmId];
+        marketExposure = s.marketExposure[mmId][marketId];
+        tilt = s.tilt[mmId][marketId][positionId];
+    }
+
+    /// @notice Returns the minimum tilt and its position ID for an MM in a market
+    /// @param mmId The market maker's ID
+    /// @param marketId The market ID
+    /// @return minTilt The minimum (most negative) tilt value
+    /// @return minPositionId The position ID with the minimum tilt
+    function getMinTilt(uint256 mmId, uint256 marketId) internal view returns (int128 minTilt, uint256 minPositionId) {
+        return HeapLib.getMinTilt(mmId, marketId);
+    }
+    //endregion Ledger
+}
+```

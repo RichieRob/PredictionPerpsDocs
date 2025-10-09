@@ -3,7 +3,16 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./Libraries.sol";
+import "./Types.sol";
+import "./StorageLib.sol";
+import "./DepositWithdrawLib.sol";
+import "./TokenOpsLib.sol";
+import "./SolvencyLib.sol";
+import "./HeapLib.sol";
+import "./MarketManagementLib.sol";
+import "./LiquidityLib.sol";
+import "./LedgerLib.sol";
+import "./TradingLib.sol";
 
 interface IAavePool {
     function supply(address asset, uint256 amount, address onBehalfOf, uint16 referralCode) external;
@@ -44,17 +53,43 @@ contract MarketMakerLedger {
     using SolvencyLib for *;
     using HeapLib for *;
     using MarketManagementLib for *;
+    using LiquidityLib for *;
+    using LedgerLib for *;
     using TradingLib for *;
 
     // === Storage ===
     StorageLib.Storage private s;
 
     // === Events ===
-    event Deposited(address indexed mm, uint256 amount);
-    event Withdrawn(address indexed mm, uint256 amount);
-    event TiltUpdated(address indexed mm, uint256 marketId, uint256 positionId, int128 newTilt);
-    event Bought(address indexed buyer, uint256 marketId, uint256 positionId, bool isBack, uint256 amount);
-    event Sold(address indexed seller, uint256 marketId, uint256 positionId, bool isBack, uint256 amount);
+    event Deposited(uint256 indexed mmId, uint256 amount);
+    event Withdrawn(uint256 indexed mmId, uint256 amount);
+    event TiltUpdated(
+        uint256 indexed mmId,
+        uint256 indexed marketId,
+        uint256 indexed positionId,
+        uint256 freeCollateral,
+        uint256 marketExposure,
+        int128 newTilt
+    );
+    event Bought(
+        uint256 indexed mmId,
+        uint256 indexed marketId,
+        uint256 indexed positionId,
+        bool isBack,
+        uint256 tokensOut,
+        uint256 usdcIn,
+        uint256 recordedUSDC
+    );
+    event Sold(
+        uint256 indexed mmId,
+        uint256 indexed marketId,
+        uint256 indexed positionId,
+        bool isBack,
+        uint256 tokensIn,
+        uint256 usdcOut
+    );
+    event MarketMakerRegistered(address indexed mmAddress, uint256 mmId);
+    event LiquidityTransferred(uint256 indexed mmId, address indexed oldAddress, address indexed newAddress);
 
     // === Modifiers ===
     modifier onlyOwner() {
@@ -71,6 +106,16 @@ contract MarketMakerLedger {
         store.aavePool = IAavePool(_aavePool);
     }
 
+    // === Market Maker Registration ===
+    /// @notice Registers a new market maker ID for the caller
+    /// @return mmId The assigned market maker ID
+    function registerMarketMaker() external returns (uint256 mmId) {
+        StorageLib.Storage storage store = StorageLib.getStorage();
+        mmId = store.nextMMId++;
+        store.mmIdToAddress[mmId] = msg.sender;
+        emit MarketMakerRegistered(msg.sender, mmId);
+    }
+
     // === Admin Operations (Market/Position Creation) ===
     /// @notice Creates a new market
     function createMarket(string memory name, string memory ticker) external onlyOwner returns (uint256 marketId) {
@@ -84,15 +129,15 @@ contract MarketMakerLedger {
 
     // === Deposit/Withdraw Operations ===
     /// @notice Deposits USDC to market maker's free collateral
-    function deposit(uint256 amount) external {
-        DepositWithdrawLib.deposit(msg.sender, amount);
-        emit Deposited(msg.sender, amount);
+    function deposit(uint256 mmId, uint256 amount, uint256 minUSDCDeposited) external returns (uint256 recordedUSDC) {
+        recordedUSDC = DepositWithdrawLib.deposit(mmId, amount, minUSDCDeposited);
+        emit Deposited(mmId, recordedUSDC);
     }
 
     /// @notice Withdraws USDC from market maker's free collateral
-    function withdraw(uint256 amount) external {
-        DepositWithdrawLib.withdraw(msg.sender, amount);
-        emit Withdrawn(msg.sender, amount);
+    function withdraw(uint256 mmId, uint256 amount) external {
+        DepositWithdrawLib.withdraw(mmId, amount);
+        emit Withdrawn(mmId, amount);
     }
 
     /// @notice Withdraws accrued interest to owner
@@ -102,62 +147,92 @@ contract MarketMakerLedger {
 
     // === Trading Operations ===
     /// @notice Buys tokens for a position, depositing USDC
-    function processBuy(address to, uint256 marketId, uint256 AMMId, uint256 positionId, bool isBack, uint256 usdcIn, uint256 tokensOut) external {
-        TradingLib.processBuy(to, marketId, AMMId, positionId, isBack, usdcIn, tokensOut);
-        emit Bought(msg.sender, marketId, positionId, isBack, tokensOut);
+    // Can be used by MM to withdraw position tokens (using 0 USDC)
+    /// @return recordedUSDC The actual aUSDC amount recorded
+    function processBuy(
+        address to,
+        uint256 marketId,
+        uint256 mmId,
+        uint256 positionId,
+        bool isBack,
+        uint256 usdcIn,
+        uint256 tokensOut,
+        uint256 minUSDCDeposited
+    ) external returns (uint256 recordedUSDC) {
+        (uint256 recordedUSDC, uint256 freeCollateral, uint256 marketExposure, int128 newTilt) = TradingLib.processBuy(
+            to,
+            marketId,
+            mmId,
+            positionId,
+            isBack,
+            usdcIn,
+            tokensOut,
+            minUSDCDeposited
+        );
+        emit Bought(mmId, marketId, positionId, isBack, tokensOut, usdcIn, recordedUSDC);
+        emit TiltUpdated(mmId, marketId, positionId, freeCollateral, marketExposure, newTilt);
     }
 
     /// @notice Sells tokens for a position, withdrawing USDC
-    function processSell(address to, uint256 marketId, uint256 AMMId, uint256 positionId, bool isBack, uint256 tokensIn, uint256 usdcOut) external {
-        TradingLib.processSell(to, marketId, AMMId, positionId, isBack, tokensIn, usdcOut);
-        emit Sold(msg.sender, marketId, positionId, isBack, tokensIn);
+    // Can be used by MM to deposit position tokens (using 0 USDC)
+    function processSell(
+        address to,
+        uint256 marketId,
+        uint256 mmId,
+        uint256 positionId,
+        bool isBack,
+        uint256 tokensIn,
+        uint256 usdcOut
+    ) external {
+        (uint256 freeCollateral, uint256 marketExposure, int128 newTilt) = TradingLib.processSell(
+            to,
+            marketId,
+            mmId,
+            positionId,
+            isBack,
+            tokensIn,
+            usdcOut
+        );
+        emit Sold(mmId, marketId, positionId, isBack, tokensIn, usdcOut);
+        emit TiltUpdated(mmId, marketId, positionId, freeCollateral, marketExposure, newTilt);
     }
 
-    // === Token Operations ===
-    /// @notice Emits q Back tokens for position k
-    function emitBack(uint256 marketId, uint256 positionId, uint256 q, address to) external {
-        SolvencyLib.ensureSolvency(msg.sender, marketId, positionId, -int128(uint128(q)), 0);
-        HeapLib.updateTilt(msg.sender, marketId, positionId, -int128(uint128(q)));
-        TokenOpsLib.mintToken(marketId, positionId, true, q, to);
-        emit TiltUpdated(msg.sender, marketId, positionId, StorageLib.getStorage().tilt[msg.sender][marketId][positionId]);
-    }
+    
 
-    /// @notice Receives q Back tokens for position k (requires approval for burn)
-    function receiveBack(uint256 marketId, uint256 positionId, uint256 q) external {
-        HeapLib.updateTilt(msg.sender, marketId, positionId, int128(uint128(q)));
-        SolvencyLib.deallocateExcess(msg.sender, marketId);
-        TokenOpsLib.burnToken(marketId, positionId, true, q, msg.sender);
-        emit TiltUpdated(msg.sender, marketId, positionId, StorageLib.getStorage().tilt[msg.sender][marketId][positionId]);
-    }
-
-    /// @notice Emits q Lay tokens for position k
-    function emitLay(uint256 marketId, uint256 positionId, uint256 q, address to) external {
-        SolvencyLib.ensureSolvency(msg.sender, marketId, positionId, int128(uint128(q)), -int128(uint128(q)));
-        StorageLib.Storage storage store = StorageLib.getStorage();
-        store.marketExposure[msg.sender][marketId] -= q;
-        store.mmCapitalization[msg.sender] -= q;
-        store.globalCapitalization -= q;
-        HeapLib.updateTilt(msg.sender, marketId, positionId, int128(uint128(q)));
-        TokenOpsLib.mintToken(marketId, positionId, false, q, to);
-        emit TiltUpdated(msg.sender, marketId, positionId, store.tilt[msg.sender][marketId][positionId]);
-    }
-
-    /// @notice Receives q Lay tokens for position k (requires approval for burn)
-    function receiveLay(uint256 marketId, uint256 positionId, uint256 q) external {
-        StorageLib.Storage storage store = StorageLib.getStorage();
-        store.marketExposure[msg.sender][marketId] += q;
-        store.mmCapitalization[msg.sender] += q;
-        store.globalCapitalization += q;
-        HeapLib.updateTilt(msg.sender, marketId, positionId, -int128(uint128(q)));
-        SolvencyLib.deallocateExcess(msg.sender, marketId);
-        TokenOpsLib.burnToken(marketId, positionId, false, q, msg.sender);
-        emit TiltUpdated(msg.sender, marketId, positionId, store.tilt[msg.sender][marketId][positionId]);
+    // === Liquidity Operations ===
+    /// @notice Transfers all liquidity for an MMId to a new address
+    function transferLiquidity(uint256 mmId, address newAddress) external {
+        LiquidityLib.transferLiquidity(mmId, newAddress);
+        emit LiquidityTransferred(mmId, msg.sender, newAddress);
     }
 
     // === Getter Functions ===
+    /// @notice Returns MM's liquidity details for a specific position
+    /// @return freeCollateral The MM's free USDC
+    /// @return marketExposure The MM's exposure in the market
+    /// @return tilt The MM's tilt for the position
+    function getPositionLiquidity(uint256 mmId, uint256 marketId, uint256 positionId)
+        external
+        view
+        returns (
+            uint256 freeCollateral,
+            uint256 marketExposure,
+            int128 tilt
+        )
+    {
+        return LedgerLib.getPositionLiquidity(mmId, marketId, positionId);
+    }
+
+    /// @notice Returns the minimum tilt and its position ID for an MM in a market
+    /// @return minTilt The minimum (most negative) tilt value
+    /// @return minPositionId The position ID with the minimum tilt
+    function getMinTilt(uint256 mmId, uint256 marketId) external view returns (int128 minTilt, uint256 minPositionId) {
+        return LedgerLib.getMinTilt(mmId, marketId);
+    }
+
     /// @notice Returns market maker's capitalization
-    function getMMCapitalization(address mm) external view returns (uint256) {
-        return StorageLib.getStorage().mmCapitalization[mm];
+    function getMMCapitalization(uint256 mmId) external view returns (uint256) {
+        return StorageLib.getStorage().mmCapitalization[mmId];
     }
 
     /// @notice Returns current interest accrued
@@ -190,6 +265,4 @@ contract MarketMakerLedger {
         backToken = store.tokenAddresses[marketId][positionId][true];
         layToken = store.tokenAddresses[marketId][positionId][false];
     }
-
-    // Add new public/external functions here, e.g., settleMarket, updateTiltBatch
 }
