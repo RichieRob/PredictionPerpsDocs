@@ -2,7 +2,7 @@
 // SPDX-License-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./Types.sol";
 import "./StorageLib.sol";
@@ -15,48 +15,11 @@ import "./LiquidityLib.sol";
 import "./LedgerLib.sol";
 import "./TradingLib.sol";
 import "./RedemptionLib.sol";
+import "./IPositionToken1155.sol";
 
 interface IAavePool {
     function supply(address asset, uint256 amount, address onBehalfOf, uint16 referralCode) external;
     function withdraw(address asset, uint256 amount, address to) external returns (uint256);
-}
-
-// Custom ERC20 for positions, with mint/burn restricted to ledger
-contract PositionToken is ERC20 {
-    address public immutable ledger;
-    uint256 public immutable marketId;
-    uint256 public immutable positionId;
-    bool public immutable isBack;
-
-    constructor(
-        string memory name,
-        string memory symbol,
-        address _ledger,
-        uint256 _marketId,
-        uint256 _positionId,
-        bool _isBack
-    ) ERC20(name, symbol) {
-        ledger = _ledger;
-        marketId = _marketId;
-        positionId = _positionId;
-        isBack = _isBack;
-    }
-
-    function mint(address to, uint256 amount) external {
-        require(msg.sender == ledger, "Only ledger");
-        _mint(to, amount);
-    }
-
-    function burnFrom(address from, uint256 amount) external {
-        require(msg.sender == ledger, "Only ledger");
-        _spendAllowance(from, ledger, amount);
-        _burn(from, amount);
-    }
-}
-
-interface IPositionToken {
-    function mint(address to, uint256 amount) external;
-    function burnFrom(address from, uint256 amount) external;
 }
 
 contract MarketMakerLedger {
@@ -86,12 +49,13 @@ contract MarketMakerLedger {
         _;
     }
 
-    constructor(address _usdc, address _aUSDC, address _aavePool) {
+    constructor(address _usdc, address _aUSDC, address _aavePool, address _positionToken1155) {
         StorageLib.Storage storage store = StorageLib.getStorage();
         store.owner = msg.sender;
         store.usdc = IERC20(_usdc);
         store.aUSDC = IERC20(_aUSDC);
         store.aavePool = IAavePool(_aavePool);
+        store.positionToken1155 = _positionToken1155;
     }
 
     function registerMarketMaker() external returns (uint256 mmId) {
@@ -203,20 +167,20 @@ contract MarketMakerLedger {
 
     function getMarketDetails(uint256 marketId) external view returns (string memory name, string memory ticker) {
         StorageLib.Storage storage store = StorageLib.getStorage();
-        name = store.marketNames[marketId];
-        ticker = store.marketTickers[marketId];
+        name = IPositionToken1155(store.positionToken1155).getMarketName(marketId);
+        ticker = IPositionToken1155(store.positionToken1155).getMarketTicker(marketId);
     }
 
     function getPositionDetails(uint256 marketId, uint256 positionId)
         external
         view
-        returns (string memory name, string memory ticker, address backToken, address layToken)
+        returns (string memory name, string memory ticker, uint256 backTokenId, uint256 layTokenId)
     {
         StorageLib.Storage storage store = StorageLib.getStorage();
-        name = store.positionNames[marketId][positionId];
-        ticker = store.positionTickers[marketId][positionId];
-        backToken = store.tokenAddresses[marketId][positionId][true];
-        layToken = store.tokenAddresses[marketId][positionId][false];
+        backTokenId = StorageLib.encodeTokenId(uint64(marketId), uint64(positionId), true);
+        layTokenId = StorageLib.encodeTokenId(uint64(marketId), uint64(positionId), false);
+        name = IPositionToken1155(store.positionToken1155).getPositionName(backTokenId);
+        ticker = IPositionToken1155(store.positionToken1155).getPositionTicker(backTokenId);
     }
 }
 ```

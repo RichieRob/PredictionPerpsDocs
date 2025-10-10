@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: MIT
+```solidity
+// SPDX-License-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 library Types {
@@ -9,4 +10,11 @@ library Types {
         int128 minVal; // Minimum tilt value
         int128 secondMinVal; // Second minimum tilt value
     }
+
+    struct TokenData {
+        uint64 marketId;
+        uint64 positionId;
+        bool isBack;
+    }
 }
+```

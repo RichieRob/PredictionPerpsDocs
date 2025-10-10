@@ -1,5 +1,4 @@
-```solidity
-// SPDX-License-Identifier: MIT
+// SPDX-License-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 import "./StorageLib.sol";
@@ -8,7 +7,6 @@ import "./SolvencyLib.sol";
 import "./HeapLib.sol";
 import "./TokenOpsLib.sol";
 import "./LedgerLib.sol";
-import "./AllocateCapitalLib.sol";
 
 library TradingLib {
     function receiveBackToken(uint256 mmId, uint256 marketId, uint256 positionId, uint256 amount) internal {
@@ -48,7 +46,7 @@ library TradingLib {
         uint256 usdcIn,
         uint256 tokensOut,
         uint256 minUSDCDeposited
-    ) internal returns (uint256 recordedUSDC, uint256 freeCollateral, uint256 allocatedCapital, int128 newTilt) {
+    ) internal returns (uint256 recordedUSDC, uint256 freeCollateral, int256 allocatedCapital, int128 newTilt) {
         StorageLib.Storage storage s = StorageLib.getStorage();
         require(s.mmIdToAddress[mmId] == msg.sender, "Invalid MMId");
         if (usdcIn > 0) {
@@ -72,7 +70,7 @@ library TradingLib {
         bool isBack,
         uint256 tokensIn,
         uint256 usdcOut
-    ) internal returns (uint256 freeCollateral, uint256 allocatedCapital, int128 newTilt) {
+    ) internal returns (uint256 freeCollateral, int256 allocatedCapital, int128 newTilt) {
         StorageLib.Storage storage s = StorageLib.getStorage();
         require(s.mmIdToAddress[mmId] == msg.sender, "Invalid MMId");
         if (isBack) {
@@ -86,4 +84,3 @@ library TradingLib {
         (freeCollateral, allocatedCapital, newTilt) = LedgerLib.getPositionLiquidity(mmId, marketId, positionId);
     }
 }
-```

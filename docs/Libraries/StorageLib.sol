@@ -1,5 +1,5 @@
 ```solidity
-// SPDX-License-Identifier: MIT
+// SPDX-License-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -28,17 +28,13 @@ library StorageLib {
         uint256 totalFreeCollateral;
         uint256 totalValueLocked;
         mapping(uint256 => mapping(uint256 => mapping(uint256 => int128))) tilt;
-        mapping(uint256 => mapping(uint256 => mapping(bool => address))) tokenAddresses;
+        address positionToken1155;
         mapping(uint256 => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockData;
         mapping(uint256 => mapping(uint256 => uint256[])) topHeap;
         uint256 nextMarketId;
         uint256[] allMarkets;
-        mapping(uint256 => string) marketNames;
-        mapping(uint256 => string) marketTickers;
         mapping(uint256 => uint256) nextPositionId;
         mapping(uint256 => uint256[]) marketPositions;
-        mapping(uint256 => mapping(uint256 => string)) positionNames;
-        mapping(uint256 => mapping(uint256 => string)) positionTickers;
     }
 
     function getStorage() internal pure returns (Storage storage s) {
@@ -46,6 +42,18 @@ library StorageLib {
         assembly {
             s.slot := position
         }
+    }
+
+    function encodeTokenId(uint64 marketId, uint64 positionId, bool isBack) internal pure returns (uint256) {
+        return (uint256(marketId) << 64) | (uint256(positionId) << 1) | (isBack ? 1 : 0);
+    }
+
+    function decodeTokenId(uint256 tokenId) internal pure returns (Types.TokenData memory) {
+        return Types.TokenData({
+            marketId: uint64(tokenId >> 64),
+            positionId: uint64((tokenId >> 1) & ((1 << 64) - 1)),
+            isBack: (tokenId & 1) == 1
+        });
     }
 }
 ```

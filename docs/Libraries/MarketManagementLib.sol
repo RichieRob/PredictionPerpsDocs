@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 
 import "./StorageLib.sol";
 import "./Types.sol";
-import "./PositionToken.sol";
+import "./IPositionToken1155.sol";
 
 library MarketManagementLib {
     event MarketCreated(uint256 indexed marketId, string name, string ticker);
@@ -13,40 +13,28 @@ library MarketManagementLib {
     function createMarket(string memory name, string memory ticker) internal returns (uint256 marketId) {
         StorageLib.Storage storage s = StorageLib.getStorage();
         marketId = s.nextMarketId++;
-        s.marketNames[marketId] = name;
-        s.marketTickers[marketId] = ticker;
         s.allMarkets.push(marketId);
+        IPositionToken1155(s.positionToken1155).setMarketMetadata(marketId, name, ticker);
         emit MarketCreated(marketId, name, ticker);
     }
 
     function createPosition(uint256 marketId, string memory name, string memory ticker) internal returns (uint256 positionId) {
         StorageLib.Storage storage s = StorageLib.getStorage();
-        require(bytes(s.marketNames[marketId]).length > 0, "Market does not exist");
+        require(s.positionToken1155 != address(0), "Position token not set");
         positionId = s.nextPositionId[marketId]++;
-        s.positionNames[marketId][positionId] = name;
-        s.positionTickers[marketId][positionId] = ticker;
         s.marketPositions[marketId].push(positionId);
-
-        PositionToken backToken = new PositionToken(
-            string.concat("Back ", name, " ", s.marketNames[marketId]),
-            string.concat("B", ticker, s.marketTickers[marketId]),
-            address(this),
-            marketId,
-            positionId,
-            true
+        uint256 backTokenId = StorageLib.encodeTokenId(uint64(marketId), uint64(positionId), true);
+        uint256 layTokenId = StorageLib.encodeTokenId(uint64(marketId), uint64(positionId), false);
+        IPositionToken1155(s.positionToken1155).setPositionMetadata(
+            backTokenId,
+            string.concat("Back ", name),
+            string.concat("B", ticker)
         );
-        s.tokenAddresses[marketId][positionId][true] = address(backToken);
-
-        PositionToken layToken = new PositionToken(
-            string.concat("Lay ", name, " ", s.marketNames[marketId]),
-            string.concat("L", ticker, s.marketTickers[marketId]),
-            address(this),
-            marketId,
-            positionId,
-            false
+        IPositionToken1155(s.positionToken1155).setPositionMetadata(
+            layTokenId,
+            string.concat("Lay ", name),
+            string.concat("L", ticker)
         );
-        s.tokenAddresses[marketId][positionId][false] = address(layToken);
-
         emit PositionCreated(marketId, positionId, name, ticker);
     }
 
