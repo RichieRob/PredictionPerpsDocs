@@ -22,7 +22,7 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:mermaid2.fence_mermaid
   - pymdownx.arithmatex:
-      generic: true  # Enables MathJax for both inline and block math
+      generic: true
   - pymdownx.highlight:
       use_pygments: true
       anchor_linenums: true
@@ -32,10 +32,8 @@ markdown_extensions:
       extend_pygments_lang:
         - name: solidity
           lang: solidity
-          lexer: Solidity
-        - name: sol
-          lang: solidity
-          lexer: Solidity
+          aliases: [sol]
+          lexer: mysolidity  # Changed from solidity:SolidityLexer to mysolidity
   - attr_list
   - toc:
       permalink: true

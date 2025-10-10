@@ -1,16 +1,17 @@
-/* solidity.css */
+/* docs/stylesheets/solidity.css */
 
 /* Unified code colors for both site modes */
 [data-md-color-scheme="default"],
 [data-md-color-scheme="slate"] {
-  --md-code-bg-color: #18043a;
+  --md-code-bg-color: #19191a;
   --md-code-fg-color: #e9e9ef;
   --md-code-gutter: rgba(255,255,255,0.06);
   --md-code-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Card look for Solidity code blocks only */
-.md-typeset .highlight.language-solidity {
+.md-typeset .highlight.language-solidity,
+.md-typeset .codehilite.language-solidity {
   margin: 1rem 2rem 1.5rem 2rem;
   border-radius: 8px;
   box-shadow: var(--md-code-shadow);
@@ -19,7 +20,165 @@
   padding: 1rem 1rem;
 }
 
-/* Explicitly reset Mermaid styles */
+/* Sleek top bar for Solidity code blocks */
+.md-typeset .highlight.language-solidity::before,
+.md-typeset .codehilite.language-solidity::before {
+  content: "";
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, #4ec9b0, #9cdcfe);
+}
+
+/* Background + text for Solidity code blocks */
+.md-typeset .highlight.language-solidity pre,
+.md-typeset .highlight.language-solidity pre code,
+.md-typeset .codehilite.language-solidity pre,
+.md-typeset .codehilite.language-solidity pre code {
+  background: var(--md-code-bg-color);
+  color: var(--md-code-fg-color);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Comfortable padding within Solidity code blocks */
+.md-typeset .highlight.language-solidity pre code,
+.md-typeset .codehilite.language-solidity pre code {
+  display: block;
+  font-feature-settings: "calt" 0;
+}
+
+/* Line numbers gutter for Solidity code blocks */
+.md-typeset .highlight.language-solidity .linenos,
+.md-typeset .highlight.language-solidity .linenodiv,
+.md-typeset .codehilite.language-solidity .linenos,
+.md-typeset .codehilite.language-solidity .linenodiv {
+  background: linear-gradient(180deg, transparent, var(--md-code-gutter));
+}
+
+.md-typeset .highlight.language-solidity .linenos,
+.md-typeset .highlight.language-solidity .linenodiv,
+.md-typeset .highlight.language-solidity .linenos pre,
+.md-typeset .highlight.language-solidity .linenodiv pre,
+.md-typeset .codehilite.language-solidity .linenos,
+.md-typeset .codehilite.language-solidity .linenodiv,
+.md-typeset .codehilite.language-solidity .linenos pre,
+.md-typeset .codehilite.language-solidity .linenodiv pre {
+  color: #b3b3c2 !important;
+  font-weight: 500;
+}
+
+/* Token defaults + recolors for Solidity */
+.md-typeset .highlight.language-solidity pre,
+.md-typeset .highlight.language-solidity pre *,
+.md-typeset .codehilite.language-solidity pre,
+.md-typeset .codehilite.language-solidity pre * {
+  color: var(--md-code-fg-color);
+}
+
+/* Keywords */
+.md-typeset .highlight.language-solidity .k,
+.md-typeset .highlight.language-solidity .kc,
+.md-typeset .highlight.language-solidity .kd,
+.md-typeset .highlight.language-solidity .kn,
+.md-typeset .highlight.language-solidity .kp,
+.md-typeset .highlight.language-solidity .kr,
+.md-typeset .highlight.language-solidity .ow,
+.md-typeset .codehilite.language-solidity .k,
+.md-typeset .codehilite.language-solidity .kc,
+.md-typeset .codehilite.language-solidity .kd,
+.md-typeset .codehilite.language-solidity .kn,
+.md-typeset .codehilite.language-solidity .kp,
+.md-typeset .codehilite.language-solidity .kr,
+.md-typeset .codehilite.language-solidity .ow {
+  color: #4ec9b0;
+}
+
+/* Types & class names */
+.md-typeset .highlight.language-solidity .kt,
+.md-typeset .highlight.language-solidity .nc,
+.md-typeset .codehilite.language-solidity .kt,
+.md-typeset .codehilite.language-solidity .nc {
+  color: #dcdcaa;
+}
+
+/* Function names */
+.md-typeset .highlight.language-solidity .nf,
+.md-typeset .codehilite.language-solidity .nf {
+  color: #9cdcfe;
+}
+
+/* Operators & punctuation */
+.md-typeset .highlight.language-solidity .o,
+.md-typeset .highlight.language-solidity .p,
+.md-typeset .codehilite.language-solidity .o,
+.md-typeset .codehilite.language-solidity .p {
+  color: #e6e6f2;
+}
+
+/* Numbers */
+.md-typeset .highlight.language-solidity .m,
+.md-typeset .highlight.language-solidity .mf,
+.md-typeset .highlight.language-solidity .mi,
+.md-typeset .highlight.language-solidity .mo,
+.md-typeset .codehilite.language-solidity .m,
+.md-typeset .codehilite.language-solidity .mf,
+.md-typeset .codehilite.language-solidity .mi,
+.md-typeset .codehilite.language-solidity .mo {
+  color: #b5cea8;
+}
+
+/* Strings */
+.md-typeset .highlight.language-solidity .s,
+.md-typeset .highlight.language-solidity .s1,
+.md-typeset .highlight.language-solidity .s2,
+.md-typeset .highlight.language-solidity .sa,
+.md-typeset .highlight.language-solidity .sb,
+.md-typeset .highlight.language-solidity .sc,
+.md-typeset .highlight.language-solidity .sd,
+.md-typeset .highlight.language-solidity .se,
+.md-typeset .highlight.language-solidity .sh,
+.md-typeset .highlight.language-solidity .si,
+.md-typeset .highlight.language-solidity .sr,
+.md-typeset .highlight.language-solidity .sx,
+.md-typeset .codehilite.language-solidity .s,
+.md-typeset .codehilite.language-solidity .s1,
+.md-typeset .codehilite.language-solidity .s2,
+.md-typeset .codehilite.language-solidity .sa,
+.md-typeset .codehilite.language-solidity .sb,
+.md-typeset .codehilite.language-solidity .sc,
+.md-typeset .codehilite.language-solidity .sd,
+.md-typeset .codehilite.language-solidity .se,
+.md-typeset .codehilite.language-solidity .sh,
+.md-typeset .codehilite.language-solidity .si,
+.md-typeset .codehilite.language-solidity .sr,
+.md-typeset .codehilite.language-solidity .sx {
+  color: #ffb4a2;
+}
+
+/* Comments */
+.md-typeset .highlight.language-solidity .c,
+.md-typeset .highlight.language-solidity .c1,
+.md-typeset .highlight.language-solidity .cm,
+.md-typeset .highlight.language-solidity .ch,
+.md-typeset .highlight.language-solidity .cs,
+.md-typeset .highlight.language-solidity .cp,
+.md-typeset .codehilite.language-solidity .c,
+.md-typeset .codehilite.language-solidity .c1,
+.md-typeset .codehilite.language-solidity .cm,
+.md-typeset .codehilite.language-solidity .ch,
+.md-typeset .codehilite.language-solidity .cs,
+.md-typeset .codehilite.language-solidity .cp {
+  color: #8bd38b;
+}
+
+/* Copy button visibility on dark */
+.md-clipboard {
+  filter: invert(1) brightness(1.2) saturate(0.8);
+  opacity: .75;
+}
+.md-clipboard:hover { opacity: 1; }
+
+/* Explicitly reset Mermaid styles (safety) */
 .md-typeset .mermaid {
   background: none !important;
   border: none !important;
@@ -32,85 +191,3 @@
   background: transparent;
 }
 
-/* Sleek top bar for Solidity code blocks */
-.md-typeset .highlight.language-solidity::before {
-  content: "";
-  display: block;
-  height: 1px;
-  background: linear-gradient(90deg, #4ec9b0, #9cdcfe);
-}
-
-/* Background + text for Solidity code blocks */
-.md-typeset .highlight.language-solidity pre,
-.md-typeset .highlight.language-solidity pre code {
-  background: var(--md-code-bg-color);
-  color: var(--md-code-fg-color);
-  font-weight: 600;
-  margin: 0;
-}
-
-/* Comfortable padding within Solidity code blocks */
-.md-typeset .highlight.language-solidity pre code {
-  display: block;
-  font-feature-settings: "calt" 0;
-}
-
-/* Line numbers gutter for Solidity code blocks */
-.md-typeset .highlight.language-solidity .linenos,
-.md-typeset .highlight.language-solidity .linenodiv {
-  background: linear-gradient(180deg, transparent, var(--md-code-gutter));
-}
-.md-typeset .highlight.language-solidity .linenos,
-.md-typeset .highlight.language-solidity .linenodiv,
-.md-typeset .highlight.language-solidity .linenos pre,
-.md-typeset .highlight.language-solidity .linenodiv pre {
-  color: #b3b3c2 !important;
-  font-weight: 500;
-}
-
-/* Token defaults + recolors for Solidity */
-.md-typeset .highlight.language-solidity pre,
-.md-typeset .highlight.language-solidity pre * {
-  color: var(--md-code-fg-color);
-}
-.md-typeset .highlight.language-solidity .k,
-.md-typeset .highlight.language-solidity .kc,
-.md-typeset .highlight.language-solidity .kd,
-.md-typeset .highlight.language-solidity .kn,
-.md-typeset .highlight.language-solidity .kp,
-.md-typeset .highlight.language-solidity .kr,
-.md-typeset .highlight.language-solidity .ow { color: #4ec9b0; }
-.md-typeset .highlight.language-solidity .kt,
-.md-typeset .highlight.language-solidity .nc { color: #dcdcaa; }
-.md-typeset .highlight.language-solidity .nf { color: #9cdcfe; }
-.md-typeset .highlight.language-solidity .o,
-.md-typeset .highlight.language-solidity .p { color: #e6e6f2; }
-.md-typeset .highlight.language-solidity .m,
-.md-typeset .highlight.language-solidity .mf,
-.md-typeset .highlight.language-solidity .mi,
-.md-typeset .highlight.language-solidity .mo { color: #b5cea8; }
-.md-typeset .highlight.language-solidity .s,
-.md-typeset .highlight.language-solidity .s1,
-.md-typeset .highlight.language-solidity .s2,
-.md-typeset .highlight.language-solidity .sa,
-.md-typeset .highlight.language-solidity .sb,
-.md-typeset .highlight.language-solidity .sc,
-.md-typeset .highlight.language-solidity .sd,
-.md-typeset .highlight.language-solidity .se,
-.md-typeset .highlight.language-solidity .sh,
-.md-typeset .highlight.language-solidity .si,
-.md-typeset .highlight.language-solidity .sr,
-.md-typeset .highlight.language-solidity .sx { color: #ffb4a2; }
-.md-typeset .highlight.language-solidity .c,
-.md-typeset .highlight.language-solidity .c1,
-.md-typeset .highlight.language-solidity .cm,
-.md-typeset .highlight.language-solidity .ch,
-.md-typeset .highlight.language-solidity .cs,
-.md-typeset .highlight.language-solidity .cp { color: #8bd38b; }
-
-/* Copy button visibility on dark */
-.md-clipboard {
-  filter: invert(1) brightness(1.2) saturate(0.8);
-  opacity: .75;
-}
-.md-clipboard:hover { opacity: 1; }

@@ -63,10 +63,10 @@
   .md-content pre:not(.language-mermaid) {
     background-color: #1e1e1e;
     border-radius: 8px;
-    padding: 1rem;
+    
     overflow-x: auto;
     font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-    font-size: 0.9em;
+    font-size: 0.8em;
     line-height: 1.5;
     border: 1px solid rgba(0,0,0,0.08);
   }
