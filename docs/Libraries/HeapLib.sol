@@ -1,4 +1,5 @@
-// SPDX-License-Identifier: MIT
+```solidity
+// SPDX-License-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 import "./StorageLib.sol";
@@ -6,8 +7,6 @@ import "./Types.sol";
 import "./MarketManagementLib.sol";
 
 library HeapLib {
-    //region Tilt Management
-    /// @notice Updates tilt and block-min + top-heap for position k by delta
     function updateTilt(uint256 mmId, uint256 marketId, uint256 positionId, int128 delta) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
         uint256 blockId = positionId / Types.BLOCK_SIZE;
@@ -32,10 +31,7 @@ library HeapLib {
             rescanBlock(mmId, marketId, blockId);
         }
     }
-    //endregion Tilt Management
 
-    //region Block Scanning
-    /// @notice Rescans block to update minId, minVal, secondMinVal
     function rescanBlock(uint256 mmId, uint256 marketId, uint256 blockId) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
         uint256 start = blockId * Types.BLOCK_SIZE;
@@ -64,10 +60,7 @@ library HeapLib {
         block.secondMinVal = secondMinVal;
         updateTopHeap(mmId, marketId, blockId);
     }
-    //endregion Block Scanning
 
-    //region Heap Operations
-    /// @notice Updates top-heap for blockId (4-ary heap)
     function updateTopHeap(uint256 mmId, uint256 marketId, uint256 blockId) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
         uint256[] storage heap = s.topHeap[mmId][marketId];
@@ -79,15 +72,13 @@ library HeapLib {
         heap[index] = blockId;
     }
 
-    /// @notice Finds the index of blockId in the heap
     function findHeapIndex(uint256[] storage heap, uint256 blockId) private view returns (uint256) {
         for (uint256 i = 0; i < heap.length; i++) {
             if (heap[i] == blockId) return i;
         }
-        return 0; // Default to root if not found
+        return 0;
     }
 
-    /// @notice Bubbles up the heap to maintain min-heap property
     function bubbleUp(uint256[] storage heap, uint256 index, int128 newVal, uint256 mmId, uint256 marketId) private {
         StorageLib.Storage storage s = StorageLib.getStorage();
         while (index > 0) {
@@ -98,7 +89,6 @@ library HeapLib {
         }
     }
 
-    /// @notice Bubbles down the heap to maintain min-heap property
     function bubbleDown(uint256[] storage heap, uint256 index, int128 newVal, uint256 mmId, uint256 marketId) private {
         StorageLib.Storage storage s = StorageLib.getStorage();
         while (true) {
@@ -117,10 +107,7 @@ library HeapLib {
             index = minChild;
         }
     }
-    //endregion Heap Operations
 
-    //region Getters
-    /// @notice Returns (minVal, minId) for MM's market
     function getMinTilt(uint256 mmId, uint256 marketId) internal view returns (int128, uint256) {
         StorageLib.Storage storage s = StorageLib.getStorage();
         uint256[] memory heap = s.topHeap[mmId][marketId];
@@ -130,10 +117,9 @@ library HeapLib {
         return (block.minVal, block.minId);
     }
 
-    /// @notice Returns positionId of min tilt
     function getMinTiltPosition(uint256 mmId, uint256 marketId) internal view returns (uint256) {
         (, uint256 minId) = getMinTilt(mmId, marketId);
         return minId;
     }
-    //endregion Getters
 }
+```

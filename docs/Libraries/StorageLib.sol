@@ -1,3 +1,4 @@
+```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -15,24 +16,29 @@ library StorageLib {
         IERC20 aUSDC;
         IAavePool aavePool;
         address owner;
-        uint256 globalCapitalization; // Sum of all mmCapitalization
-        mapping(uint256 => address) mmIdToAddress; // MMId -> MM address
-        uint256 nextMMId; // Next available MMId
-        mapping(uint256 => uint256) freeCollateral; // MMId -> free USDC
-        mapping(uint256 => mapping(uint256 => uint256)) marketExposure; // MMId -> market_id -> USDC
-        mapping(uint256 => mapping(uint256 => mapping(uint256 => int128))) tilt; // MMId -> market_id -> position_id -> tilt
-        mapping(uint256 => uint256) mmCapitalization; // MMId -> freeCollateral + sum(marketExposure)
-        mapping(uint256 => mapping(uint256 => mapping(bool => address))) tokenAddresses; // market_id -> position_id -> isBack -> token address
-        mapping(uint256 => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockData; // MMId -> market_id -> block_id -> BlockData
-        mapping(uint256 => mapping(uint256 => uint256[])) topHeap; // MMId -> market_id -> heap of block indices
+        mapping(uint256 => address) mmIdToAddress;
+        uint256 nextMMId;
+        mapping(uint256 => uint256) freeCollateral;
+        mapping(uint256 => mapping(uint256 => int256)) AllocatedCapital;
+        mapping(uint256 => mapping(uint256 => int256)) USDCSpent;
+        mapping(uint256 => uint256) MarketUSDCSpent;
+        mapping(uint256 => uint256) Redemptions;
+        mapping(uint256 => uint256) marketValue;
+        uint256 TotalMarketsValue;
+        uint256 totalFreeCollateral;
+        uint256 totalValueLocked;
+        mapping(uint256 => mapping(uint256 => mapping(uint256 => int128))) tilt;
+        mapping(uint256 => mapping(uint256 => mapping(bool => address))) tokenAddresses;
+        mapping(uint256 => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockData;
+        mapping(uint256 => mapping(uint256 => uint256[])) topHeap;
         uint256 nextMarketId;
         uint256[] allMarkets;
         mapping(uint256 => string) marketNames;
         mapping(uint256 => string) marketTickers;
-        mapping(uint256 => uint256) nextPositionId; // marketId -> next positionId
-        mapping(uint256 => uint256[]) marketPositions; // marketId -> list of positionIds
-        mapping(uint256 => mapping(uint256 => string)) positionNames; // marketId -> positionId -> name
-        mapping(uint256 => mapping(uint256 => string)) positionTickers; // marketId -> positionId -> ticker
+        mapping(uint256 => uint256) nextPositionId;
+        mapping(uint256 => uint256[]) marketPositions;
+        mapping(uint256 => mapping(uint256 => string)) positionNames;
+        mapping(uint256 => mapping(uint256 => string)) positionTickers;
     }
 
     function getStorage() internal pure returns (Storage storage s) {
@@ -42,3 +48,4 @@ library StorageLib {
         }
     }
 }
+```
