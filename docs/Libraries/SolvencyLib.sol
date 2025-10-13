@@ -1,5 +1,4 @@
-```solidity
-// SPDX-License-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 import "./StorageLib.sol";
@@ -10,7 +9,7 @@ library SolvencyLib {
     function ensureSolvency(uint256 mmId, uint256 marketId) internal {
         (int128 minTilt, ) = HeapLib.getMinTilt(mmId, marketId);
         StorageLib.Storage storage s = StorageLib.getStorage();
-        int128 minShares = minTilt + s.AllocatedCapital[mmId][marketId];
+        int256 minShares = int256(minTilt) + s.AllocatedCapital[mmId][marketId];
         if (minShares < 0) {
             uint256 shortfall = uint256(-minShares);
             AllocateCapitalLib.allocate(mmId, marketId, shortfall);
@@ -20,10 +19,9 @@ library SolvencyLib {
     function deallocateExcess(uint256 mmId, uint256 marketId) internal {
         (int128 minTilt, ) = HeapLib.getMinTilt(mmId, marketId);
         StorageLib.Storage storage s = StorageLib.getStorage();
-        if (s.AllocatedCapital[mmId][marketId] + minTilt > 0) {
-            uint256 amount = uint256(s.AllocatedCapital[mmId][marketId] + minTilt);
-            AllocateCapitalLib.deallocate(mmId, marketId, amount);
+        int256 sum = s.AllocatedCapital[mmId][marketId] + int256(minTilt);
+        if (sum > 0) {
+            AllocateCapitalLib.deallocate(mmId, marketId, uint256(sum));
         }
     }
 }
-```
