@@ -63,7 +63,7 @@ contract MarketMakerLedger {
         emit MarketMakerRegistered(msg.sender, mmId);
     }
 
-    // --- market / position management (unchanged) ---
+    // --- market / position management  ---
     function createMarket(string memory name, string memory ticker) external onlyOwner returns (uint256 marketId) {
         marketId = MarketManagementLib.createMarket(name, ticker);
     }

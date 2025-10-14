@@ -97,11 +97,3 @@
   overflow-x: hidden !important;       /* Remove horizontal scrollbar */
 }
 
-/* Adjust line numbers to align with wrapped text */
-.md-typeset .highlight.language-solidity .linenos,
-.md-typeset .highlight.language-solidity .linenodiv,
-.md-typeset .codehilite.language-solidity .linenos,
-.md-typeset .codehilite.language-solidity .linenodiv {
-  white-space: pre-wrap !important;    /* Ensure line numbers wrap consistently */
-  padding-right: 0.5em;                /* Add space between numbers and code */
-}
