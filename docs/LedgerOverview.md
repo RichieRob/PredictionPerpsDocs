@@ -12,7 +12,7 @@ It prevents the market maker from issuing more exposure than its budget allows.
 
 ---
 
-## 2. The Balance Array — One Asset, Two Potentials
+## 2. The Balance Array
 
 When the market maker deposits their **USDC budget**, that deposit forms the **balance array** — the record of the market maker’s assets inside the system.
 
@@ -31,20 +31,24 @@ When either flows in or out, the ledger updates the array — keeping everything
 
 ## 3. Position Tokens — How Exposure Is Expressed
 
-Each market contains a set of **positions** — distinct directions that traders can take (e.g., *sentiment up*, *trend reversal*).
+Each market contains a set of **positions**
 
 For every position, there are two sides:
 
 - **Back A** — exposure toward position A.  
 - **Lay A** — exposure against position A.
 
-Lay isn’t a separate instrument — it follows a fixed identity:
+Where Lay follows a fixed identity:
 
 - \( \text{Lay}(A) = 1 - \text{Back}(A) \)  
-- equivalently, \( \text{Lay}(A) = \sum_{i \ne A} \text{Back}(i) \)
 
-This means a Lay is simply the inverse expression of the other Back positions.  
-The ledger records all exposure in **Back** form — so when someone buys **Lay A**, it updates the Back entries for every other position.
+or equivalently
+
+-  \( \text{Lay}(A) = \sum_{i \ne A} \text{Back}(i) \)
+
+
+The ledger uses this second identity to records all exposure in **Back** form.
+When someone a market maker deposits or withdraws **Lay A**, it updates the Back entries for every other position.
 
 ---
 
@@ -113,7 +117,7 @@ New balance array
 | C        | 5       (+1)         |
 | D        | 5       (+1)         |
 
-### e) Receive **1 USDC**
+### e) Deposit **1 USDC**
 
 The market maker receives 1 USDC and sends it back to the ledger.
 
@@ -126,7 +130,7 @@ New balance array
 | C        | 6       (+1)         |
 | D        | 6       (+1)         |
 
-### f) Emit **1 USDC**
+### f) Withdraw **1 USDC**
 
 THe market maker withdaws 1 USDC from the ledger and sends it somewhere.
 
@@ -141,10 +145,9 @@ New balance array
 
 **What this shows**
 
-- **Position tokens** redistribute potential *within* the array.  
+- **Position tokens** chaing the balance of the array.  
 - **USDC flows** expand or contract the array *as a whole*.  
 
-At all times, the market maker’s potential is consistent — simply expressed as capital or as exposure.
 
 ---
 
@@ -153,20 +156,16 @@ At all times, the market maker’s potential is consistent — simply expressed 
 ### Buying Tokens
 
 1. The **user sends USDC** to the market maker.  
-2. The **market maker deposits** that USDC into the ledger.  
-3. The **market maker withdraws tokens** from the ledger and transfers them to the user.  
-
-The user ends up holding tokens, and the market maker’s balance in the ledger increases in USDC but decreases in available potential for those positions.
+2. The **market maker deposits** that USDC into the ledger.  (e)
+3. The **market maker withdraws tokens** from the ledger and transfers them to the user.  (a/c)
 
 ---
 
 ### Selling Tokens
 
 1. The **user sends tokens** to the market maker.  
-2. The **market maker deposits** those tokens into the ledger.  
-3. The **market maker withdraws USDC** from the ledger and transfers it to the user.  
-
-The user ends up holding USDC, and the market maker’s balance in the ledger decreases in USDC but regains potential exposure for those positions.
+2. The **market maker deposits** those tokens into the ledger.  (b/d)
+3. The **market maker withdraws USDC** from the ledger and transfers it to the user.  (f)
 
 ---
 
