@@ -1,3 +1,5 @@
+```solidity
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -104,3 +106,4 @@ library DepositWithdrawLib {
         return s.aUSDC.balanceOf(address(this)) - s.totalValueLocked;
     }
 }
+```

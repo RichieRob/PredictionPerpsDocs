@@ -1,3 +1,5 @@
+```solidity
+
 // TypesPermit.sol
 pragma solidity ^0.8.20;
 
@@ -19,3 +21,4 @@ library TypesPermit {
         bytes   signature; // 65 bytes ECDSA
     }
 }
+```

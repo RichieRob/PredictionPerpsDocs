@@ -1,3 +1,5 @@
+```solidity
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -58,3 +60,5 @@ library TokenOpsLib {
         IPositionToken1155(s.positionToken1155).burnBatchFrom(from, ids, amounts);
     }
 }
+```
+

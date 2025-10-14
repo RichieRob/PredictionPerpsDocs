@@ -1,3 +1,5 @@
+```solidity
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -90,3 +92,4 @@ contract PositionToken1155 is ERC1155 {
         return string.concat("data:application/json;base64,", Base64.encode(bytes(json)));
     }
 }
+```

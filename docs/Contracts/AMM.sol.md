@@ -1,3 +1,5 @@
+```solidity 
+
 // attention needed to how we manage the fee. currently its just sent to the ledger and added to deposits
 
 // SPDX-License-Identifier: MIT
@@ -341,3 +343,4 @@ contract LMSRMarketMaker {
         emit PriceUpdated(positionId, getBackPriceWad(positionId));
     }
 }
+```

@@ -85,3 +85,23 @@
   [data-md-color-scheme="slate"] a code {
     text-decoration: underline dotted rgba(255,255,255,0.3);
   }
+
+  /* Enable wrapping for Solidity code blocks */
+.md-typeset .highlight.language-solidity pre,
+.md-typeset .codehilite.language-solidity pre,
+.md-typeset .highlight.language-solidity pre code,
+.md-typeset .codehilite.language-solidity pre code {
+  white-space: pre-wrap !important;    /* Wrap lines while preserving whitespace */
+  word-break: break-word;              /* Break long words if needed */
+  overflow-wrap: break-word;           /* Modern alternative to word-break */
+  overflow-x: hidden !important;       /* Remove horizontal scrollbar */
+}
+
+/* Adjust line numbers to align with wrapped text */
+.md-typeset .highlight.language-solidity .linenos,
+.md-typeset .highlight.language-solidity .linenodiv,
+.md-typeset .codehilite.language-solidity .linenos,
+.md-typeset .codehilite.language-solidity .linenodiv {
+  white-space: pre-wrap !important;    /* Ensure line numbers wrap consistently */
+  padding-right: 0.5em;                /* Add space between numbers and code */
+}
