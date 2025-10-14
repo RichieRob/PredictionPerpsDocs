@@ -4,14 +4,14 @@ This document details the internal accounting of the ledger,
 specifically how `freeCollateral`, `AllocatedCapital`, and `tilt` are updated
 to manage Back and Lay token operations,
 as implemented in the provided Solidity contracts.
-It assumes familiarity with the Ledger Overview
+It assumes familiarity with the [LedgerOverview](LedgerOverview.md)
 and focuses solely on the accounting mechanics for these operations.
 
 ## Innovation
 
 The ledger's accounting revolutionizes liquidity provision by unifying the market maker's supplied liquitidy.
  
-This unlocks unparalleled flexibility in providing liquidity within and across multi-position markets simultaneously.
+This unlocks unparalleled flexibility in providing liquidity within and across multi-position markets simultaneously from a singular deposit.
 
 ## Accounting Components
 

@@ -2,6 +2,8 @@
 
 The heap system efficiently tracks the **smallest tilt value** (and its position) across n positions.
 
+It is essential for the Ledger to ensure that a Market Maker stays solvent.
+
 ---
 
 ## 1. Grouping Positions into Blocks
@@ -41,41 +43,42 @@ As a result:
 
 ## 3. Updating When a Tilt Changes
 
-When a position’s tilt changes:
+When a position’s tilt changes, the data structure, including a 4-ary heap with up to `n / 16` nodes (one per block of 16 positions), is updated in four steps:
 
 1️⃣ **Identify the block:**  
+   Compute the block using:  
    `blockId = positionId / 16`
 
-2️⃣ **Update the stored tilt.**
+2️⃣ **Update the stored tilt:**  
+   Update the tilt value for the position in the block’s data structure.
 
 3️⃣ **Update the block minimum:**  
 
-   - If the changed position isn’t the smallest in the block and didn’t become smaller, stop (**O(1)**).  
-   - If it becomes the new smallest, update `(minId, minVal)` and fix its position in the heap (**O(log₄(n / 16))**).  
-   - If it was the smallest but got larger, rescan the 16 positions to find the new min, then fix in the heap (**O(16 + log₄(n / 16))**).
+   - If the position isn’t the smallest and its new tilt isn’t smaller than the current minimum, no update is needed (**O(1)**).  
+   - If the new tilt is the smallest, update the block’s `(minId, minVal)` (**O(1)**).  
+   - If the position was the smallest but its new tilt isn’t, rescan the block’s 16 positions to find the new `(minId, minVal)` (**O(16)**).
 
----
+4️⃣ **Fix the heap:**  
+   If the block’s minimum changed, adjust the 4-ary heap by bubbling up or down the block’s minimum to restore the heap property (**O(log₄(n / 16))**), as detailed in Section 4.
 
 ## 4. Heap Adjustment
 
-When a block’s `minVal` changes, the heap may need to be re-ordered to maintain the parent ≤ children rule.  
-Two processes handle this:
+When a block’s `minVal` changes, the 4-ary heap (with up to `n / 16` nodes) is adjusted to maintain the parent ≤ children property using one of two processes:
 
 ### Bubble Up (value decreased)
+
 - Compare with parent.  
-- If smaller, swap.  
-- Repeat until it’s no longer smaller or reaches the root.  
-→ 1 comparison per step, up to **log₄(n / 16)** steps.
+- Swap if smaller.  
+- Repeat until no longer smaller or at the root.  
+- **O(log₄(n / 16))** steps, 1 comparison per step.
 
 ### Bubble Down (value increased)
+
 - Compare with up to 4 children.  
-- Swap with the smallest child if needed.  
-- Repeat until it’s no longer larger than its children.  
-→ 4 comparisons per step, up to **log₄(n / 16)** steps.
+- Swap with smallest child if larger.  
+- Repeat until no larger than children.  
+- **O(log₄(n / 16))** steps, up to 4 comparisons per step.
 
-This asymmetry (1 comparison up vs 4 down) is what makes the design efficient in practice.
-
----
 
 ## 5. Getting the Global Minimum
 
