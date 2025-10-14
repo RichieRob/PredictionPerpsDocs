@@ -14,81 +14,71 @@ library HeapLib {
     //////////////////////////////////////////////////////////////*/
 
     function updateTilt(uint256 mmId, uint256 marketId, uint256 positionId, int128 delta) internal {
-        StorageLib.Storage storage s = StorageLib.getStorage();
-        uint256 blockId = positionId / Types.BLOCK_SIZE;
-        Types.BlockData storage block_ = s.blockData[mmId][marketId][blockId];
+    StorageLib.Storage storage s = StorageLib.getStorage();
+    uint256 blockId = positionId / Types.BLOCK_SIZE;
+    Types.BlockData storage b = s.blockData[mmId][marketId][blockId];
 
-        int128 newTilt = s.tilt[mmId][marketId][positionId] + delta;
-        s.tilt[mmId][marketId][positionId] = newTilt;
+    int128 newTilt = s.tilt[mmId][marketId][positionId] + delta;
+    s.tilt[mmId][marketId][positionId] = newTilt;
 
-        // Safer lazy init: treat as new only if not present in heap yet AND fields unset.
-        (bool inHeap, ) = _getIndex(s, mmId, marketId, blockId);
-        if (!inHeap && block_.minId == 0 && block_.minVal == 0 && block_.secondMinVal == 0) {
-            block_.minId = positionId;
-            block_.minVal = newTilt;
-            block_.secondMinVal = type(int128).max;
-            _updateTopHeap(mmId, marketId, blockId);
-            return;
-        }
-
-        // Fast path: position not the current min, and not better than second best.
-        if (positionId != block_.minId && newTilt >= block_.secondMinVal) return;
-
-        if (positionId != block_.minId && newTilt < block_.minVal) {
-            // New overall min inside this block.
-            block_.secondMinVal = block_.minVal;
-            block_.minVal = newTilt;
-            block_.minId = positionId;
-            _updateTopHeap(mmId, marketId, blockId);
-            return;
-        }
-
-        if (positionId == block_.minId) {
-            // The min position changed. If still min (improved), update; else rescan the block.
-            if (newTilt <= block_.minVal) {
-                block_.minVal = newTilt;
-                _updateTopHeap(mmId, marketId, blockId);
-                return;
-            }
-            _rescanBlock(mmId, marketId, blockId);
-        }
+    // Lazy init
+    if (b.minId == 0 && b.minVal == 0) {
+        b.minId = positionId;
+        b.minVal = newTilt;
+        _updateTopHeap(mmId, marketId, blockId);
+        return;
     }
+
+    if (positionId == b.minId) {
+        // Min improved
+        if (newTilt <= b.minVal) {
+            b.minVal = newTilt;
+            _updateTopHeap(mmId, marketId, blockId);
+            return;
+        }
+        // Min worsened: rescan block, then fix heap
+        _rescanBlock(mmId, marketId, blockId);
+        return;
+    }
+
+    // Non-min updated
+    if (newTilt < b.minVal) {
+        b.minId = positionId;
+        b.minVal = newTilt;
+        _updateTopHeap(mmId, marketId, blockId);
+    }
+    // else: nothing to do
+}
+
 
     /*//////////////////////////////////////////////////////////////
                               BLOCK RESCAN
     //////////////////////////////////////////////////////////////*/
 
     function _rescanBlock(uint256 mmId, uint256 marketId, uint256 blockId) private {
-        StorageLib.Storage storage s = StorageLib.getStorage();
-        uint256 start = blockId * Types.BLOCK_SIZE;
-        uint256 endExclusive = start + Types.BLOCK_SIZE;
+    StorageLib.Storage storage s = StorageLib.getStorage();
+    uint256 start = blockId * Types.BLOCK_SIZE;
+    uint256 endExclusive = start + Types.BLOCK_SIZE;
 
-        uint256[] memory positions = MarketManagementLib.getMarketPositions(marketId);
-        if (endExclusive > positions.length) endExclusive = positions.length;
+    uint256[] memory positions = MarketManagementLib.getMarketPositions(marketId);
+    if (endExclusive > positions.length) endExclusive = positions.length;
 
-        int128 minVal = type(int128).max;
-        int128 secondMinVal = type(int128).max;
-        uint256 minId = 0;
+    int128 minVal = type(int128).max;
+    uint256 minId = 0;
 
-        for (uint256 i = start; i < endExclusive; i++) {
-            uint256 k = positions[i];
-            int128 val = s.tilt[mmId][marketId][k];
-            if (val < minVal) {
-                secondMinVal = minVal;
-                minVal = val;
-                minId = k;
-            } else if (val < secondMinVal) {
-                secondMinVal = val;
-            }
-        }
-
-        Types.BlockData storage block_ = s.blockData[mmId][marketId][blockId];
-        block_.minVal = minVal;
-        block_.minId = minId;
-        block_.secondMinVal = secondMinVal;
-
-        _updateTopHeap(mmId, marketId, blockId);
+    for (uint256 i = start; i < endExclusive; i++) {
+        uint256 k = positions[i];
+        int128 v = s.tilt[mmId][marketId][k];
+        if (v < minVal) { minVal = v; minId = k; }
     }
+
+    Types.BlockData storage b = s.blockData[mmId][marketId][blockId];
+    b.minVal = minVal;
+    b.minId = minId;
+
+    _updateTopHeap(mmId, marketId, blockId);
+}
+
 
     /*//////////////////////////////////////////////////////////////
                                 HEAP CORE
@@ -202,15 +192,15 @@ library HeapLib {
     /*//////////////////////////////////////////////////////////////
                                  VIEWS
     //////////////////////////////////////////////////////////////*/
+function getMinTilt(uint256 mmId, uint256 marketId) internal view returns (int128, uint256) {
+    StorageLib.Storage storage s = StorageLib.getStorage();
+    uint256[] storage heap = s.topHeap[mmId][marketId];
+    if (heap.length == 0) return (0, 0);
+    uint256 blockId = heap[0];
+    Types.BlockData storage b = s.blockData[mmId][marketId][blockId];
+    return (b.minVal, b.minId);
+}
 
-    function getMinTilt(uint256 mmId, uint256 marketId) internal view returns (int128, uint256) {
-        StorageLib.Storage storage s = StorageLib.getStorage();
-        uint256[] memory heap = s.topHeap[mmId][marketId];
-        if (heap.length == 0) return (0, 0);
-        uint256 blockId = heap[0];
-        Types.BlockData memory block_ = s.blockData[mmId][marketId][blockId];
-        return (block_.minVal, block_.minId);
-    }
 
     function getMinTiltPosition(uint256 mmId, uint256 marketId) internal view returns (uint256) {
         (, uint256 minId) = getMinTilt(mmId, marketId);

@@ -5,11 +5,11 @@ pragma solidity ^0.8.20;
 library Types {
     uint256 constant BLOCK_SIZE = 16;
 
-    struct BlockData {
-        uint256 minId; // Position ID of minimum tilt
-        int128 minVal; // Minimum tilt value
-        int128 secondMinVal; // Second minimum tilt value
-    }
+struct BlockData {
+    uint256 minId;
+    int128  minVal;
+}
+
 
     struct TokenData {
         uint64 marketId;
