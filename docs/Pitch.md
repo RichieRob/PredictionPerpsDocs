@@ -10,8 +10,7 @@ Prediction Perps turn ideas, stories, people, and memes into massive multi-posit
 
 ## The Idea *(1 Paragraph)*
 
-Prediction Perps creates massive, multi-position perpetual markets. Our **Crypto Influencers** market alone includes more than 1,000 influencers and grows daily. Each position has its own tradable share token. In each market the combined value of all positions always equals 1 USDC.  
-Our innovative AMM ensures that every market remains perpetually liquid.
+Prediction Perps creates massive, multi-position perpetual markets. Our **Crypto Influencers** market alone includes more than 1,000 influencers and grows daily. Each position has its own tradable share token. In each market the combined value of all positions always equals 1 USDC. Our innovative AMM ensures that every market remains perpetually liquid.
 
 ---
 
