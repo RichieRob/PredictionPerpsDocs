@@ -97,7 +97,6 @@ Because capital is **only locked in net exposure**, and **complete sets vanish**
 
 The **entire unified USDC pool can be deposited into Aave, Compound, or any yield-bearing vault**.
 
-- All liquidity providers (LPs) share **one position** in Aave.  
 - Interest accrues on the **full pool**, minus only the small fraction tied to net exposure.  
 - When a trade needs liquidity, USDC is **withdrawn on-demand**—just like a line of credit.  
 - When sets burn, USDC flows **back in**, re-earning yield instantly.
@@ -124,7 +123,7 @@ Liquidity becomes a **system-wide utility**—like electricity in a smart grid. 
 
 ## Why This Matters
 
-- A platform with 10,000 prediction markets needs **one USDC pool in Aave**, not 10,000.  
+- A platform with 10,000 prediction markets each with 100 positions has 2,000,000 different tokens. Liquidity for all these positions can be provided by one pool. 
 - LPs earn **real yield** on nearly 100% of their capital.  
 - Traders get **deep, instant liquidity** with zero slippage from fragmentation.  
 - Capital efficiency hits levels never seen in DeFi.
