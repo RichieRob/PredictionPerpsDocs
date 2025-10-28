@@ -38,13 +38,17 @@ Even advanced systems like Uniswap v4 require capital committed to single pools,
 
 ## Unified Liquidity
 
-Current designs isolate liquidity, e.g., USDC in one pool can't support another. Unified liquidity uses a single base-asset pool (e.g., USDC) as a counterparty for all markets, allocated only when trades execute.
+Current designs isolate liquidity, e.g., USDC in one pool can't support another. 
+
+Unified liquidity uses a single base-asset pool (e.g., USDC) as a counterparty for all markets, allocated only when trades execute.
 
 - No capital duplication across trading pairs.
 - Single USDC pool supports all asset trades.
 - Liquidity shared dynamically across markets.
 
-This eliminates idle capital, transforming liquidity into a system-wide asset. However, unification is asymmetrical: only the base asset (e.g., USDC) unifies, while counterparty assets remain market-specific.
+This eliminates idle USDC capital, transforming liquidity into a system-wide asset. 
+
+However, this unification is asymmetrical: only the base asset (e.g., USDC) unifies, while counterparty assets remain market-specific.
 
 ---
 
@@ -55,8 +59,7 @@ In **zero-sum markets**, counterparty assets merge back into the base asset, ena
 - **Shares in Prediction Markets**: For an event 1 USDC splits into one Yes and one No share. Yes and No shares can be reunification to 1 USDC.
 - **Multi-Outcome**: For n outcomes, 1 collateral mints one share in n outcomes. The n outcome shares can be reunified to 1 USDC.
 
-
-This allows counterparty assets to unify, symmetrizing liquidity.
+This allows counterparty assets to unify, symmetrizing liquidity. USDC can sit unified as an asset for both sides of a trade enabling a market maker to provided both the counterparty to either a buy A or sell A trade with the same collateral and across all positions.
 
 ---
 
@@ -68,15 +71,3 @@ Zero-sum markets enable fully unified liquidity:
 - **Dynamic Merging**: Incomplete positions (e.g., n-1 shares) pair with trades to form complete sets, freeing capital.
 - **Symmetry**: Both base and counterparty assets unify, as shares merge back into collateral, eliminating market-specific silos.
 
----
-
-## Applications of Zero-Sum Markets
-
-Zero-sum markets suit scenarios with mutually exclusive outcomes:
-
-- **Event Prediction**: Unified pools support bets on elections or sports.
-- **Derivatives**: Binary options or perpetuals as zero-sum shares, with unified liquidity for hedging.
-- **Insurance**: Payout shares for risks (e.g., crop failure) merge for efficient capital use.
-- **Governance**: DAOs use futarchy to bet on policy outcomes, backed by shared collateral.
-
-Unified zero-sum markets enhance DeFi by reducing capital costs and enabling scalable, interconnected trading.
