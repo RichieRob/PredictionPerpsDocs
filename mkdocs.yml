@@ -1,7 +1,5 @@
 site_name: PredictionPerpsDocs
-
-# Make both docs/ and Contracts/ visible to MkDocs
-docs_dir: .
+docs_dir: docs
 
 theme:
   name: material
@@ -19,14 +17,14 @@ theme:
         name: Switch to light
 
 nav:
-  - Overview: docs/Pitch.md
+  - Overview: Pitch.md
   - Concepts:
-      - Ledger Overview: docs/LedgerOverview.md
-      - Ledger Accounting: docs/LedgerAccounting.md
-      - Heap Logic: docs/HeapLogic.md
-      - AMM Explanation: docs/AMMExplanation.md
-      - Liquidity Discussion: docs/LiquidityDiscussionv2.md
-      - Synthetic Liquidity: docs/SyntheticLiquidityDiscussion.md
+      - Ledger Overview: LedgerOverview.md
+      - Ledger Accounting: LedgerAccounting.md
+      - Heap Logic: HeapLogic.md
+      - AMM Explanation: AMMExplanation.md
+      - Liquidity Discussion: LiquidityDiscussionv2.md
+      - Synthetic Liquidity: SyntheticLiquidityDiscussion.md
   - Reference:
       - Contracts Index: ContractsIndex.md
       - Core Contracts:
@@ -45,11 +43,11 @@ nav:
           - LedgerLib.sol: Contracts/Libraries/LedgerLib.sol.md
           - LiquidityLib.sol: Contracts/Libraries/LiquidityLib.sol.md
           - MarketManagementLib.sol: Contracts/Libraries/MarketManagementLib.sol.md
-          - RedemptionLib.sol: Contracts/Libraries/RedemptionLib.sol.md   
+          - RedemptionLib.sol: Contracts/Libraries/RedemptionLib.sol.md
           - SolvencyLib.sol: Contracts/Libraries/SolvencyLib.sol.md
           - StorageLib.sol: Contracts/Libraries/StorageLib.sol.md
           - TokenOpsLib.sol: Contracts/Libraries/TokenOpsLib.sol.md
-          - TradingLib.sol: Contracts/Libraries/TradingLib.sol.md        
+          - TradingLib.sol: Contracts/Libraries/TradingLib.sol.md
           - Types.sol: Contracts/Libraries/Types.sol.md
           - TypesPermit.sol: Contracts/Libraries/TypesPermit.sol.md
 
@@ -71,7 +69,7 @@ markdown_extensions:
         - name: solidity
           lang: solidity
           aliases: [sol]
-          lexer: mysolidity  # your custom lexer
+          lexer: mysolidity
   - attr_list
   - toc:
       permalink: true
@@ -82,10 +80,9 @@ plugins:
   - mermaid2:
       version: "10.9.1"
 
-# NOTE: with docs_dir: '.', these asset paths should include the docs/ prefix
 extra_css:
-  - docs/stylesheets/extra.css
-  - docs/stylesheets/solidity.css
+  - stylesheets/extra.css
+  - stylesheets/solidity.css
 
 extra_javascript:
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
