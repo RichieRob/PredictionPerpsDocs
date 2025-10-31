@@ -148,8 +148,7 @@ Note that this is simply a way of conveying the internal accounting of a ledger,
 rather than an explicit split of tokens.
 
 ---
-
-### Initial State
+## Initial State
 
 The pool begins with **100 USDC**.
 
@@ -157,63 +156,73 @@ The pool begins with **100 USDC**.
 
 ---
 
-### Step 1 — User 1 Buys 20 A Shares for 5 USDC
+## Step 1 — User 1 Buys 20 **A** Shares for **5 USDC**
 
 |                | USDC | A | B | C | D |
 |----------------|------|---|---|---|---|
-| **Before**     | 100  | 0 | 0 | 0 | 0 |
-| **After**      | 85   | 0 | 20 | 20 | 20 |
+| **Before**     | 100  | 0  | 0  | 0  | 0  |
+| *Split USDC*   |      |    |    |    |    |
+| **Before 2**   | 80   | 20 | 20 | 20 | 20 |
+| **After**      | 85   | 0  | 20 | 20 | 20 |
 
 ---
 
-### Step 2 — User 2 Buys 30 B Shares for 3 USDC
+## Step 2 — User 2 Buys 30 **B** Shares for **3 USDC**
 
 |                | USDC | A | B | C | D |
 |----------------|------|---|---|---|---|
-| **Before**     | 85   | 0 | 20 | 20 | 20 |
-| **After**      | 78   | 10 | 0 | 30 | 30 |
+| **Before**     | 85   | 0  | 20 | 20 | 20 |
+| *Split USDC*   |      |    |    |    |    |
+| **Before 2**   | 75   | 10 | 30 | 30 | 30 |
+| **After**      | 78   | 10 | 0  | 30 | 30 |
 
 ---
 
-### Step 3 — User 3 Sells 20 C Shares for 6 USDC
+## Step 3 — User 3 Sells 20 **C** Shares for **6 USDC**
 
 |                | USDC | A | B | C | D |
 |----------------|------|---|---|---|---|
-| **Before**     | 78   | 10 | 0 | 30 | 30 |
-| **After**      | 72   | 10 | 0 | 50 | 30 |
+| **Before**     | 78   | 10 | 0  | 30 | 30 |
+| **After**      | 72   | 10 | 0  | 50 | 30 |
 
 ---
 
-### Step 4 — User 4 Buys 100 D Shares for 50 USDC
+## Step 4 — User 4 Buys 100 **D** Shares for **50 USDC**
 
 |                | USDC | A | B | C | D |
 |----------------|------|---|---|---|---|
-| **Before**     | 72   | 10 | 0 | 50 | 30 |
-| **After**      | 102  | 30 | 20 | 70 | 0 |
+| **Before**     | 72   | 10 | 0  | 50 | 30 |
+| *Split USDC*   |      |    |    |    |    |
+| **Before 2**   | 80   | 70 | 120 | 100 | — |
+| **After**      | 102  | 80 | 70 | 120 | 0  |
 
 ---
 
 ## Example: Lay Trades
 
-**NB:** *Laying A* is equivalent to *backing B, C, and D.*
+**Note:** *Laying A* is equivalent to *backing B, C, and D.*
 
 ---
 
-### Step 5 — User 5 Sells 20 Lay A Shares to the Pool for 12 USDC
+## Step 5 — User 5 Sells 20 **Lay A** Shares to the Pool for **12 USDC**
 
 |                | USDC | A | B | C | D |
 |----------------|------|---|---|---|---|
-| **Before**     | 102  | 30 | 20 | 70 | 0 |
-| **After**      | 110  | 10 | 20 | 70 | 0 |
+| **Before**     | 102  | 30 | 20 | 70 | 0  |
+| *After 1*      | 90   | 30 | 50 | 90 | 20 |
+| *Merge*        |      |    |    |    |    |
+| **After 2**    | 110  | 10 | 20 | 70 | 0  |
 
 ---
 
-### Step 6 — User 6 Buys 10 Lay B Shares from the Pool for 7 USDC
+## Step 6 — User 6 Buys 10 **Lay B** Shares from the Pool for **7 USDC**
 
 |                | USDC | A | B | C | D |
 |----------------|------|---|---|---|---|
-| **Before**     | 110  | 10 | 20 | 70 | 0 |
-| **After**      | 107  | 10 | 30 | 70 | 0 |
+| **Before**     | 110  | 10 | 20 | 70 | 0  |
+| *Split*        |      |    |    |    |    |
+| **Before 2**   | 100  | 20 | 30 | 80 | 10 |
+| **After**      | 107  | 10 | 30 | 70 | 0  |
 
 ---
 

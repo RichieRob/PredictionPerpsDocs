@@ -26,6 +26,7 @@ nav:
       - Heap Logic: docs/HeapLogic.md
       - AMM Explanation: docs/AMMExplanation.md
       - Liquidity Discussion: docs/LiquidityDiscussionv2.md
+      - Synthetic Liquidity: docs/SyntheticLiquidityDiscussion.md
   - Reference:
       - Contracts Index: ContractsIndex.md
       - Core Contracts:
