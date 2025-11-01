@@ -48,7 +48,7 @@ or equivalently
 
 
 The ledger uses this second identity to records all exposure in **Back** form.
-When someone a market maker deposits or withdraws **Lay A**, it updates the Back entries for every other position.
+When a market maker deposits or withdraws **Lay A**, it updates the Back entries for every other position.
 
 ---
 
