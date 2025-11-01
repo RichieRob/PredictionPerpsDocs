@@ -48,10 +48,10 @@ It gives the AMM something to quote against before any real deposits arrive, but
 ---
 
 
+## Example Trades with synthetic liquidity
 
 
-
-## Step 0 — Initial State
+### Initial State
 - **Synthetic depth (ISC)** = **10,000 USDC** (virtual)  
 - **Real USDC** = **0**
 
@@ -61,8 +61,8 @@ It gives the AMM something to quote against before any real deposits arrive, but
 
 ---
 
-## Step 1 — User 1 buys 300 **A** for **100 USDC**
-- Ledger receives **+100 USDC (real)**.
+### User buys 200 **A** for **100 USDC**
+
 
 |             | ISC (USDC) | USDC (real) | A | B | C |
 |-------------|-------------|-------------|---|---|---|
@@ -73,8 +73,8 @@ It gives the AMM something to quote against before any real deposits arrive, but
 
 ---
 
-## Step 2 — User 2 buys 200 **B** for **50 USDC**
-- Ledger receives **+50 USDC (real)** → total **150 USDC**.
+### User buys 200 **B** for **50 USDC**
+
 
 |             | ISC (USDC) | USDC (real) | A | B | C |
 |-------------|-------------|-------------|---|---|---|
@@ -83,8 +83,8 @@ It gives the AMM something to quote against before any real deposits arrive, but
 
 ---
 
-## Step 3 — User 3 sells 150 **A** for **80 USDC**
-- Ledger pays **−80 USDC (real)** → remaining **70 USDC**.
+### User sells 150 **A** for **80 USDC**
+
 
 |             | ISC (USDC) | USDC (real) | A | B | C |
 |-------------|-------------|-------------|---|---|---|
@@ -93,30 +93,30 @@ It gives the AMM something to quote against before any real deposits arrive, but
 
 ---
 
-## Step 4 — User 4 sells 20 **B** for **15 USDC**
-- Must **recapitalise ISC** up to **10,000 USDC** before merging to real USDC.
+### User sells 20 **B** for **15 USDC**
+
 
 |             | ISC (USDC) | USDC (real) | A | B | C |
 |-------------|-------------|-------------|---|---|---|
 | **Before**  | 9,800 | 70 | 150 | 0 | 200 |
 | **After 1** | 9,800 | 55 | 150 | 20 | 200 |
-| *Merge positions — fill ISC first* | | | | | |
+| **Merge — fill ISC first** | | | | | |
 | **After 2** | 9,820 | 55 | 130 | 0 | 180 |
 
 ---
 
-## Step 5 — User 5 buys 200 **Lay C** for **150 USDC**
+### User buys 200 **Lay C** for **150 USDC**
 
 |             | ISC (USDC) | USDC (real) | A | B | C |
 |-------------|-------------|-------------|---|---|---|
 | **Before 1** | 9,820 | 55 | 130 | 0 | 180 |
-| *Split ISC* | | | | | |
+| **Split ISC** | | | | | |
 | **Before 2** | 9,620 | 55 | 330 | 200 | 380 |
 | **After**   | 9,620 | 205 | 130 | 0 | 380 |
 
 ---
 
-## Step 6 — User 6 sells 100 **Lay A** for **30 USDC**
+### User sells 100 **Lay A** for **30 USDC**
 
 |             | ISC (USDC) | USDC (real) | A | B | C |
 |-------------|-------------|-------------|---|---|---|
@@ -127,7 +127,7 @@ It gives the AMM something to quote against before any real deposits arrive, but
 
 ---
 
-## Step 7 — User 7 sells 300 **Lay C** for **150 USDC**
+### User sells 300 **Lay C** for **150 USDC**
 
 |             | ISC (USDC) | USDC (real) | A | B | C |
 |-------------|-------------|-------------|---|---|---|
