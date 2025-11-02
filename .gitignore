@@ -6,3 +6,5 @@ __pycache__/
 *.pyc
 *.ipynb  # Exclude plot.ipynb to reduce push size
 repo.zip
+docs/ignore
+PredictionPerpsDocs.zip
