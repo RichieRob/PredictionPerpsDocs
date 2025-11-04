@@ -1,3 +1,5 @@
+# AllocateCapitalLib.sol – Refactored Version
+
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
@@ -9,7 +11,6 @@ library AllocateCapitalLib {
         StorageLib.Storage storage s = StorageLib.getStorage();
         require(s.freeCollateral[mmId] >= amount, "Insufficient free collateral");
         s.freeCollateral[mmId] -= amount;
-        s.AllocatedCapital[mmId][marketId] += int256(amount);
         s.USDCSpent[mmId][marketId] += int256(amount);
         s.MarketUSDCSpent[marketId] += amount;
         s.marketValue[marketId] += amount;
@@ -21,7 +22,6 @@ library AllocateCapitalLib {
         require(s.freeCollateral[mmId] + amount <= type(uint256).max, "Free collateral overflow");
         require(s.marketValue[marketId] >= amount, "Insufficient market value");
         s.freeCollateral[mmId] += amount;
-        s.AllocatedCapital[mmId][marketId] -= int256(amount);
         s.USDCSpent[mmId][marketId] -= int256(amount);
         s.MarketUSDCSpent[marketId] -= amount;
         s.marketValue[marketId] -= amount;

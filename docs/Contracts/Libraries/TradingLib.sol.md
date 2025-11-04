@@ -1,5 +1,6 @@
-```solidity
+# TradingLib.sol – Refactored Version
 
+```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -22,7 +23,7 @@ library TradingLib {
 
     function receiveLayToken(uint256 mmId, uint256 marketId, uint256 positionId, uint256 amount) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
-        s.AllocatedCapital[mmId][marketId] += int256(amount);
+        s.layOffset[mmId][marketId] += int256(amount);
         HeapLib.updateTilt(mmId, marketId, positionId, -int128(uint128(amount)));
         TokenOpsLib.burnToken(marketId, positionId, false, amount, msg.sender);
         SolvencyLib.deallocateExcess(mmId, marketId);
@@ -36,7 +37,7 @@ library TradingLib {
 
     function emitLay(uint256 mmId, uint256 marketId, uint256 positionId, uint256 amount, address to) internal {
         StorageLib.Storage storage s = StorageLib.getStorage();
-        s.AllocatedCapital[mmId][marketId] -= int256(amount);
+        s.layOffset[mmId][marketId] -= int256(amount);
         HeapLib.updateTilt(mmId, marketId, positionId, int128(uint128(amount)));
         TokenOpsLib.mintToken(marketId, positionId, false, amount, to);
         SolvencyLib.ensureSolvency(mmId, marketId);

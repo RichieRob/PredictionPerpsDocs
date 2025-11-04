@@ -1,5 +1,6 @@
-```solidity
+# StorageLib.sol – Refactored Version
 
+```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -25,8 +26,8 @@ library StorageLib {
 
         // Collateral & accounting
         mapping(uint256 => uint256) freeCollateral; // per mmId
-        mapping(uint256 => mapping(uint256 => int256)) AllocatedCapital; // mmId => marketId => int
-        mapping(uint256 => mapping(uint256 => int256)) USDCSpent;
+        mapping(uint256 => mapping(uint256 => int256)) USDCSpent;     // mmId => marketId => int256 (can be negative)
+        mapping(uint256 => mapping(uint256 => int256)) layOffset;    // mmId => marketId => int256 (net Lay flow)
         mapping(uint256 => uint256) MarketUSDCSpent;
         mapping(uint256 => uint256) Redemptions;
         mapping(uint256 => uint256) marketValue;
@@ -34,10 +35,9 @@ library StorageLib {
         uint256 totalFreeCollateral;
         uint256 totalValueLocked;
 
-        //Heap mapping
+        // Heap mapping
         mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) heapIndex;
         //                        mmId        marketId     blockId   => index+1 (0 = not present)
-
 
         // Risk / tilt
         mapping(uint256 => mapping(uint256 => mapping(uint256 => int128))) tilt; // mmId => marketId => positionId

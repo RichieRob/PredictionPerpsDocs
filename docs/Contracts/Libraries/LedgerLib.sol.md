@@ -1,9 +1,10 @@
+# LedgerLib.sol – Refactored Version
+
 ```solidity
-// SPDX-License-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
 import "./StorageLib.sol";
-import "./MarketManagementLib.sol";
 import "./HeapLib.sol";
 
 library LedgerLib {
@@ -12,13 +13,16 @@ library LedgerLib {
         view
         returns (
             uint256 freeCollateral,
-            int256 allocatedCapital,
+            int256 virtualOffset,
             int128 tilt
         )
     {
         StorageLib.Storage storage s = StorageLib.getStorage();
         freeCollateral = s.freeCollateral[mmId];
-        allocatedCapital = s.AllocatedCapital[mmId][marketId];
+        
+        // virtualOffset = USDCSpent + layOffset
+        int256 virtualOffset = s.USDCSpent[mmId][marketId] + s.layOffset[mmId][marketId];
+        
         tilt = s.tilt[mmId][marketId][positionId];
     }
 
@@ -26,4 +30,3 @@ library LedgerLib {
         return HeapLib.getMinTilt(mmId, marketId);
     }
 }
-```
