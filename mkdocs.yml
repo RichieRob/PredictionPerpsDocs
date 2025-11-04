@@ -50,6 +50,8 @@ nav:
           - TradingLib.sol: Contracts/Libraries/TradingLib.sol.md
           - Types.sol: Contracts/Libraries/Types.sol.md
           - TypesPermit.sol: Contracts/Libraries/TypesPermit.sol.md
+  - Changes:
+      - Accounting Changes: AccountingChanges.md 
 
 markdown_extensions:
   - pymdownx.superfences:
