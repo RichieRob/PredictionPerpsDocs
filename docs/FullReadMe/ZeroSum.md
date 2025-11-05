@@ -39,6 +39,20 @@ Prediction Perps removes the external dependency entirely.
 It extends the **zero-sum constraint** to an **n-dimensional system**, where all positions coexist within one shared accounting environment.  
 Here, the link between all positions is structural within the ledger — not event-based.
 
+### n-Dimensional Market Example
+
+- **Creation of n shares**
+  - Start with **1 USDC**.
+  - That 1 USDC can be **split** into *n* positions — **A, B, C … N**.
+  - At any time, a **complete basket** of positions *(A → N)* can be **redeemed** for **1 USDC**.
+
+Because of this rule, prices are always linked:
+
+> If **A = 0.3**, then the **sum of all other positions (B → N)** must equal **0.7**.
+
+This structural linkage keeps the total value constant across every position in the market —  
+no external event or oracle is required.
+
 ---
 
 ## Structural Redemptions
