@@ -40,4 +40,4 @@ and thus
 USDCSpent >= -layoffset - maxTilt
 
 ## Further Reading
-The synthetic principles are founding principles for the development of synthetic liquidity within the prediction perps ledger. For discussion about there implementation start with [**Synthetic Overview**](./SyntheticOverview.md)
+The synthetic principles are founding principles for the development of synthetic liquidity within the prediction perps ledger. For discussion about their implementation start with [**Synthetic Overview**](./SyntheticOverview.md)
