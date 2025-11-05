@@ -4,7 +4,7 @@ docs_dir: docs
 theme:
   name: material
   features:
-    - content.content.code.copy
+    - content.code.copy
     - content.code.annotate
   palette:
     - scheme: default
@@ -17,40 +17,36 @@ theme:
         name: Switch to light
 
 nav:
-  - Full ReadMe:
-    - Overview: FullReadMe/ReadMe.md
-    - 1 · Liquidity Unification: FullReadMe/01_LiquidityUnification.md
-    - 2 · Synthetic Liquidity: FullReadMe/02_SyntheticLiquidity.md
-    - 3 · LMSR O(1): FullReadMe/03_LMSR_O1.md
-    - 4 · Full System Whitepaper: FullReadMe/04_FullSystemWhitepaper.md
-  - Overview: Pitch.md
-  - Concepts:
-      - AMM Explanation: AMMExplanation.md
-      - Heap Logic: HeapLogic.md
-      - Liquidity Discussion: LiquidityDiscussionv2.md
-      - Accounting:
-          - Standard Liquidity:
-              - Ledger Accounting: Accounting/StandardLiquidity/LedgerAccounting.md
-              - Ledger Overview: Accounting/StandardLiquidity/LedgerOverview.md
-          - Synthetic Liquidity:
-              - Ledger Accounting with Synthetic Liquidity: Accounting/SyntheticLiquidity/LedgerAccountingSynthLiquidity.md
-              - Synthetic Liquidity Discussion: Accounting/SyntheticLiquidity/SyntheticLiquidityDiscussion.md
-              - Synthetic Liquidity Principles: Accounting/SyntheticLiquidity/SyntheticLiquidityPrinciples.md
-  - Changes:
-      - Accounting Changes: CompletedChanges/AccountingChanges.md
-      - Changes Plan for Synthetic Liquidity: CompletedChanges/ChangesPlanForSynthLiquidity.md
-      - Top Level Changes for Synthetic Liquidity: CompletedChanges/TopLevelChangesSynthLiquidity.md
-  - Reference:
+  - Home: FullReadMe/ReadMe.md
+  - Overview:
+      - What Is It?: FullReadMe/WhatIsIt.md
+      - Technical Overview: FullReadMe/TechnicalReadMe.md
+
+  - Accounting:
+      - Standard Liquidity:
+          - Ledger Overview: FullReadMe/Accounting/StandardLiquidity/LedgerOverview.md
+          - Unified Liquidity: FullReadMe/Accounting/StandardLiquidity/UnifiedLiquidity.md
+          - Ledger Accounting: FullReadMe/Accounting/StandardLiquidity/LedgerAccounting.md
+      - Synthetic Liquidity:
+          - Synthetic Overview: FullReadMe/Accounting/SyntheticLiquidity/SyntheticOverview.md
+          - Synthetic Principles: FullReadMe/Accounting/SyntheticLiquidity/SyntheticPrinciples.md
+          - Synthetic Accounting: FullReadMe/Accounting/SyntheticLiquidity/SyntheticAccounting.md
+      - General:
+          - Zero-Sum: FullReadMe/ZeroSum.md
+          - Solvency (Concept): FullReadMe/Solvency.md
+          - Solvency Accounting: FullReadMe/SolvencyAccounting.md
+          - Heap Logic: FullReadMe/HeapLogic.md
+  - Contracts:
       - Contracts Index: ContractsIndex.md
       - Core Contracts:
-          - AMM.sol: Contracts/AMM.sol.md
           - Ledger.sol: Contracts/Ledger.sol.md
+          - AMM.sol: Contracts/AMM.sol.md
           - PositionToken1155.sol: Contracts/PositionToken1155.sol.md
       - Interfaces:
           - IERC20Permit.sol: Contracts/IERC20Permit.sol.md
           - ILedger.sol: Contracts/ILedger.sol.md
           - IPermit2.sol: Contracts/IPermit2.sol.md
-          - IPositionToken1155.sol: Contracts/IPositionToken1155.sol.md
+          - iPositionToken1155.sol: Contracts/iPositionToken1155.sol.md
       - Libraries:
           - AllocateCapitalLib.sol: Contracts/Libraries/AllocateCapitalLib.sol.md
           - DepositWithdrawLib.sol: Contracts/Libraries/DepositWithdrawLib.sol.md
@@ -65,6 +61,7 @@ nav:
           - TradingLib.sol: Contracts/Libraries/TradingLib.sol.md
           - Types.sol: Contracts/Libraries/Types.sol.md
           - TypesPermit.sol: Contracts/Libraries/TypesPermit.sol.md
+  - Pitch: Pitch.md
 
 markdown_extensions:
   - pymdownx.superfences:
