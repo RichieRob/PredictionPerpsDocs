@@ -1,56 +1,44 @@
-# Prediction Perps — Framework Overview
+# Prediction Perps Documentation
 
-Prediction Perps is a **framework for building continuous, zero-sum markets**.  
-It defines a set of modular components for constructing systems where prices are internally related, liquidity is unified, and solvency is enforced by design.  
-
----
-
-## 1 · What Is a Prediction Perps Market?
-
-A Prediction Perps market is a n-dimensiona. **perpetual, zero-sum market** that can operate with **zero initial liquidity**.  
-At launch, the system internally generates synthetic liquidity so that prices exist and trading can begin immediately.  
-
-Each market contains multiple positions that together form a closed system.  
-Every position represents a discrete share of a fixed total (normally 1 USDC), and all positions are priced relative to one another.  
-Unlike event-based markets that close on resolution, these markets never end.  
-Prices evolve continuously as traders buy and sell positions, redistributing value within the same fixed pool of capital.
-
-This structure allows sentiment or conviction to be expressed **perpetually**, not just until an event occurs — and it allows new markets to form and function instantly, without waiting for liquidity providers.
+Welcome to the **Prediction Perps** technical documentation.  
+This site explains how the system works — from high-level concepts and economic design down to the Solidity implementation that enforces it on-chain.
 
 ---
 
-# What Is a Prediction Perps Market?
+## 📘 Overview
 
-A **Prediction Perps market** is a continuous, zero-sum system for expressing and trading conviction over time.  
-Each market contains multiple positions that together represent a fixed total value — normally 1 USDC.  
-When traders buy or sell positions, they are redistributing that fixed value between outcomes rather than creating or destroying capital.
+Prediction Perps is a **framework for perpetual, zero-sum markets**.  
+Each market represents a live leaderboard where all positions share one fixed pool of value.  
+Prices evolve continuously as traders buy and sell, redistributing conviction between positions rather than resolving to an event outcome.
 
-Unlike event-based prediction markets that close on resolution, Prediction Perps markets never end.  
-Prices evolve continuously as sentiment changes, and all positions remain live indefinitely.  
-This allows markets to reflect **ongoing belief or performance**, rather than binary outcomes.
-
-A unique feature of Prediction Perps is that markets can **begin operating with zero initial liquidity**.  
-At launch, the system provides **synthetic liquidity** — an internal pool that behaves like real USDC, ensuring that prices exist and trades can clear immediately.  
-As genuine capital enters the system, this synthetic component is automatically replaced, keeping the market solvent at all times.
+To start with the core idea, see:  
+👉 [**What Is It?**](WhatIsIt.md)
 
 ---
 
-# Prediction Perps — Framework Overview
+## 🧩 Technical Architecture
 
-Prediction Perps is a **framework for building continuous, zero-sum markets**.  
-It defines a set of modular components that make this behaviour possible:  
-markets that are always priced, internally solvent, and able to start trading with zero initial capital.
+The framework is built around modular, on-chain components that maintain continuous pricing, unified liquidity, and ledger-level solvency.
 
-The framework combines:
-- **Unified liquidity** — all positions share one pool of capital.  
-- **Ledger-enforced solvency** — balances and redemptions are controlled by a central accounting layer.  
-- **O(1) LMSR pricing** — prices update instantly, regardless of market size.  
-- **Synthetic liquidity (ISC)** — internal credit that safely bootstraps new markets.
+To Understand the techinal aspects seeL
+👉 [**Technical Overview**](TechnicalReadMe.md)
+---
 
-Together, these mechanisms allow for perpetual, capital-efficient markets that remain balanced and liquid from inception.
+## ⚙️ Smart Contracts
 
---
+Full explanations of contract functionality WIP. However you can browse the contracts here:
 
+| Contract | Purpose |
+|-----------|----------|
+| [**Ledger.sol**](../Contracts/Ledger.sol.md) | Core accounting, collateral, and solvency enforcement. |
+| [**AMM.sol**](../Contracts/AMM.sol.md) | Pricing logic and trade validation using O(1) LMSR. |
+| [**PositionToken1155.sol**](../Contracts/PositionToken1155.sol.md) | ERC-1155 Back/Lay token implementation and ticker mapping. |
+| [**Libraries**](../Contracts/Libraries/) | Modular Solidity libraries for ledger, liquidity, and trading logic. |
 
+For a complete list, see the [**Contracts Index**](../ContractsIndex.md).
 
-*(Then continue with System Architecture / Core Components as before.)*
+---
+
+**Prediction Perps**  
+A perpetual, unified-liquidity market system — designed for scale, safety, and continuous belief expression.
+
