@@ -90,9 +90,10 @@ Together, these contracts ensure every trade is priced, executed, and recorded s
 
 ## 5 · Further Reading
 
-- [**Ledger Accounting**](../LedgerAccounting.md) — internal balance flow and solvency rules.  
-- [**Synthetic Liquidity**](../SyntheticLiquidity.md) — how ISC works and how synthetic collateral transitions to real USDC.  
-- [**Heap Logic**](../HeapLogic.md) — O(1) tilt tracking and solvency enforcement.  
-- [**Contracts Index**](../contracts/) — all Solidity contract documentation.  
+- [**ZeroSum**](ZeroSum.md)
+- [**Solvency**](Solvency.md)
+- [**AMM**](AMM.md)
+- [**Unified Liquidity**](./Accounting/StandardLiquidity/UnifiedLiquidity.md)
+- [**Synthetic Liquidity**](./Accounting/SyntheticLiquidity/SyntheticOverview.md)
 
 ---
