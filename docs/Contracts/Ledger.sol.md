@@ -64,8 +64,8 @@ contract MarketMakerLedger {
     }
 
     // --- market / position management  ---
-    function createMarket(string memory name, string memory ticker) external onlyOwner returns (uint256 marketId) {
-        marketId = MarketManagementLib.createMarket(name, ticker);
+    function createMarket(string memory name, string memory ticker, uint256 dmmId, uint256 iscAmount) external onlyOwner returns (uint256 marketId) {
+        marketId = MarketManagementLib.createMarket(name, ticker, dmmId, iscAmount);
     }
 
     function createPosition(uint256 marketId, string memory name, string memory ticker) external onlyOwner returns (uint256 positionId) {
@@ -148,6 +148,10 @@ contract MarketMakerLedger {
 
     function getMinTilt(uint256 mmId, uint256 marketId) external view returns (int128 minTilt, uint256 minPositionId) {
         return LedgerLib.getMinTilt(mmId, marketId);
+    }
+
+    function getMaxTilt(uint256 mmId, uint256 marketId) external view returns (int128 maxTilt, uint256 maxPositionId) {
+        return LedgerLib.getMaxTilt(mmId, marketId);
     }
 
     function getMarketValue(uint256 marketId) external view returns (uint256) {

@@ -1,4 +1,4 @@
-THis refactor is implemented
+THis refactor is implemented - all changes done
 
 
 # Refactor: Clean Ledger Accounting

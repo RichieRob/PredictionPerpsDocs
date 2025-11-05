@@ -1,4 +1,4 @@
-# StorageLib.sol – Refactored Version
+# StorageLib.sol – Refactored Version with synth liquidity
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -26,8 +26,8 @@ library StorageLib {
 
         // Collateral & accounting
         mapping(uint256 => uint256) freeCollateral; // per mmId
-        mapping(uint256 => mapping(uint256 => int256)) USDCSpent;     // mmId => marketId => int256 (can be negative)
-        mapping(uint256 => mapping(uint256 => int256)) layOffset;    // mmId => marketId => int256 (net Lay flow)
+        mapping(uint256 => mapping(uint256 => int256)) USDCSpent; // mmId => marketId => int256 (can be negative)
+        mapping(uint256 => mapping(uint256 => int256)) layOffset; // mmId => marketId => int256 (net Lay flow)
         mapping(uint256 => uint256) MarketUSDCSpent;
         mapping(uint256 => uint256) Redemptions;
         mapping(uint256 => uint256) marketValue;
@@ -35,14 +35,13 @@ library StorageLib {
         uint256 totalFreeCollateral;
         uint256 totalValueLocked;
 
-        // Heap mapping
-        mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) heapIndex;
-        //                        mmId        marketId     blockId   => index+1 (0 = not present)
+        // Heap mapping (min-heap)
+        mapping(uint256 => mapping(uint256 => mapping(uint256 => uint256))) heapIndex; // mmId => marketId => blockId => index+1 (0 = not present)
 
         // Risk / tilt
         mapping(uint256 => mapping(uint256 => mapping(uint256 => int128))) tilt; // mmId => marketId => positionId
-        mapping(uint256 => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockData;
-        mapping(uint256 => mapping(uint256 => uint256[])) topHeap;
+        mapping(uint256 => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockData; // mmId => marketId => blockId => {minId, minVal}
+        mapping(uint256 => mapping(uint256 => uint256[])) topHeap; // mmId => marketId => heap array
 
         // Markets
         address positionToken1155;
@@ -53,6 +52,15 @@ library StorageLib {
 
         // Permits
         address permit2; // optional, set if using Permit2
+
+        // NEW: Synthetic Liquidity (ISC)
+        mapping(uint256 => uint256) marketToDMM; // marketId => mmId (immutable)
+        mapping(uint256 => uint256) syntheticCollateral; // marketId => ISC amount (immutable)
+
+        // NEW: Max-heap structures (symmetric to min-heap)
+        mapping(uint256 => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockDataMax; // mmId => marketId => blockId => {maxId, maxVal}
+        mapping(uint256 => mapping(uint256 => uint256[])) topHeapMax; // mmId => marketId => heap array
+        mapping(uint256 => mapping(uint256 => uint256)) heapIndexMax; // mmId => marketId => blockId => index+1 (0 = not present)
     }
 
     function getStorage() internal pure returns (Storage storage s) {
