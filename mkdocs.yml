@@ -37,6 +37,7 @@ nav:
           - Solvency (Concept): FullReadMe/Solvency.md
           - Solvency Accounting: FullReadMe/SolvencyAccounting.md
           - Heap Logic: FullReadMe/HeapLogic.md
+  - Pricing: FullReadMe/AMM.md
   - Contracts:
       - Contracts Index: ContractsIndex.md
       - Core Contracts:
