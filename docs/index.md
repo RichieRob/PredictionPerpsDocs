@@ -12,7 +12,6 @@ Prediction Perps turn ideas, stories, people, and memes into massive multi-posit
 👉 [**What Is It?**](./FullReadMe/WhatIsIt.md)
 
 
-
 ## 🧩 Technical Architecture
 
 👉 [**Technical Overview**](./FullReadMe/TechnicalReadMe.md)
