@@ -4,7 +4,7 @@ docs_dir: docs
 theme:
   name: material
   features:
-    - content.code.copy
+    - content.content.code.copy
     - content.code.annotate
   palette:
     - scheme: default
@@ -19,12 +19,21 @@ theme:
 nav:
   - Overview: Pitch.md
   - Concepts:
-      - Ledger Overview: LedgerOverview.md
-      - Ledger Accounting: LedgerAccounting.md
-      - Heap Logic: HeapLogic.md
       - AMM Explanation: AMMExplanation.md
+      - Heap Logic: HeapLogic.md
       - Liquidity Discussion: LiquidityDiscussionv2.md
-      - Synthetic Liquidity: SyntheticLiquidityDiscussion.md
+      - Accounting:
+          - Standard Liquidity:
+              - Ledger Accounting: Accounting/StandardLiquidity/LedgerAccounting.md
+              - Ledger Overview: Accounting/StandardLiquidity/LedgerOverview.md
+          - Synthetic Liquidity:
+              - Ledger Accounting with Synthetic Liquidity: Accounting/SyntheticLiquidity/LedgerAccountingSynthLiquidity.md
+              - Synthetic Liquidity Discussion: Accounting/SyntheticLiquidity/SyntheticLiquidityDiscussion.md
+              - Synthetic Liquidity Principles: Accounting/SyntheticLiquidity/SyntheticLiquidityPrinciples.md
+  - Changes:
+      - Accounting Changes: CompletedChanges/AccountingChanges.md
+      - Changes Plan for Synthetic Liquidity: CompletedChanges/ChangesPlanForSynthLiquidity.md
+      - Top Level Changes for Synthetic Liquidity: CompletedChanges/TopLevelChangesSynthLiquidity.md
   - Reference:
       - Contracts Index: ContractsIndex.md
       - Core Contracts:
@@ -32,10 +41,10 @@ nav:
           - Ledger.sol: Contracts/Ledger.sol.md
           - PositionToken1155.sol: Contracts/PositionToken1155.sol.md
       - Interfaces:
-          - ILedger.sol: Contracts/ILedger.sol.md
           - IERC20Permit.sol: Contracts/IERC20Permit.sol.md
+          - ILedger.sol: Contracts/ILedger.sol.md
           - IPermit2.sol: Contracts/IPermit2.sol.md
-          - iPositionToken1155.sol: Contracts/iPositionToken1155.sol.md
+          - IPositionToken1155.sol: Contracts/IPositionToken1155.sol.md
       - Libraries:
           - AllocateCapitalLib.sol: Contracts/Libraries/AllocateCapitalLib.sol.md
           - DepositWithdrawLib.sol: Contracts/Libraries/DepositWithdrawLib.sol.md
@@ -50,8 +59,6 @@ nav:
           - TradingLib.sol: Contracts/Libraries/TradingLib.sol.md
           - Types.sol: Contracts/Libraries/Types.sol.md
           - TypesPermit.sol: Contracts/Libraries/TypesPermit.sol.md
-  - Changes:
-      - Accounting Changes: AccountingChanges.md 
 
 markdown_extensions:
   - pymdownx.superfences:
