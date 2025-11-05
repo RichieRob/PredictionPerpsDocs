@@ -41,9 +41,9 @@ Prediction Perps is built around three primary smart contracts.
 
 | Contract | Core Role |
 |-----------|-----------|
-| [**Ledger.sol**](../contracts/Ledger.sol.md) | • Central accounting and solvency enforcement.<br>• Tracks all balances and verifies zero-sum invariants.<br>• Safely moves both real and synthetic capital (ISC).<br>• Executes trades **only** when instructed by a market maker. |
-| [**AMM.sol**](../contracts/AMM.sol.md) | • Calculates prices and validates trades using the optimized **O(1) LMSR** algorithm.<br>• Determines whether each trade can execute and at what price.<br>• Holds no balances; delegates all settlement to the Ledger. |
-| [**PositionToken1155.sol**](../contracts/PositionToken1155.sol.md) | • Represents all Back/Lay positions as ERC-1155 tokens.<br>• Each token ID encodes `(marketId, positionId, side)` and auto-generates a human-readable ticker.<br>• Only the Ledger can mint or burn. <br>• Users may freely transfer tokens. |
+| [**Ledger.sol**](../Contracts/Ledger.sol.md) | • Central accounting and solvency enforcement.<br>• Tracks all balances and verifies zero-sum invariants.<br>• Safely moves both real and synthetic capital (ISC).<br>• Executes trades **only** when instructed by a market maker. |
+| [**AMM.sol**](../Contracts/AMM.sol.md) | • Calculates prices and validates trades using the optimized **O(1) LMSR** algorithm.<br>• Determines whether each trade can execute and at what price.<br>• Holds no balances; delegates all settlement to the Ledger. |
+| [**PositionToken1155.sol**](../Contracts/PositionToken1155.sol.md) | • Represents all Back/Lay positions as ERC-1155 tokens.<br>• Each token ID encodes `(marketId, positionId, side)` and auto-generates a human-readable ticker.<br>• Only the Ledger can mint or burn. <br>• Users may freely transfer tokens. |
 
 ---
 

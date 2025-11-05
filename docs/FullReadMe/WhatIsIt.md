@@ -82,5 +82,10 @@ the total market value always equals 1 USDC, and every movement in one position 
 - ⚖️ **Zero-sum** — total value across all positions remains constant at 1 USDC.  
 - 💧 **Unified liquidity** — all positions draw from one shared pool of capital.  
 - ⚡ **Instant start** — synthetic liquidity allows trading from launch.  
-- 🧩 **Composable** — modular structure for integration into other zero-sum frameworks.
+
+## Further Reading
+
+👉 [**Technical Overview**](TechnicalReadMe.md)
+
+👉 [**Smart Contracts Index**](../ContractsIndex.md).
 
