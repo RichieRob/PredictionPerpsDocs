@@ -575,3 +575,7 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 - **Lay k:** adjusts `layOffset` and `tilt[k]`.  
 - **USDC:** affects only `freeCollateral`.  
 - Reallocation always minimally restores `minShares = 0` without overcorrecting.
+
+## Further Reading
+For the extension of how Ledger Accounting works with the introduction of Synthetic Liquidity see
+[**Synthetic Overview**](./SyntheticOvierview.md) and [**Synthetic Accounting**](./SyntheticAccounting.md)

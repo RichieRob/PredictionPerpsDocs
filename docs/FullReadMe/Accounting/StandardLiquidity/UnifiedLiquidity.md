@@ -234,5 +234,8 @@ The pool begins with **100 USDC**.
 
 ---
 
-These examples illustrate how the ledger internally accounts for collateral and shares during trading,  
-without any real “splitting” of the underlying pool.
+These examples illustrate how the ledger internally accounts for collateral and shares during trading, without any real “splitting” of the underlying pool.
+
+
+## Further Reading
+For a deeper look at implementation see [**Ledger Overview**](./LedgerOverview.md)

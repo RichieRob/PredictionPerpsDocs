@@ -543,3 +543,9 @@ $$
 - **Hanson, R. (2003)** — *Combinatorial Information Market Design*, George Mason University.  
 - **Hanson, R. (2007)** — *Logarithmic Market Scoring Rules for Modular Combinatorial Information Aggregation*, *Journal of Prediction Markets*, 1(1).  
 - **Abernethy, J., Chen, Y., Wortman Vaughan, J. (2011)** — *Efficient Market Making via Convex Optimization*, EC’11.
+
+## Further Reading
+
+For the full implementation of the code of the LSMR AMM in Prediction Perps see [**LMSRAMM.sol**](../Contracts/AMM.sol.md) 
+
+For discussion on the internal ledger accounting which supports the implentation of the AMM start with [**Ledger Overview**](./Accounting/StandardLiquidity/LedgerOverview.md) 

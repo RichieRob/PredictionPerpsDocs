@@ -2,8 +2,10 @@
 
 ## Rules
 
+DMM is the Designated Market Maker
+
 ### Principle 1
-ISC is used as collateral in the ledger
+ISC is used as collateral in the ledger for the DMM
 
 The synthetic liquidity (ISC) is added to freeCollateral in availableShares and solvency checks — it acts like real USDC for trading.
 
@@ -19,16 +21,23 @@ Designated market maker doesnt change
 ### Principle 5
 Profit only when ISC is refilled
 
-You can only withdraw profit (take USDCSpent negative) after the synthetic liquidity has been fully replaced by real user inflows.
+DMM can only withdraw profit after the ISC has been fully restored.
 
 ### Principle 6
 Redeemable sets backed by real USDC
 
 Every complete set of position tokens in circulation must be backed by real USDC, not synthetic liquidity.
 
-### Formula
-Redeemable shares is = -layoffset - maxTilt (can be negative)
+#### Formula for Principle 6
+Redeemable shares issued by DMM is = -layoffset - maxTilt (can be negative)
 
-so USDCSpent >= Redeemable shares
+so for DMM
+
+ USDCSpent >= Redeemable shares
+
+and thus 
 
 USDCSpent >= -layoffset - maxTilt
+
+## Further Reading
+The synthetic principles are founding principles for the development of synthetic liquidity within the prediction perps ledger. For discussion about there implementation start with [**Synthetic Overview**](./SyntheticOverview.md)

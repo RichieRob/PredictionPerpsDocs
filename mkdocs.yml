@@ -17,6 +17,12 @@ theme:
         name: Switch to light
 
 nav:
+  - Full ReadMe:
+    - Overview: FullReadMe/ReadMe.md
+    - 1 · Liquidity Unification: FullReadMe/01_LiquidityUnification.md
+    - 2 · Synthetic Liquidity: FullReadMe/02_SyntheticLiquidity.md
+    - 3 · LMSR O(1): FullReadMe/03_LMSR_O1.md
+    - 4 · Full System Whitepaper: FullReadMe/04_FullSystemWhitepaper.md
   - Overview: Pitch.md
   - Concepts:
       - AMM Explanation: AMMExplanation.md

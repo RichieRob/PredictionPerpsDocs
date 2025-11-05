@@ -178,3 +178,6 @@ In the **on-chain implementation**, several optimizations are applied for effici
 
 ### Market Maker Constraints
 The ledger ensures that a market maker never issues more tokens than its available potential. To enforce this, it continuously tracks the **minimum balance value** within the array, along with the **position** where that minimum occurs. Efficiently maintaining this information across large arrays is non-trivial and is described in detail in the [HeapLogic](HeapLogic.md) document.
+
+## Further Reading
+For a deeper look at the full implementation of these principals see [**Ledger Accounting**](./LedgerAccounting.md)

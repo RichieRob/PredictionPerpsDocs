@@ -1,10 +1,10 @@
-# Ledger Accounting
+# Synthetic Liquidity Accounting
 
-This document details the internal accounting of the ledger,
+This document details the internal accounting of the ledger, including the addition of the synthetic Liquidity,
 specifically how `freeCollateral`, `USDCSpent`, `layOffset`, and `tilt` are updated
 to manage Back and Lay token operations,
 as implemented in the provided Solidity contracts.
-It assumes familiarity with the [LedgerOverview](LedgerOverview.md)
+It assumes familiarity with the [**LedgerOverview**](LedgerOverview.md)
 and focuses solely on the accounting mechanics for these operations.
 
 ## Innovation
@@ -39,6 +39,11 @@ for each market (`marketId`) and position (`positionId`):
   adjusts the available shares for a specific position.
   Positive `tilt` increases available shares;
   negative `tilt` decreases them.
+
+- **ISC**: `mapping(uint256 => uint256) syntheticCollateral`
+  represents synthetic initial seed capital (ISC) for designated market makers (DMMs).
+  ISC is virtually added to freeCollateral in views and solvency checks,
+  acting like real USDC for trading depth but not redeemable until replaced by real inflows.
 
 For DMMs, **ISC** (syntheticCollateral[marketId]) is virtually added to freeCollateral in views and solvency, acting like real USDC for trading depth.
 
@@ -182,11 +187,17 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 
 ---
 
+// ADD ISC TO THESE TABLES FOR ALL EXAMPLES!
+
+
 ### Initial State
+
+// ADD ISC TO THese TABLE
 
 | Variable | Value |
 |-----------|------:|
 | freeCollateral | 0 |
+| ISC | 100 |
 | USDCSpent | 0 |
 | layOffset | 0 |
 | tilt[A] | 0 |
@@ -226,6 +237,7 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 0 | 0 | 0 | 0 |
+| ISC | 100 | 0 | 0 | 100 |
 | USDCSpent | 0 | 0 | 0 | 0 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | 0 | −10 | 0 | −10 |
@@ -265,6 +277,7 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 0 | +20 | 0 | 20 |
+| ISC | 100 | 0 | 0 | 100 |
 | USDCSpent | 0 | 0 | 0 | 0 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | −10 | 0 | 0 | −10 |
@@ -304,6 +317,7 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 20 | 0 | −20 | 0 |
+| ISC | 100 | 0 | 0 | 100 |
 | USDCSpent | 0 | 0 | +20 | 20 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | −10 | −110 | 0 | −120 |
@@ -343,6 +357,7 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 0 | 0 | +20 | 20 |
+| ISC | 100 | 0 | 0 | 100 |
 | USDCSpent | 20 | 0 | −20 | 0 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | −120 | +50 | 0 | −70 |
@@ -383,6 +398,7 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 20 | 0 | 0 | 20 |
+| ISC | 100 | 0 | 0 | 100 |
 | USDCSpent | 0 | 0 | 0 | 0 |
 | layOffset | 0 | −30 | 0 | −30 |
 | tilt[A] | −70 | 0 | 0 | −70 |
@@ -423,6 +439,7 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 20 | 0 | 0 | 20 |
+| ISC | 100 | 0 | 0 | 100 |
 | USDCSpent | 0 | 0 | 0 | 0 |
 | layOffset | −30 | +10 | 0 | −20 |
 | tilt[A] | −70 | 0 | 0 | −70 |
@@ -449,3 +466,6 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 - **Lay k:** adjusts `layOffset` and `tilt[k]`.  
 - **USDC:** affects only `freeCollateral`.  
 - Reallocation restores effective_minShares = 0 minimally; redeemable enforced independently.
+
+## Further Reading
+To see the implementation of these accounting principles in code see [**Ledger.sol**](../../../Contracts/Ledger.sol.md/SyntheticAccounting.md) and accompanying libraries.
