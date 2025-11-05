@@ -468,4 +468,4 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 - Reallocation restores effective_minShares = 0 minimally; redeemable enforced independently.
 
 ## Further Reading
-To see the implementation of these accounting principles in code see [**Ledger.sol**](../../../Contracts/Ledger.sol.md/SyntheticAccounting.md) and accompanying libraries.
+To see the implementation of these accounting principles in code see [**Ledger.sol**](../../../Contracts/Ledger.sol.md) and accompanying libraries.
