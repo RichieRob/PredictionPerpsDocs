@@ -1,72 +1,106 @@
 # Zero-Sum
 
-Prediction Perps markets are **zero-sum by design** — the total value across all positions in a market is constant and cannot be created or destroyed.  
-This relationship is maintained mathematically through **redemption rules**, which define how tokens can be combined or split back into a fixed total (usually **1 USDC**).
+Prediction Perps markets are **zero-sum by design** — the total value across all [**Positions**](../Glossary.md#position) in a [**Market**](../Glossary.md#market) is fixed and can never be created or destroyed.  
+This balance is maintained through **structural redemption rules** that ensure all Positions share a common pool of collateral (typically **1 USDC**).
 
 ---
 
 ## Binary Example — The Intuitive Case
 
-In a simple **binary market** (like Polymarket):
+Let’s start with a simple **binary market** — “YES” vs “NO”:
 
-- Creation of binary shares
-- Start with **1 USDC**.  
+- Begin with **1 USDC**.  
 - That 1 USDC can be **split** into one **YES** and one **NO** token.  
-- At any time, one **YES** + one **NO** can be **redeemed** back for 1 USDC.  
+- At any time, **YES + NO → 1 USDC** through redemption.
 
-Because of this rule, the prices are always linked:  
-if **YES = 0.6**, then **NO = 0.4**, and their combined value remains 1 USDC.
+Because this rule always holds, the prices stay linked:  
+if **YES = 0.6**, then **NO = 0.4**, and together they total **1 USDC**.
 
-> The zero-sum rule means: the total value of all positions is fixed; when one increases, the others decrease proportionally.
+> The zero-sum rule means: when one side gains, the other loses — but the total value never changes.
 
 ---
 
 ## Beyond Binary — The n-Dimensional Case
 
-Polymarket multi-position markets (for example, *Winner of the Premier League*) are currently built as **arrays of binary markets** that share a common resolution event:
+Traditional prediction platforms (like Polymarket) create multi-outcome events as **arrays of binary markets** sharing the same resolution:
 
-| Market | YES / NO Pair |
-|---------|---------------|
+| Outcome | Binary Pair |
+|----------|-------------|
 | Liverpool | YES / NO |
 | Everton | YES / NO |
 | Manchester United | YES / NO |
 
-Each binary pair resolves from the same outcome, with only one “YES” winning at settlement.  
-It is this resolution event which creates implicit linking between the array of binary markets.
-However, for perpetual markets without a resolution event, these binary markets would float independently and there would be no linkage between prices.
+At settlement, only one “YES” wins while all others go to zero.  
+The linkage between prices comes from that **shared external resolution event**.  
 
-Prediction Perps removes the external dependency entirely.  
-It extends the **zero-sum constraint** to an **n-dimensional system**, where all positions coexist within one shared accounting environment.  
-Here, the link between all positions is structural within the ledger — not event-based.
-
-### n-Dimensional Market Example
-
-- **Creation of n shares**
-  - Start with **1 USDC**.
-  - That 1 USDC can be **split** into *n* positions — **A, B, C … N**.
-  - At any time, a **complete basket** of positions *(A → N)* can be **redeemed** for **1 USDC**.
-
-Because of this rule, prices are always linked:
-
-> If **A = 0.3**, then the **sum of all other positions (B → N)** must equal **0.7**.
-
-This structural linkage keeps the total value constant across every position in the market —  
-no external event or oracle is required.
+But in a **perpetual, non-resolving** market, there’s no such event — so the binary pairs would drift independently unless something else enforces balance.
 
 ---
 
-## Structural Redemptions
+## Structural Zero-Sum — The Prediction Perps Model
 
-Within each Prediction Perps market:
+Prediction Perps removes the dependency on resolution events entirely.  
+Instead of external settlement, it maintains a **internal linkage** between all [**Positions**](../Glossary.md#position) in a [**Market**](../Glossary.md#market).
 
-- A **Back** and **Lay** for the same position always redeem to **1 USDC**.  
-- A **full basket of Back tokens** (one per position) also redeems to **1 USDC**.  
-- A **full basket of Lay tokens** (one per position) redeems to **(n − 1) USDC**.
+- The Market enforces the invariant:  
+  > **Σ (Positions) = 1 USDC**
 
-These redemption identities define the internal zero-sum structure.  
-They ensure that the prices in the market stay intrinsically linked.
+This invariant keeps the total value of the Market constant at all times — value can only move *between* Positions not out of the Market.
+
+---
+
+## Enforcement of Structural Zero-Sum
+
+The enforcement of the structural Zero-Sum mechanism is through **[Issuance](../Glossary.md#issuance)** and  **[Redemption](../Glossary.md#redemption)**
+
+### Issuance
+
+Starting with **1 USDC** can **[Issue](../Glossary.md#issuance)**  a **[Full Basket](../Glossary.md#full-basket)** of shares in a [**Market**](../Glossary.md#market) :
+
+> 1 USDC → { Backₐ, Back_b, … Backₙ } = Full Basket
+or
+> 1 USDC → { Backₐ, Lay_a } = Full Basket
+etc
+
+Each Full Basket represents **unity exposure** — +1 to every [**Position**](../Glossary.md#position) in the [**Market**](../Glossary.md#market).  
+
+---
+
+### Redemption
+
+Similary at any time, that Full Basket can be **[Redeemed](../Glossary.md#operations)** back into **1 USDC**:
+
+> { Backₐ, Back_b, … Backₙ } → 1 USDC
+or
+> { Backₐ, Lay_a } → 1 USDC
+etc
+
+Issuance and Redemption are exact opposites.
+
+---
+
+### Structural Redemption Rules
+
+So for each market.
+
+- A **Back** and **Lay** token for the same [**Position**](../Glossary.md#position) always **redeem → 1 USDC**.  
+- A Full set of back tokens **redeems → 1 USDC**.  
+- A Full set of lay tokens **redeems → (n − 1) USDC**.
+
+---
+
+## Summary
+
+| Concept | Description |
+|----------|-------------|
+| **Binary zero-sum** | YES + NO = 1 USDC |
+| **n-Dimensional zero-sum** | Σ (n Positions) = 1 |
+| **Collateral invariance** | Value moves between Positions |
+| **Redemption identity** | Full Basket = 1 USDC |
+
 ---
 
 ## Further Reading
 
-For a deeper look at how these redemption and balance relationships are implemented within the ledger, start with [**Ledger Overview**](./Accounting/StandardLiquidity/LedgerOverview.md).
+- For all defined terms see [**Glossary**](../Glossary.md).  
+- For accounting and solvency details see [**Ledger Overview**](Accounting/StandardLiquidity/LedgerOverview.md).  
