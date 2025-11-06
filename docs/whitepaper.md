@@ -65,7 +65,6 @@ Solvency checks and a heap-based priority structure ensure efficient processing 
 ## 4) Trading Flows (No Oracles, No Funding, No Settlement)
 
 1. **Market instantiation** 
-//this needs some addtional documentation 
    - Define the set of positions (competitors on the leaderboard).  
    - **Synthetic Liquidity** makes the market tradable immediately.  
    - Links: [Synthetic Liquidity](FullReadMe/Accounting/SyntheticLiquidity/SyntheticOverview.md)

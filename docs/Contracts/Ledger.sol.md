@@ -64,7 +64,7 @@ contract MarketMakerLedger {
     }
 
     // --- market / position management  ---
-    function createMarket(string memory name, string memory ticker, uint256 dmmId, uint256 iscAmount, bool isExpanding) external onlyOwner returns (uint256 marketId) {
+    function createMarket(string memory name, string memory ticker, uint256 dmmId, uint256 iscAmount) external onlyOwner returns (uint256 marketId) {
         marketId = MarketManagementLib.createMarket(name, ticker, dmmId, iscAmount);
     }
 
