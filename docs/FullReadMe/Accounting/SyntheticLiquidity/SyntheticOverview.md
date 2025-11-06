@@ -37,11 +37,29 @@ When a new market is created, the **official market maker** is assigned a fixed 
 | **Pricing-only effect** | It determines how smooth or deep prices feel when trading begins. |
 
 ---
-## Guiding Principals
+## Guiding Principles
 
-Synthetic Liquidity is implemented according to the [*Synthetic Principles*](./SyntheticPrinciples.md)
+### Why Synthetic Liquidity Cannot Be Used in Resolving Markets
+In a standard (Resolving) Market, outstanding claims must be paid out to a single winning outcome in **real collateral**.  **ISC (Internal Synthetic Collateral)** is not real funds; it is only a virtual depth parameter for pricing. If ISC were present at resolution, part of the apparent liquidity would lack USDC to settle, creating a shortfall - undercollateralisation.
 
-We might distill them and put them into this document
+---
+
+### Why It Works for Non-Resolving Markets
+Because Prediction Perps [**Markets**](../Glossary.md#market) are **non-resolving** the markets never pay out an external settlement. ISC can be used to shape the **price response** (depth); all trades still move **real USDC** between users, but because there is no terminal payout, ISC never needs to “fund” a resolution—it merely affects prices.
+
+---
+
+### Important Restriction - The Redemption Constraint
+
+However, as with any prediction market, with Prediction Perps we are able to [**Redeem**](../Glossary.md#redemption) [**Full Baskets**](../Glossary.md#full-basket) of tokens like {Back_A, Lay_A} for 1 USDC. 
+
+This means the protocol enforces a strict lower-bound invariant on how much real USDC the Designated Market Maker must hold in the market, in order to cover all possible [**Redemptions**](../Glossary.md#redemption). 
+
+> **At all times, the protocol must hold at least enough real collateral to redeem every outstanding [**Full Basket**](../Glossary.md#full-basket) at the fixed unit value.**  
+
+> Formally, `RealCollateral >= (OutstandingFullBaskets * UnitRedeemable)`, with `UnitRedeemable = 1 USDC`.  
+
+With this guardrail  **ISC is safe in non-resolving [**Markets**](../Glossary.md#market) because [**Redemption**](../Glossary.md#redemption) is defined on [**Full Baskets**](../Glossary.md#full-basket) and the system always holds at least the real collateral required to redeem them.**
 
 ---
 
