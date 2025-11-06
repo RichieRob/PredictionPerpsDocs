@@ -35,13 +35,15 @@ library MarketManagementLib {
         uint256 layTokenId = StorageLib.encodeTokenId(uint64(marketId), uint64(positionId), false);
         IPositionToken1155(s.positionToken1155).setPositionMetadata(
             backTokenId,
-            string.concat("Back ", name),
-            string.concat("B", ticker)
+            name,
+            ticker,
+            true
         );
         IPositionToken1155(s.positionToken1155).setPositionMetadata(
             layTokenId,
-            string.concat("Lay ", name),
-            string.concat("L", ticker)
+            name,
+            ticker,
+            false
         );
         emit PositionCreated(marketId, positionId, name, ticker);
     }

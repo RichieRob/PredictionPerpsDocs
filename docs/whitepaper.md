@@ -64,10 +64,12 @@ Solvency checks and a heap-based priority structure ensure efficient processing 
 
 ## 4) Trading Flows (No Oracles, No Funding, No Settlement)
 
+//NB with Market instantiation we need to think about the DMM, LMSR and the initial weightings that are put on things...
+
 1. **Market instantiation** 
    - Define the set of positions (competitors on the leaderboard).  
    - **Synthetic Liquidity** makes the market tradable immediately.  
-   - Links: [Synthetic Liquidity](FullReadMe/Accounting/SyntheticLiquidity/SyntheticOverview.md)
+   - Links: [MarketIntialisation](./MarketIntialisation.md) · [Synthetic Liquidity](FullReadMe/Accounting/SyntheticLiquidity/SyntheticOverview.md)
 
 2. **Trade (BACK or LAY) against LMSR**  
    - **BACK i** increases position *i*’s share; **LAY i** increases the complement’s share.  

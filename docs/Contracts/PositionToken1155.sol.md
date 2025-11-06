@@ -15,6 +15,7 @@ contract PositionToken1155 is ERC1155 {
     mapping(uint256 => string) public marketTickers;
     mapping(uint256 => string) public positionNames;
     mapping(uint256 => string) public positionTickers;
+    mapping(uint256 => bool) public isBack;
 
     constructor(address _ledger) ERC1155("") {
         ledger = _ledger;
@@ -53,10 +54,11 @@ contract PositionToken1155 is ERC1155 {
         marketTickers[marketId] = ticker;
     }
 
-    function setPositionMetadata(uint256 tokenId, string calldata name, string calldata ticker) external {
+    function setPositionMetadata(uint256 tokenId, string calldata name, string calldata ticker, bool _isBack) external {
         require(msg.sender == ledger, "Only ledger");
         positionNames[tokenId] = name;
         positionTickers[tokenId] = ticker;
+        isBack[tokenId] = _isBack;
     }
 
     function getMarketName(uint256 marketId) external view returns (string memory) {
@@ -74,19 +76,37 @@ contract PositionToken1155 is ERC1155 {
 
     function uri(uint256 tokenId) public view override returns (string memory) {
         Types.TokenData memory data = StorageLib.decodeTokenId(tokenId);
+        string memory marketName = marketNames[data.marketId];
+        string memory marketTicker = marketTickers[data.marketId];
         string memory positionName = positionNames[tokenId];
-        string memory name = bytes(positionName).length > 0
-            ? positionName
-            : string.concat(data.isBack ? "Back " : "Lay ", "Position ", Strings.toString(data.positionId));
+        
+        // Use stored isBack to prefix
+        bool _isBack = isBack[tokenId];
+        string memory prefixedName = bytes(positionName).length > 0
+            ? string.concat(_isBack ? "Back " : "Lay ", positionName, " in ", marketName)
+            : string.concat(
+                _isBack ? "Back " : "Lay ", 
+                "Position ", Strings.toString(data.positionId), 
+                " in Market ", Strings.toString(data.marketId)
+            );
+
+        // Concat tickers (e.g., for "BTSLA-EVSTK")
+        string memory positionTicker = positionTickers[tokenId];
+        string memory ticker = bytes(positionTicker).length > 0
+            ? string.concat(_isBack ? "B" : "L", positionTicker, "-", marketTicker)
+            : "";
 
         string memory json = string.concat(
-            '{"name":"', name, '",',
-            '"description":"', (data.isBack ? "Back" : "Lay"),
+            '{"name":"', prefixedName, '",',
+            '"description":"', (_isBack ? "Back" : "Lay"),
             ' token for position ', Strings.toString(data.positionId),
             " in market ", Strings.toString(data.marketId), '",',
             '"attributes":[{"trait_type":"Market ID","value":', Strings.toString(data.marketId), '},',
+            '{"trait_type":"Market Name","value":"', marketName, '"},',
+            '{"trait_type":"Market Ticker","value":"', marketTicker, '"},',
             '{"trait_type":"Position ID","value":', Strings.toString(data.positionId), '},',
-            '{"trait_type":"Type","value":"', (data.isBack ? "Back" : "Lay"), '"}]}'
+            '{"trait_type":"Type","value":"', (_isBack ? "Back" : "Lay"), '"},',
+            '{"trait_type":"Ticker","value":"', ticker, '"}]}'
         );
 
         return string.concat("data:application/json;base64,", Base64.encode(bytes(json)));
