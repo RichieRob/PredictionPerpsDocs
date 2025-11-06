@@ -1,5 +1,7 @@
 # Additional Documentation not yet Created
 
+0) How expanding markets work - discussion amd implementation
+
 1) Walkthough of what happens with trades including prices using the AMM
 
 2) AMM Maths and Pricing Spec (bridge between the whitepaper and the .sol implentation)

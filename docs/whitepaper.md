@@ -49,9 +49,7 @@ The **Ledger** maintains each **market maker’s (MM) balances** and enforces de
 - Contract: [Ledger.sol](Contracts/Ledger.sol.md) · [Contracts Index](ContractsIndex.md)
 
 ### Synthetic Liquidity (Instant Start)
-Markets can open with **zero real capital** using **ISC** (internal synthetic collateral). The *designated market maker* quotes from block one. As real USDC later arrives, it **fills/repays ISC** first and then grows real depth—prices and invariants remain continuous.
-
-//need to include in the syntheticoverview why we cant have synthetic liquidity for standard prediction markets but can for perpetual markets
+Because they dont resolve markets can open with **zero real capital** using **ISC** (internal synthetic collateral). The *designated market maker* quotes from block one. As real USDC later arrives, it **fills/repays ISC** first and then grows real depth—prices and invariants remain continuous.
 
 - Overview: [Synthetic Liquidity](FullReadMe/Accounting/SyntheticLiquidity/SyntheticOverview.md)  
 - Algorithms: [Synthetic Accounting](FullReadMe/Accounting/SyntheticLiquidity/SyntheticAccounting.md) · [Principles](FullReadMe/Accounting/SyntheticLiquidity/SyntheticPrinciples.md)
