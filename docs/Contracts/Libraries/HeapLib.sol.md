@@ -237,22 +237,36 @@ library HeapLib {
     //////////////////////////////////////////////////////////////*/
 
     function getMinTilt(uint256 mmId, uint256 marketId) internal view returns (int128, uint256) {
-        StorageLib.Storage storage s = StorageLib.getStorage();
-        uint256[] storage heap = s.topHeap[mmId][marketId];
-        if (heap.length == 0) return (0, 0);
-        uint256 blockId = heap[0];
-        Types.BlockData storage b = s.blockData[mmId][marketId][blockId];
-        return (b.minVal, b.minId);
+    StorageLib.Storage storage s = StorageLib.getStorage();
+    uint256[] storage heap = s.topHeap[mmId][marketId];
+    if (heap.length == 0) {
+        return (0, 0);
     }
+    uint256 blockId = heap[0];
+    Types.BlockData storage b = s.blockData[mmId][marketId][blockId];
+    int128 minVal = b.minVal;
+    uint256 minId = b.minId;
+    if (s.isExpanding[marketId] && minVal > 0) {
+        return (0, 0); // Clamp to 0 for expanding
+    }
+    return (minVal, minId);
+}
 
-    function getMaxTilt(uint256 mmId, uint256 marketId) internal view returns (int128, uint256) {
-        StorageLib.Storage storage s = StorageLib.getStorage();
-        uint256[] storage heap = s.topHeapMax[mmId][marketId];
-        if (heap.length == 0) return (0, 0);
-        uint256 blockId = heap[0];
-        Types.BlockData storage b = s.blockDataMax[mmId][marketId][blockId];
-        return (b.minVal, b.minId); // Reusing fields
+function getMaxTilt(uint256 mmId, uint256 marketId) internal view returns (int128, uint256) {
+    StorageLib.Storage storage s = StorageLib.getStorage();
+    uint256[] storage heap = s.topHeapMax[mmId][marketId];
+    if (heap.length == 0) {
+        return (0, 0);
     }
+    uint256 blockId = heap[0];
+    Types.BlockData storage b = s.blockDataMax[mmId][marketId][blockId];
+    int128 maxVal = b.minVal; // Reusing for maxVal
+    uint256 maxId = b.minId; // Reusing for maxId
+    if (s.isExpanding[marketId] && maxVal < 0) {
+        return (0, 0); // Clamp to 0 for expanding
+    }
+    return (maxVal, maxId);
+}
 
     function getMinTiltPosition(uint256 mmId, uint256 marketId) internal view returns (uint256) {
         (, uint256 minId) = getMinTilt(mmId, marketId);

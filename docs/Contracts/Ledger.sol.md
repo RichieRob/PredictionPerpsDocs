@@ -64,13 +64,15 @@ contract MarketMakerLedger {
     }
 
     // --- market / position management  ---
-    function createMarket(string memory name, string memory ticker, uint256 dmmId, uint256 iscAmount) external onlyOwner returns (uint256 marketId) {
+    function createMarket(string memory name, string memory ticker, uint256 dmmId, uint256 iscAmount, bool isExpanding) external onlyOwner returns (uint256 marketId) {
         marketId = MarketManagementLib.createMarket(name, ticker, dmmId, iscAmount);
     }
 
     function createPosition(uint256 marketId, string memory name, string memory ticker) external onlyOwner returns (uint256 positionId) {
         positionId = MarketManagementLib.createPosition(marketId, name, ticker);
     }
+
+    function addPositionToExpandingMarket(uint256 marketId, string memory name, string memory ticker) external onlyOwner { MarketManagementLib.splitFromOther(marketId, name, ticker); }
 
     // --- owner finance ops ---
     function withdrawInterest() external onlyOwner {

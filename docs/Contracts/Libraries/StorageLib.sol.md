@@ -56,6 +56,7 @@ library StorageLib {
         // NEW: Synthetic Liquidity (ISC)
         mapping(uint256 => uint256) marketToDMM; // marketId => mmId (immutable)
         mapping(uint256 => uint256) syntheticCollateral; // marketId => ISC amount (immutable)
+        mapping(uint256 => bool) isExpanding; // allows additional positions for expanding markets, ensures MMs solvent in "Other" position
 
         // NEW: Max-heap structures (symmetric to min-heap)
         mapping(uint256 => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockDataMax; // mmId => marketId => blockId => {maxId, maxVal}
