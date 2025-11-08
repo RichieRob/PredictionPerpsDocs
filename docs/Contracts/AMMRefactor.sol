@@ -225,3 +225,9 @@ This refactor preserves the LMSRMarketMaker’s core logic but transforms it int
 - Cleaner governance-controlled initialization  
 
 Result: **A more maintainable, testable, and scalable foundation** for future prediction markets.
+
+
+
+ADDITIONALLY
+
+Adding an exectuationlibrary to take the exectutions out of the main body too.
