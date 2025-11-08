@@ -191,5 +191,10 @@ contract MarketMakerLedger {
         ticker = IPositionToken1155(store.positionToken1155).getPositionTicker(backTokenId);
         return (name, ticker, backTokenId, layTokenId);
     }
+
+    function positionExists(uint256 marketId, uint256 positionId) external view returns (bool) {
+        return MarketManagementLib.positionExists(marketId, positionId);
+    }
+
 }
 ```
