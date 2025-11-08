@@ -1,5 +1,4 @@
 ```solidity 
-
 // attention needed to how we manage the fee. currently its just sent to the ledger and added to deposits
 
 // SPDX-License-Identifier: MIT
@@ -225,28 +224,21 @@ contract LMSRMarketMaker {
 
     // ---------- State update (O(1)) ----------
     // Mapping from action -> (ΔU_other, ΔU_k):
-    // BACK buy:  (+m, +m - t)
-    // BACK sell: (-m, -m + t)
-    // LAY  buy:  (+m - t, +m)
-    // LAY  sell: (-m + t, -m)
-    function _applyUpdate(uint256 positionId, bool isBack, bool isBuy, uint256 t, uint256 mNoFee) internal {
+    // BACK buy:  (0, +t)
+    // BACK sell: (0, -t)
+    // LAY  buy:  (+t, 0)
+    // LAY  sell: (-t, 0)
+    function _applyUpdate(uint256 positionId, bool isBack, bool isBuy, uint256 t) internal {
         int256 Ri_old = R[positionId];
 
         // ΔU values in 1e6
-        int256 dU_other;
-        int256 dU_k;
-        if (isBack && isBuy) {
-            dU_other =  int256(uint256(mNoFee));
-            dU_k     =  int256(uint256(mNoFee)) - int256(uint256(t));
-        } else if (isBack && !isBuy) {
-            dU_other = -int256(uint256(mNoFee));
-            dU_k     = -int256(uint256(mNoFee)) + int256(uint256(t));
-        } else if (!isBack && isBuy) { // LAY(not-i) buy
-            dU_other =  int256(uint256(mNoFee)) - int256(uint256(t));
-            dU_k     =  int256(uint256(mNoFee));
-        } else { // !isBack && !isBuy : LAY(not-i) sell
-            dU_other = -int256(uint256(mNoFee)) + int256(uint256(t));
-            dU_k     = -int256(uint256(mNoFee));
+        int256 dU_other = 0;
+        int256 dU_k = 0;
+        int256 dt = isBuy ? int256(uint256(t)) : -int256(uint256(t));
+        if (isBack) {
+            dU_k = dt;
+        } else {
+            dU_other = dt;
         }
 
         // Compute factors
@@ -261,6 +253,9 @@ contract LMSRMarketMaker {
 
         // S' = S - Ri_old + Ri_new
         S = S - Ri_old + Ri_new;
+
+        // Safety: Prevent underflow (S should always be >0)
+        require(S > 0, "S underflow");
 
         // done. Prices p_i = R_i/S update implicitly; Z = G*S
     }
@@ -286,7 +281,7 @@ contract LMSRMarketMaker {
         ledger.processBuy(msg.sender, marketId, mmId, positionId, isBack, mFinal, t, 0, usePermit2, permitBlob);
 
         // O(1) state update
-        _applyUpdate(positionId, isBack, true, t, mNoFee);
+        _applyUpdate(positionId, isBack, true, t);
 
         emit Trade(msg.sender, positionId, isBack, t, mFinal, true);
         emit PriceUpdated(positionId, getBackPriceWad(positionId));
@@ -309,11 +304,8 @@ contract LMSRMarketMaker {
         // Pull funds + mint via ledger
         ledger.processBuy(msg.sender, marketId, mmId, positionId, isBack, usdcIn, tOut, 0, usePermit2, permitBlob);
 
-        // Pre-fee m needed for ΔU mapping
-        uint256 mNoFee = (usdcIn * 10_000) / (10_000 + FEE_BPS);
-
         // O(1) state update
-        _applyUpdate(positionId, isBack, true, tOut, mNoFee);
+        _applyUpdate(positionId, isBack, true, tOut);
 
         emit Trade(msg.sender, positionId, isBack, tOut, usdcIn, true);
         emit PriceUpdated(positionId, getBackPriceWad(positionId));
@@ -337,7 +329,7 @@ contract LMSRMarketMaker {
         ledger.processSell(msg.sender, marketId, mmId, positionId, isBack, t, usdcOut);
 
         // O(1) state update (sell path)
-        _applyUpdate(positionId, isBack, false, t, mNoFee);
+        _applyUpdate(positionId, isBack, false, t);
 
         emit Trade(msg.sender, positionId, isBack, t, usdcOut, false);
         emit PriceUpdated(positionId, getBackPriceWad(positionId));

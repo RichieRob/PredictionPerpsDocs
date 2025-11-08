@@ -65,6 +65,9 @@ Solvency checks and a heap-based priority structure ensure efficient processing 
 ## 4) Trading Flows (No Oracles, No Funding, No Settlement)
 
 //NB with Market instantiation we need to think about the DMM, LMSR and the initial weightings that are put on things...
+// this requires some rethinking of the AMM.sol code 
+// additionally we need to think about how the AMM handles expanding markets (other bucket)
+// additionally we need to check how the Ledger and AMM speak to each other and name the positions. 
 
 1. **Market instantiation** 
    - Define the set of positions (competitors on the leaderboard).  
