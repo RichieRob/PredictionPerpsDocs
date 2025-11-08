@@ -62,6 +62,9 @@ library StorageLib {
         mapping(uint256 => mapping(uint256 => mapping(uint256 => Types.BlockData))) blockDataMax; // mmId => marketId => blockId => {maxId, maxVal}
         mapping(uint256 => mapping(uint256 => uint256[])) topHeapMax; // mmId => marketId => heap array
         mapping(uint256 => mapping(uint256 => uint256)) heapIndexMax; // mmId => marketId => blockId => index+1 (0 = not present)
+
+        //allowed DMM mapping
+        mapping(uint256 => bool) allowedDMMs; // mmId => is allowed as DMM
     }
 
     function getStorage() internal pure returns (Storage storage s) {

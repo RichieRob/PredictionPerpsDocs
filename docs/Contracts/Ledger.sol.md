@@ -197,4 +197,12 @@ contract MarketMakerLedger {
     }
 
 }
+
+// --- allowlist for DMMs ---
+    function allowDMM(uint256 mmId, bool allowed) external onlyOwner {
+        StorageLib.Storage storage store = StorageLib.getStorage();
+        store.allowedDMMs[mmId] = allowed;
+        emit DMMAllowed(mmId, allowed);
+    }
+
 ```

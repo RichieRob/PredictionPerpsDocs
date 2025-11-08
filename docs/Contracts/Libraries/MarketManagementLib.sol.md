@@ -22,6 +22,7 @@ library MarketManagementLib {
         uint256 iscAmount
     ) internal returns (uint256 marketId) {
         StorageLib.Storage storage s = StorageLib.getStorage();
+        require(s.allowedDMMs[dmmId], "DMM not allowed");
         marketId = s.nextMarketId++;
         s.allMarkets.push(marketId);
 

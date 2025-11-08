@@ -53,6 +53,7 @@ contract LMSRMarketMaker {
     ILedger public immutable ledger;
     IERC20  public immutable usdc;
     address public immutable governor; // who may list positions / split reserve
+    uint256 public immutable mmId;
 
     /*//////////////////////////////////////////////////////////////
                              PER-MARKET STATE
@@ -101,6 +102,8 @@ contract LMSRMarketMaker {
         ledger     = ILedger(_ledger);
         usdc       = IERC20(_usdc);
         governor   = _governor;
+
+        mmId = ledger.registerMarketMaker();
     }
 
     /*//////////////////////////////////////////////////////////////
