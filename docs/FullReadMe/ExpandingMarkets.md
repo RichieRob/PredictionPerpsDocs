@@ -1,3 +1,8 @@
+---
+comments: true
+---
+
+
 # Expanding Markets
 
 ## Overview

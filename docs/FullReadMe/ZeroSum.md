@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Zero-Sum
 
 Prediction Perps markets are **zero-sum by design** — the total value across all [**Positions**](../Glossary.md#position) in a [**Market**](../Glossary.md#market) is fixed and can never be created or destroyed.  

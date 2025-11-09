@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # LMSR as O(1)
 
 This AMM implements a **closed-form version** of Robin Hanson’s  

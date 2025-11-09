@@ -1,3 +1,8 @@
+---
+comments: true
+---
+
+
 # Solvency — Concept and Enforcement
 
 Solvency keeps every Prediction Perps market safe and internally consistent.  

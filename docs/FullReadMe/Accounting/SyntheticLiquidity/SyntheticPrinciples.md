@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Synthetic Liquidity Guiding Principles
 
 ## Rules

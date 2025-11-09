@@ -1,3 +1,8 @@
+---
+comments: true
+---
+
+
 # How the Heap System Works
 
 The heap system efficiently tracks the **smallest tilt value** (and its position) across n positions.

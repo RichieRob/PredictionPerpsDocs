@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 #Prediction Perps Introduction
 
 ## What Is It?

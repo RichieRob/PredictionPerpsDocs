@@ -115,28 +115,28 @@ contract LMSRMarketMaker {
         _;
     }
 
+ 
+    struct InitialPosition {
+        uint256 positionId;
+        int256 r;
+    }
+
     /// @notice Initialize a new market. Can only be called once per marketId.
     /// @param _marketId The market ID to initialize.
-    /// @param _mmId The market maker ID for this market.
-    /// @param _numInitial Number of initial listed tradables.
-    /// @param initialLedgerIds Array of ledger positionIds to list initially.
-    /// @param initialR Base masses for those tradables, 1e18-scaled.
-    /// @param _b The LMSR b parameter (>0).
-    /// @param reserve0 Initial reserve mass (1e18).
-    /// @param _isExpanding Whether the market is expanding.
+    /// @param initialPositions Array of {positionId, r} pairs for initial listed tradables.
+    /// @param liabilityUSDC The total liability in USDC (1e6-scaled) to compute b = liability / ln(numPositions).
+    /// @param reserve0 Initial reserve mass (1e18). Must be 0 if !_isExpanding; >0 if _isExpanding.
+    /// @param _isExpanding Whether the market is expanding (allows reserve splits).
     function initMarket(
         uint256 _marketId,
-        uint256 _mmId,
-        uint256 _numInitial,
-        uint256[] memory initialLedgerIds,
-        int256[] memory initialR,
-        int256 _b,
+        InitialPosition[] memory initialPositions,
+        uint256 liabilityUSDC,
         int256 reserve0,
         bool _isExpanding
     ) external onlyGovernor {
-        LMSRInitLib.initMarketInternal(this, _marketId, _mmId, _numInitial, initialLedgerIds, initialR, _b, reserve0, _isExpanding);
+        LMSRInitLib.initMarketInternal(this, _marketId, initialPositions, liabilityUSDC, reserve0, _isExpanding);
     }
-
+    
     /*//////////////////////////////////////////////////////////////
                                     VIEWS
     //////////////////////////////////////////////////////////////*/

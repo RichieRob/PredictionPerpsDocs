@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Market Initialisation
 
 When creating a market, you provide a name and ticker for easy identification—think "Electric Vehicle Stocks" with ticker "EVSTK." This generates a unique ID automatically. Markets begin in expanding mode, meaning you can add as many positions as needed.

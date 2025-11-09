@@ -3,6 +3,7 @@ docs_dir: docs
 
 theme:
   name: material
+  custom_dir: overrides
   features:
     - content.code.copy
     - content.code.annotate
@@ -88,6 +89,7 @@ markdown_extensions:
   - toc:
       permalink: true
       toc_depth: 2-6
+  - meta
 
 plugins:
   - search
@@ -100,3 +102,4 @@ extra_css:
 
 extra_javascript:
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+  - javascripts/extra.js

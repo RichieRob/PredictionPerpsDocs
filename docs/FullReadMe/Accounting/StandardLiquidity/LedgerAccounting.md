@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Ledger Accounting
 
 This document details the internal accounting of the ledger,

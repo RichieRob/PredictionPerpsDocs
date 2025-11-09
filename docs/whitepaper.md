@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Prediction Perps — Perpetual, Zero-Sum Leaderboards
 
 **Prediction Perps** creates *tradable leaderboards*: n-dimensional, on-chain markets where many positions continuously compete for a share of a **fixed total value (typically 1 USDC)**. Prices are maintained by a closed-form **LMSR** AMM and positions are always redeemable into that fixed total, ensuring **zero-sum accounting** without oracles, funding rates, or settlement events. Markets **never resolve**—they run indefinitely.

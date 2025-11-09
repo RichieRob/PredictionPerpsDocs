@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Synthetic Liquidity Accounting
 
 This document details the internal accounting of the ledger, including the addition of the synthetic Liquidity,

@@ -1,3 +1,8 @@
+---
+comments: true
+---
+
+
 # Solvency Accounting
 
 This document explains how solvency is enforced algorithmically inside the **Ledger**,  

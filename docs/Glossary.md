@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Core Terminology
 
 Prediction Perps defines a precise vocabulary for its non-resolving, zero-sum markets.  

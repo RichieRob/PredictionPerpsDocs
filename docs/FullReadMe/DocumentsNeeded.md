@@ -1,3 +1,8 @@
+---
+comments: true
+---
+
+
 # Additional Documentation not yet Created
 
 0) When looking at Market Intiialisation if we have a market with synthetic liquidity we will need to define the initial market maker and the weightings 

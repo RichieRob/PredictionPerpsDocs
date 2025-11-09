@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Contracts Index
 
 Quick index of contracts and libraries with one‑line descriptions, linked to their detailed `.sol.md` docs.

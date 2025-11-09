@@ -1,3 +1,8 @@
+---
+comments: true
+---
+
+
 # Technical Overview
 
 This document describes the **technical framework** that enables Prediction Perps markets to function — how liquidity, solvency, and pricing are maintained continuously and safely on-chain.

@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Unifying Liquidity in Zero-Sum Markets
 
 Liquidity is the quiet engine of every healthy market. It’s the reason you can sell a stock, swap a token, or bet on an election outcome without waiting days or moving the price by 20%. At its core, liquidity simply means: *someone is always ready to take the other side of your trade, at a fair and stable price.*
