@@ -6,8 +6,9 @@ comments: true
 
 ## What Is It?
 
-Prediction Perps creates **tradable leaderboards** — markets where many positions compete for a share of one fixed pool of value.
-
+Prediction Perps creates tradable leaderboards, where positions battle for dominance in resolutionless prediction markets with prices dynamically shifting as traders back their picks.
+ 
+something like this
 Each leaderboard tracks a single theme: it might show which crypto influencer holds the most attention, which footballer is most in form, or which technology trend is gaining momentum. Inside that leaderboard, every position represents one competitor.  
 When traders buy a position, its share of the total increases while the others decrease.  
 The overall value always remains the same — it’s simply redistributed as sentiment changes.
@@ -76,7 +77,7 @@ Now suppose @elonmusk dominates the headlines. Traders buy his token, expecting 
 Just like Polymarket, traders can **buy or sell positions at the current price** to enter or exit the market at any time. The difference is that this market **never resolves** — prices continue updating as sentiment shifts.  
 
 Even with dozens (or hundreds) of positions, the same rule applies:  
-the total market value always equals 1 USDC, and every movement in one position is offset across all others. The result is a **massively n-dimensional leaderboard**, continuously redistributing a single shared unit of value among many participants.
+the total market value always equals 1 USDC, and every movement in one position is offset across all others. The result is leaderboards with a an plethora of positions, continuously redistributing a single shared unit of value among many participants.
 
 ---
 
