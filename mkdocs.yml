@@ -39,31 +39,7 @@ nav:
           - Solvency Accounting: FullReadMe/SolvencyAccounting.md
           - Heap Logic: FullReadMe/HeapLogic.md
   - Pricing: FullReadMe/AMM.md
-  - Contracts:
-      - Contracts Index: ContractsIndex.md
-      - Core Contracts:
-          - Ledger.sol: Contracts/Ledger.sol.md
-          - AMM.sol: Contracts/AMM.sol.md
-          - PositionToken1155.sol: Contracts/PositionToken1155.sol.md
-      - Interfaces:
-          - IERC20Permit.sol: Contracts/IERC20Permit.sol.md
-          - ILedger.sol: Contracts/ILedger.sol.md
-          - IPermit2.sol: Contracts/IPermit2.sol.md
-          - iPositionToken1155.sol: Contracts/iPositionToken1155.sol.md
-      - Libraries:
-          - AllocateCapitalLib.sol: Contracts/Libraries/AllocateCapitalLib.sol.md
-          - DepositWithdrawLib.sol: Contracts/Libraries/DepositWithdrawLib.sol.md
-          - HeapLib.sol: Contracts/Libraries/HeapLib.sol.md
-          - LedgerLib.sol: Contracts/Libraries/LedgerLib.sol.md
-          - LiquidityLib.sol: Contracts/Libraries/LiquidityLib.sol.md
-          - MarketManagementLib.sol: Contracts/Libraries/MarketManagementLib.sol.md
-          - RedemptionLib.sol: Contracts/Libraries/RedemptionLib.sol.md
-          - SolvencyLib.sol: Contracts/Libraries/SolvencyLib.sol.md
-          - StorageLib.sol: Contracts/Libraries/StorageLib.sol.md
-          - TokenOpsLib.sol: Contracts/Libraries/TokenOpsLib.sol.md
-          - TradingLib.sol: Contracts/Libraries/TradingLib.sol.md
-          - Types.sol: Contracts/Libraries/Types.sol.md
-          - TypesPermit.sol: Contracts/Libraries/TypesPermit.sol.md
+  - Contracts Index: ContractsIndex.md
   - Pitch: Pitch.md
 
 markdown_extensions:
