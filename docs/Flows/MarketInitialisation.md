@@ -1,14 +1,18 @@
-# Succinct Flow for Creating a Market with synethetic Liquidity from Scratch
-
-This guide outlines the full sequence of steps required to create a market with synthetic liquidity on the PredictionPerps protocol.
-
----
+# Market Initialisation Sequence
 
 
 > ⚙️ **Before You Begin**  
-> See [ContractDeployment.md](ContractDeployment.md) for detailed instructions on how to deploy and set up the required contracts.
+> See [ContractDeployment.md](ContractDeployment.md) for initial deployment of contracts.
 
-## 1· Create Market on Ledger
+## 0 · About the market being created
+
+Here we are creating a market of fruit initially with 3 positions Apple Banana and Cucumber. We are using synthetic liquidity of 10000 USDC. The initial prices of our back positions are 0.4, 0.1, 0.3 with the reserve or other position at (0.2).
+Thus the lay prices are 0.6, 0.9, 0.7 and (0.8) respectively
+
+We then add another position Dragon Fruit splitting its price as 50%(0.5e18) of the reserve (other) which sets the price of back Dragon Fruit as 0.1 and also reduces the price of back other to (0.1).
+
+
+## 1 · Create Market on Ledger
 
 The owner creates a new market entry:
 
@@ -16,17 +20,15 @@ The owner creates a new market entry:
 MarketMakerLedger.createMarket(name, ticker, dmmId, iscAmount);
 ```
 
-**Returns:** `marketId`
-
-**Stores:**
-- Market metadata in `PositionToken1155`
-- Core details (`DMM`, `ISC` seed, etc.) in Ledger storage
+### Example
+```solidity
+createMarket ("Fruit", FRT, 0, 10000000000)
+```
 
 ---
 
 ## 2 · Create Initial Positions
 
-Define all positions within the market.
 
 ```solidity
 MarketMakerLedger.createPositions(marketId, PositionMeta[]);
@@ -36,14 +38,12 @@ MarketMakerLedger.createPositions(marketId, PositionMeta[]);
 
 ```solidity
 createPositions(marketId, [
-    { name: "Apple",    ticker: "A" },
-    { name: "Banana",   ticker: "B" },
-    { name: "Cucumber", ticker: "C" }
+    { name: "Apple",    ticker: "APL" },
+    { name: "Banana",   ticker: "BAN" },
+    { name: "Cucumber", ticker: "CUC" }
 ]);
 ```
 
-**Returns:** array of `positionIds`, e.g. `[1, 2, 3]`  
-**Effect:** generates BACK and LAY ERC-1155 token IDs and updates storage.
 
 ---
 
@@ -61,35 +61,26 @@ LMSRMarketMaker.initMarket(
 );
 ```
 
-### Parameters
+### Example
 
-| Parameter | Description |
-|------------|--------------|
-| `initialPositions[]` | Array of `{ positionId, r }` values |
-| `liabilityUSDC` | Example: `1e6` (1 USDC = 1e6 wei) |
-| `reserve0` | Reserve bucket (used if expanding) |
-| `isExpanding` | `true` if new positions can be added later |
-
-### Notes
-- The AMM can read the ISC amount from the ledger to set its liability.  
-- The relationship between parameters follows:
-
-\[
-s = \sum r + \text{reserve}_0
-\]
-\[
-\text{price}(i) = \frac{r_i}{s}
-\]
-
-**Effect:** sets AMM state (`b`, `G`, `R`, `S`, and mappings) and marks the market as tradable.
+```solidity
+initMarket(
+    1,
+    { positionId: "0",    weight: "4" },
+    { positionId: "1",   weight: "1" },
+    { positionId: "2", weight: "3" },
+    10000000000,
+    2,
+    true
+);
+```
 
 ---
 
-## 4 · Adding Additional Positions
+## 4 · Adding Additional Position
 
-*(Only applicable if `isExpanding = true`)*
 
-### Add Position to Ledger
+### 1 ·Add Position to Ledger
 
 ```solidity
 MarketMakerLedger.addPositionToExpandingMarket(
@@ -99,21 +90,19 @@ MarketMakerLedger.addPositionToExpandingMarket(
 );
 ```
 
-### Add Position to AMM
-
-The governor can register the new position using one of two methods:
-
-#### a) `listPosition` 
-
+#### Example
 ```solidity
-LMSRMarketMaker.listPosition(
-    marketId,
-    ledgerPositionId,
-    priorR
-);
+addPositionToExpandingMarket(
+  0,
+  "Dragon Fruit"
+  "DRF"
+)
 ```
 
-#### b) `splitFromReserve` 
+### 2 ·Add Position to AMM
+
+
+Using `splitFromReserve` 
 
 ```solidity
 LMSRMarketMaker.splitFromReserve(
@@ -123,18 +112,14 @@ LMSRMarketMaker.splitFromReserve(
 );
 ```
 
-**Effect:** extends the AMM to include the new position and rebalances full market or splits price from the reserve as needed.
+##### Example
+```solidity
+listPosition(
+  0,
+  3,
+  500000000000000000
+)
+```
+## Token Names
 
----
-
-## Summary
-
-| Step | Description |
-|------|--------------|
-| 1 | Create the market on the ledger |
-| 2 | Create initial positions on the ledger |
-| 3 | Initialize the market on the AMM |
-| 4 | Adding additional positions |
-
----
-
+See [**Token Names**](TokenNames.md)

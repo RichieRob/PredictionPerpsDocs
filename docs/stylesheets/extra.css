@@ -2,98 +2,160 @@
 
 /* General Content Typography */
 .md-content p {
-    margin-bottom: 1.2rem;
-    line-height: 1.65;
-    color: var(--md-typeset-color);
-  }
-  
-  /* Headings */
-  .md-content h2 {
-    color: #2609ce;
-    margin: 2.5rem 0 1rem;
-    padding-bottom: 0.3rem;
-    border-bottom: 2px solid #3498db;
-    font-weight: 700;
-  }
-  
-  .md-content h3 {
-    color: #2c3e50;
-    margin: 1.6rem 0 0.8rem;
-    font-weight: 600;
-  }
-  
-  .md-content h4 {
-    color: #2980b9;
-    margin: 1.4rem 0 0.6rem;
-    font-weight: 600;
-  }
-  
-  .md-content h5 {
-    color: #ab0b19;
-    margin: 1rem 0 0.5rem;
-    font-weight: 600;
-  }
-  
-  .md-content h6 {
-    color: #7f8c8d;
-    margin: 0.8rem 0 0.4rem;
-    font-weight: 500;
-  }
-  
-  /* Inline & Small Code Blocks */
-  .md-content code {
-    background-color: #f0f2f6;
-    color: #5e17db;
-    border-radius: 4px;
-    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-    padding: 0.15rem 0.35rem;
-    font-size: 0.92em;
-    font-weight: 500;
-    border: 1px solid rgba(0,0,0,0.05);
-  }
-  
-  /* Dark mode for inline code */
-  [data-md-color-scheme="slate"] .md-content code {
-    background-color: #2b2f3a;
-    color: #f39c12;
-    border-color: rgba(255,255,255,0.08);
-  }
-  
-  /* Full Code Blocks (Fenced), excluding Mermaid */
-  .md-content pre:not(.language-mermaid) {
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    
-    overflow-x: auto;
-    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-    font-size: 0.8em;
-    line-height: 1.5;
-    border: 1px solid rgba(0,0,0,0.08);
-  }
-  
-  /* Dark mode for fenced code blocks, excluding Mermaid */
-  [data-md-color-scheme="slate"] .md-content pre:not(.language-mermaid) {
-    background-color: #16191f;
-    border-color: rgba(255,255,255,0.06);
-  }
-  
-  /* Improve readability of inline code within links */
-  a code {
-    color: inherit;
-    text-decoration: underline dotted rgba(0,0,0,0.3);
-  }
-  [data-md-color-scheme="slate"] a code {
-    text-decoration: underline dotted rgba(255,255,255,0.3);
-  }
-
-  /* Enable wrapping for Solidity code blocks */
-.md-typeset .highlight.language-solidity pre,
-.md-typeset .codehilite.language-solidity pre,
-.md-typeset .highlight.language-solidity pre code,
-.md-typeset .codehilite.language-solidity pre code {
-  white-space: pre-wrap !important;    /* Wrap lines while preserving whitespace */
-  word-break: break-word;              /* Break long words if needed */
-  overflow-wrap: break-word;           /* Modern alternative to word-break */
-  overflow-x: hidden !important;       /* Remove horizontal scrollbar */
+  margin-bottom: 1.2rem;
+  line-height: 1.65;
+  color: var(--md-typeset-color);
 }
 
+/* Headings */
+.md-content h2 {
+  color: #2609ce;
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid #3498db;
+  font-weight: 700;
+}
+
+.md-content h3 {
+  color: #2c3e50;
+  margin: 1.6rem 0 0.8rem;
+  font-weight: 600;
+}
+
+.md-content h4 {
+  color: #2980b9;
+  margin: 1.4rem 0 0.6rem;
+  font-weight: 600;
+}
+
+.md-content h5 {
+  color: #ab0b19;
+  margin: 1rem 0 0.5rem;
+  font-weight: 600;
+}
+
+.md-content h6 {
+  color: #7f8c8d;
+  margin: 0.8rem 0 0.4rem;
+  font-weight: 500;
+}
+
+/* Inline Code Blocks Only */
+.md-content :not(pre) > code {
+  background-color: #f0f2f6;
+  color: #5e17db;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  padding: 0.15rem 0.35rem;
+  font-size: 0.92em;
+  font-weight: 500;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+
+
+/* === Code blocks: dark-purple theme with high-contrast syntax === */
+
+/* Increase font size inside code blocks */
+.md-typeset pre code {
+  font-size: 0.8rem !important;  /* increase or reduce as needed */
+  line-height: 1.2;
+}
+
+/* Block container + base text */
+.md-typeset .highlight,
+.md-typeset pre,
+.md-typeset pre > code {
+  background-color: #2f2344 !important;
+  color: #e6e6e6 !important; /* default/fallback token color */
+}
+
+/* Inline code already styled above; leave it */
+
+/* Comments */
+.md-typeset .highlight .c,
+.md-typeset .highlight .cm,
+.md-typeset .highlight .c1,
+.md-typeset .highlight .cs {
+  color: #8a8fa1 !important;
+  font-style: italic;
+}
+
+/* Keywords (if, contract, return, import, etc.) */
+.md-typeset .highlight .k,
+.md-typeset .highlight .kd,
+.md-typeset .highlight .kn,
+.md-typeset .highlight .kp,
+.md-typeset .highlight .kr {
+  color: #c792ea !important; /* lavender */
+}
+
+/* Strings */
+.md-typeset .highlight .s,
+.md-typeset .highlight .sb,
+.md-typeset .highlight .sc,
+.md-typeset .highlight .sd,
+.md-typeset .highlight .s1,
+.md-typeset .highlight .s2,
+.md-typeset .highlight .se,
+.md-typeset .highlight .sh,
+.md-typeset .highlight .si,
+.md-typeset .highlight .sx,
+.md-typeset .highlight .sr {
+  color: #ecc48d !important; /* soft gold (not green) */
+}
+
+/* Numbers */
+.md-typeset .highlight .m,
+.md-typeset .highlight .mi,
+.md-typeset .highlight .mf,
+.md-typeset .highlight .il {
+  color: #f78c6c !important; /* warm orange */
+}
+
+/* Functions / methods */
+.md-typeset .highlight .nf,
+.md-typeset .highlight .fm {
+  color: #82aaff !important; /* sky blue */
+}
+
+/* Classes / types / tags */
+.md-typeset .highlight .nc,
+.md-typeset .highlight .nn,
+.md-typeset .highlight .nt,
+.md-typeset .highlight .ne {
+  color: #ffcb6b !important; /* golden yellow */
+}
+
+/* Variables / attributes */
+.md-typeset .highlight .nv,
+.md-typeset .highlight .na,
+.md-typeset .highlight .vi,
+.md-typeset .highlight .vc,
+.md-typeset .highlight .vg {
+  color: #e6e6e6 !important; /* neutral */
+}
+
+/* Operators & punctuation (make them pop) */
+.md-typeset .highlight .o,
+.md-typeset .highlight .p {
+  color: #f8f8f2 !important; /* bright for brackets, commas, etc. */
+}
+
+/* Builtins / constants (optional accent) */
+.md-typeset .highlight .bp,
+.md-typeset .highlight .kc,
+.md-typeset .highlight .kc .mi {
+  color: #ffd866 !important;
+}
+
+/* Errors (visible but not screaming) */
+.md-typeset .highlight .err {
+  color: #ff6e6e !important;
+  text-decoration: underline dotted;
+}
+
+/* Optional: nicer scrollbars in code blocks */
+.md-typeset pre {
+  scrollbar-color: #3d2a5b #150631;
+}

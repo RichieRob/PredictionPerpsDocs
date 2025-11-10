@@ -38,6 +38,11 @@ nav:
           - Solvency (Concept): FullReadMe/Solvency.md
           - Solvency Accounting: FullReadMe/SolvencyAccounting.md
           - Heap Logic: FullReadMe/HeapLogic.md
+  - Flows:
+      - Contract Deployment: Flows/ContractDeployment.md
+      - Market Initialisation: Flows/MarketInitialisation.md
+      - Token Names: Flows/TokenNames.md
+
   - Pricing: FullReadMe/AMM.md
   - Contracts Index: ContractsIndex.md
   - Pitch: Pitch.md
@@ -53,7 +58,7 @@ markdown_extensions:
   - pymdownx.highlight:
       use_pygments: true
       anchor_linenums: true
-      linenums: true
+      linenums: false
       linenums_style: pymdownx-inline
       pygments_lang_class: true
       extend_pygments_lang:
@@ -74,7 +79,6 @@ plugins:
 
 extra_css:
   - stylesheets/extra.css
-  - stylesheets/solidity.css
 
 extra_javascript:
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
