@@ -138,11 +138,7 @@ Liquidity becomes a **system-wide utility**—like electricity in a smart grid. 
 
 Zero-sum markets + unified collateral + yield-bearing pools = **liquidity without compromise**.
 
-> **One pool. All markets. Earning yield. Only drawn when needed. Freed when balanced.**
-
-This isn’t just efficiency.
-
-It’s the **next primitive** of decentralized finance.
+> **One pool. All markets. Earning yield. Only drawn when needed.**
 
 
 ## Example: Internal Accounting of Collateral
