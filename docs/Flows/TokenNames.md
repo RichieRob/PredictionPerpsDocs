@@ -37,18 +37,23 @@ This encoding ensures every Back/Lay token across all markets has a distinct ID.
 
 ---
 
-### 🧮 Token ID Components
+### 🧮 Token ID Map (marketId = 0)
 
-marketId = 0 as we assume this is the first market
+| Token Type          | marketId | positionId | isBack | tokenId |
+|----------------------|-----------|-------------|---------|----------|
+| Lay Apple            | 0 | 0 | 0 | **0** |
+| Back Apple           | 0 | 0 | 1 | **1** |
+| Lay Banana           | 0 | 1 | 0 | **2** |
+| Back Banana          | 0 | 1 | 1 | **3** |
+| Lay Cucumber         | 0 | 2 | 0 | **4** |
+| Back Cucumber        | 0 | 2 | 1 | **5** |
+| Lay Dragon Fruit     | 0 | 3 | 0 | **6** |
+| Back Dragon Fruit    | 0 | 3 | 1 | **7** |
 
-| Token Type    | marketId | positionId | isBack |
-|----------------|-----------|-------------|---------|
-| Back Apple     | 0 | 0 | 1 |
-| Lay Apple      | 0 | 0 | 0 |
-| Back Banana    | 0 | 1 | 1 |
-| Lay Banana     | 0 | 1 | 0 |
-| Back Cucumber  | 0 | 2 | 1 |
-| Lay Cucumber   | 0 | 2 | 0 |
-| Back Dragon Fruit | 0 | 3 | 1 |
-| Lay Dragon Fruit  | 0 | 3 | 0 |
+---
 
+🧩 **Pattern**
+
+All **Lay** tokens are even (`isBack = 0`),  
+and all **Back** tokens are odd (`isBack = 1`).  
+When `marketId` increases, each tokenId gains an offset of `1 << 64 = 18446744073709551616`.
