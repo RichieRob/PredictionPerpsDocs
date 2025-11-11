@@ -20,6 +20,14 @@ Prediction Perps turn ideas, stories, people, and memes into massive multi-posit
 
 👉 [**Technical Overview**](./FullReadMe/TechnicalReadMe.md)
 
+### Flows
+
+👉 [**Contract Deployment**](./Flows/ContractDeployment.md)
+
+👉 [**Market Initialisation**](./Flows/MarketInitialisation.md)
+      
+👉 [**Token Purchase Flow Overview**](./Flows/PurchaseToken/PurchaseFlowOverview)
+
 
 ## ⚙️ Smart Contracts
 
