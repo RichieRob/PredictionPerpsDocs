@@ -42,6 +42,7 @@ nav:
       - Contract Deployment: Flows/ContractDeployment.md
       - Market Initialisation: Flows/MarketInitialisation.md
       - Token Names: Flows/TokenNames.md
+      - Purchase Position Flow Overview: Flows/PurchasePositionFlowOverview.md
 
   - Pricing: FullReadMe/AMM.md
   - Contracts Index: ContractsIndex.md
