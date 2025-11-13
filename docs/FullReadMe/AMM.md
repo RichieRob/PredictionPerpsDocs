@@ -51,6 +51,7 @@ $$
 
 where  
 
+
 - \( q_j \) — total outstanding shares for outcome \(j\)  
 - \( b > 0 \) — liquidity parameter (larger \(b\) → deeper market)  
 - \( n \) — number of outcomes.
@@ -307,12 +308,14 @@ $$
 ---
 
 When the market experiences a global movement  
-of \( \Delta U_{\text{other}} \),  
+of \( \Delta U_{\text{rest}} \),  
 the new value becomes:
 
 $$
-U_{\text{all}}' = U_{\text{all}} + \Delta U_{\text{other}}.
+U_{\text{all}}' = U_{\text{all}} + \Delta U_{\text{rest}}.
 $$
+
+
 
 ---
 
@@ -323,7 +326,7 @@ G' = e^{U_{\text{all}}' / b}.
 $$
 
 $$
-G' = e^{(U_{\text{all}} + \Delta U_{\text{other}}) / b}.
+G' = e^{(U_{\text{all}} + \Delta U_{\text{rest}}) / b}.
 $$
 
 ---
@@ -331,15 +334,27 @@ $$
 Factor out the previous term \( e^{U_{\text{all}} / b} \):
 
 $$
-G' = e^{U_{\text{all}} / b} \, e^{\Delta U_{\text{other}} / b}.
+G' = e^{U_{\text{all}} / b} \, e^{\Delta U_{\text{rest}} / b}.
 $$
 
 Recognizing \( e^{U_{\text{all}} / b} = G \),  
 we obtain the update rule:
 
 $$
-G' = G \, e^{\Delta U_{\text{other}} / b}.
+G' = G \, e^{\Delta U_{\text{rest}} / b}.
 $$
+
+Define the multiplicative factor 
+
+$$
+\chi G = e^{\Delta U_{\text{rest}} / b},
+$$
+
+such that 
+
+$$
+G' = G \cdot \chi G
+$$.
 
 ---
 
@@ -365,17 +380,17 @@ $$
 When a trade occurs on outcome \(k\),  
 the market applies two separate adjustments:
 
-- a **global shift** \( \Delta U_{\text{other}} \),  
+- a **global shift** \( \Delta U_{\text{rest}} \),  
 - and a **local shift** \( \Delta U_k \) specific to outcome \(k\).
 
 After the trade:
 
 $$
-U_{\text{all}}' = U_{\text{all}} + \Delta U_{\text{other}},
+U_{\text{all}}' = U_{\text{all}} + \Delta U_{\text{rest}},
 $$
 
 $$
-u_k' = u_k + (\Delta U_k - \Delta U_{\text{other}}).
+u_k' = u_k + (\Delta U_k - \Delta U_{\text{rest}}).
 $$
 
 The subtraction ensures that the local term \(u_k\)  
@@ -391,21 +406,33 @@ R_k' = e^{u_k' / b}.
 $$
 
 $$
-R_k' = e^{(u_k + \Delta U_k - \Delta U_{\text{other}}) / b}.
+R_k' = e^{(u_k + \Delta U_k - \Delta U_{\text{rest}}) / b}.
 $$
 
 Factor out the previous value \( e^{u_k / b} \):
 
 $$
-R_k' = e^{u_k / b} \, e^{(\Delta U_k - \Delta U_{\text{other}}) / b}.
+R_k' = e^{u_k / b} \, e^{(\Delta U_k - \Delta U_{\text{rest}}) / b}.
 $$
 
 Recognizing \( e^{u_k / b} = R_k \),  
 we obtain the update rule:
 
 $$
-R_k' = R_k \, e^{(\Delta U_k - \Delta U_{\text{other}}) / b}.
+R_k' = R_k \, e^{(\Delta U_k - \Delta U_{\text{rest}}) / b}.
 $$
+
+Define the multiplicative factor
+
+$$
+\chi R_k = e^{(\Delta U_k - \Delta U_{\text{rest}}) / b},
+$$
+
+such that 
+
+$$
+R_k' = R_k \cdot \chi R_k
+$$  
 
 
 **3. Running sum**

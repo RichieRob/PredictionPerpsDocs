@@ -65,7 +65,7 @@ LMSRMarketMaker.initMarket(
 
 ```solidity
 initMarket(
-    1,
+    0,
     { positionId: "0",    weight: "4" },
     { positionId: "1",   weight: "1" },
     { positionId: "2", weight: "3" },
