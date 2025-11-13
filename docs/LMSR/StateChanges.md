@@ -140,5 +140,18 @@ This makes the χ factors for each case:
 The state χ factors are calculated in applyUpdateInternl which is found in the LMSRUpdateLib.
 This function calculates chi G chiRk and updates G Rk and S
 
+```solidity
+
+function applyUpdateInternal(
+        LMSRMarketMaker self,
+        uint256 marketId,
+        uint256 slot,
+        bool isBack,
+        bool isBuy,
+        uint256 t
+    ) internal
+
+```
+
 **[LMSRUpdateLib.sol](https://github.com/RichieRob/PredictionPerpsContracts/blob/main/Core/AMMLibraries/LMSRUpdateLib.sol)**
 

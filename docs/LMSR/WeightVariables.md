@@ -1,4 +1,4 @@
-# LMSR Weighting Variables: q, U, R (O(1) Decomposition)
+# LMSR Weighting Variables: q, U, R 
 
 **core weighting variables** 
 
