@@ -48,8 +48,13 @@ nav:
         - Purchase Flow Front End: Flows/PurchaseToken/PurchaseFlowFrontEnd
         - Purchase Flow LMSR: Flows/PurchaseToken/PurchaseFlowLMSR
         - Purchase Flow Ledger: Flows/PurchaseToken/PurchaseFlowLedger
-
-  - Pricing: FullReadMe/AMM.md
+  - LMSR:
+      - Whitepaper: FullReadMe/AMM.md
+      - Initialisation Storage: LMSR/InitialisationStorage.md
+      - State Changes: LMSR/StateChanges.md
+      - Market Pricing: LMSR/MarketPricing.md
+      - Quotes: LMSR/Quote.md
+      - Weight Variables: LMSR/WeightVariables.md
   - Contracts Index: ContractsIndex.md
   - Pitch: Pitch.md
 

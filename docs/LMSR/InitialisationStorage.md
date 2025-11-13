@@ -14,9 +14,8 @@ description: Initial states recorded by the LMSR
 | `b[marketId]` | Liquidity depth, defines market responsiveness | \(b\) | 1e18 |
 | `G[marketId]` | Global factor applied to all outcomes | \(G = e^{U_{all}/b}\) | 1e18 |
 | `R[marketId][slot]` | Local mass for each listed outcome | \(R_i = e^{u_i/b}\) | 1e18 |
-| `S_tradables[marketId]` | Sum of tokenised outcomes | \(\sum_i R_i\) (no “Other”) | 1e18 |
+| `S[marketId]` | Sum positions and reserve | \(\sum_i R_i\)| 1e18 |
 | `R_reserve[marketId]` | Reserve mass (“Other”) for future expansion | \(R_{reserve} = e^{u_{reserve}/b}\) | 1e18 |
-| `denom` *(derived)* | Price denominator used in all price reads | \(S = \sum_i R_i + R_{reserve}\) | 1e18 |
 
 ---
 
@@ -77,7 +76,7 @@ where \(n_{\text{effective}}\) includes the reserve if `isExpanding = true`.
 For this example:
 
 \[
-b = \frac{10{,}000 \times 10^{18}}{\ln(5)} \approx 6.21 \times 10^{21}
+b = \frac{10{,}000 \times 10^{18}}{\ln(4)} \approx 7.21 \times 10^{21}
 \]
 
 A larger \(b\) → smoother prices; a smaller \(b\) → sharper price movements.
@@ -143,11 +142,10 @@ function _normalizeToWadTotal(
 
 | Variable | Stored Values (Fruit Market) | Notes |
 |-----------|------------------------------|--------|
-| `b` | 6 213 × 10¹⁸ | Calculated from liability = 10 000 USDC and effective n = 4 |
+| `b` | 7.213 × 10¹⁸ | Calculated from liability = 10 000 USDC and effective n = 4 |
 | `G` | 1 × 10¹⁸ | Neutral global factor |
 | `R[0]` | `[0.4e18, 0.1e18, 0.3e18]` | Stored R values normalised to 1e18 |
-| `S_tradables` | 0.8e18 | Sum of tokenised R |
+| `S` | 1e18 | Sum of R including R_reserve|
 | `R_reserve` | 0.2e18 | Reserve (“Other”) component |
-| `denom` | 1.0e18 | Total denominator for pricing |
 
 ---

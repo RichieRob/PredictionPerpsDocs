@@ -88,7 +88,7 @@ LMSR forwards trade params + `permitBlob` to the Ledger for fund movement, accou
 self.ledger.processBuy(
     msg.sender, 
     marketId, 
-    self.mmId[marketId],
+    self.mmId,
     ledgerPositionId, 
     isBack, 
     usdcIn, 
@@ -106,7 +106,7 @@ self.ledger.processBuy(
 
 ## 6 · Apply State Update (LMSR Internal)
 
-O(1) update to LMSR state (`G`, `R[slot]`, `S_tradables`) based on the trade (BACK/LAY, buy direction).
+O(1) update to LMSR state (`G`, `R[slot]`, `S`) based on the trade (BACK/LAY, buy direction).
 
 ```solidity
 LMSRUpdateLib.applyUpdateInternal(
