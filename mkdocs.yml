@@ -56,6 +56,7 @@ nav:
       - Price Changes: LMSR/PriceChanges.md
       - Quotes: LMSR/Quote.md
       - Weight Variables: LMSR/WeightVariables.md
+      - Expanding Market Maths: LMSR/NewPositionLMSRMaths.md
   - Contracts Index: ContractsIndex.md
   - Pitch: Pitch.md
 
