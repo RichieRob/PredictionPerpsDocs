@@ -58,7 +58,7 @@ For example:
 - **1 Back + 1 Lay = 1 USDC**  
 - **A full basket of all Backs = 1 USDC**
 
-This ensures the DMM can only issue or hold positions that remain redeemable  
+This ensures the DMM can only issue positions that remain redeemable  
 within the system’s total collateral.  
 At any time, a user can redeem full sets of tokens for 1 USDC,  
 preserving the fixed total value of the market.
