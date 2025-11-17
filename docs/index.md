@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: index
+title: Index
 ---
 
 # Prediction Perps Documentation

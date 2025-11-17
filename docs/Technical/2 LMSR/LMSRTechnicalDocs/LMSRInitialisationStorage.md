@@ -1,6 +1,7 @@
 ---
-title: Market Initialisation — Stored State
-description: Initial states recorded by the LMSR
+comments: true
+slug: lmsr-initialisation-storage  # Stable ID, e.g., for linking as /what-is-it/
+title: LMSR Intialisation Storage  # Optional display title
 ---
 
 # Market Initialisation — Stored State

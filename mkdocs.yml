@@ -30,30 +30,31 @@ nav:
       - 1 Ledger:
           - Ledger ReadMe: Technical/1 Ledger/LedgerReadMe.md
           - Ledger Whitepaper: Technical/1 Ledger/LedgerWhitepaper.md
-          - Ledger Expanding Markets: Technical/1 Ledger/LedgerExpandingMarkets.md
-          - Accounting:
+          - Ledger Technical Docs:
+              - Ledger Expanding Markets: Technical/1 Ledger/LedgerTechinalDocs/LedgerExpandingMarkets.md
               - Solvency:
-                  - Solvency: Technical/1 Ledger/Accounting/Solvency/Solvency.md
-                  - Solvency Accounting: Technical/1 Ledger/Accounting/Solvency/SolvencyAccounting.md
+                  - Solvency: Technical/1 Ledger/LedgerTechinalDocs/Solvency/Solvency.md
+                  - Solvency Accounting: Technical/1 Ledger/LedgerTechinalDocs/Solvency/SolvencyAccounting.md
               - Standard Liquidity:
-                  - Heap Logic: Technical/1 Ledger/Accounting/StandardLiquidity/HeapLogic.md
-                  - Ledger Accounting: Technical/1 Ledger/Accounting/StandardLiquidity/LedgerAccounting.md
-                  - Ledger Overview: Technical/1 Ledger/Accounting/StandardLiquidity/LedgerOverview.md
-                  - Unified Liquidity: Technical/1 Ledger/Accounting/StandardLiquidity/UnifiedLiquidity.md
+                  - Heap Logic: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/HeapLogic.md
+                  - Ledger Accounting: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/LedgerAccounting.md
+                  - Ledger Overview: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/LedgerOverview.md
+                  - Unified Liquidity: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/UnifiedLiquidity.md
               - Synthetic Liquidity:
-                  - Synthetic Accounting: Technical/1 Ledger/Accounting/SyntheticLiquidity/SyntheticAccounting.md
-                  - Synthetic Overview: Technical/1 Ledger/Accounting/SyntheticLiquidity/SyntheticOverview.md
-                  - Synthetic Principles: Technical/1 Ledger/Accounting/SyntheticLiquidity/SyntheticPrinciples.md
-              - Zero-Sum: Technical/1 Ledger/Accounting/ZeroSum.md
+                  - Synthetic Accounting: Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticAccounting.md
+                  - Synthetic Overview: Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticOverview.md
+                  - Synthetic Principles: Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticPrinciples.md
+              - Zero-Sum: Technical/1 Ledger/LedgerTechinalDocs/ZeroSum.md
       - 2 LMSR:
           - LMSR ReadMe: Technical/2 LMSR/LMSRReadMe.md
-          - LMSR Implementation Whitepaper: Technical/2 LMSR/LMSRImplementationWhitepaper.md
-          - LMSR Expansion New Position LMSR Maths: Technical/2 LMSR/LMSRExpansionNewPositionLMSRMaths.md
-          - Initialisation Storage: Technical/2 LMSR/InitialisationStorage.md
-          - Market Pricing: Technical/2 LMSR/MarketPricing.md
-          - Quote: Technical/2 LMSR/Quote.md
-          - State Changes: Technical/2 LMSR/StateChanges.md
-          - Weight Variables: Technical/2 LMSR/WeightVariables.md
+          - PP LMSR Whitepaper: Technical/2 LMSR/PPLMSRWhitepaper.md
+          - LMSR Technical Docs:
+              - Initialisation Storage: Technical/2 LMSR/LMSRTechnicalDocs/InitialisationStorage.md
+              - LMSR Expansion New Position LMSR Maths: Technical/2 LMSR/LMSRTechnicalDocs/LMSRExpansionNewPositionLMSRMaths.md
+              - Market Pricing: Technical/2 LMSR/LMSRTechnicalDocs/MarketPricing.md
+              - Quote: Technical/2 LMSR/LMSRTechnicalDocs/Quote.md
+              - State Changes: Technical/2 LMSR/LMSRTechnicalDocs/StateChanges.md
+              - Weight Variables: Technical/2 LMSR/LMSRTechnicalDocs/WeightVariables.md
       - 3 Tokens:
           - Token Names: Technical/3 Tokens/TokenNames.md
       - 4 Unified Flows:
@@ -97,6 +98,9 @@ plugins:
   - search
   - mermaid2:
       version: "10.9.1"
+      arguments:
+        securityLevel: 'loose'
+  - awesome-pages  # New: Enables frontmatter slugs for URLs
 
 extra_css:
   - stylesheets/extra.css

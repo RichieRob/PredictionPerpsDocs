@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: short-pitch  # Stable ID, e.g., for linking as /what-is-it/
+title: Pitch  # Optional display title
 ---
 
 # Prediction Perps

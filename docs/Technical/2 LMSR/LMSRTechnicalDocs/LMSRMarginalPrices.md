@@ -1,4 +1,10 @@
 ---
+comments: true
+slug: lmsr-marginal-prices  # Stable ID, e.g., for linking as /what-is-it/
+title: LMSR Marginal Prices  # Optional display title
+---
+
+---
 title: Market Pricing
 description: How prices are computed from stored state variables in the LMSR market.
 ---

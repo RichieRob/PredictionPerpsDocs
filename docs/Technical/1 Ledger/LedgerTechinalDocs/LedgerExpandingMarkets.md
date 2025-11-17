@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: ledger-expanding-markets  # Stable ID, e.g., for linking as /what-is-it/
+title: Ledger Expanding Markets  # Optional display title
 ---
 
 

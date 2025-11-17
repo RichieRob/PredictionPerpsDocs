@@ -1,3 +1,9 @@
+---
+comments: true
+slug: full-contract-deployment
+title: Full Contract Deployment
+---
+
 ## 1 · Deploy Core Contracts
 
  - Deploy `PositionToken1155`

@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: heap-logic  # Stable ID, e.g., for linking as /what-is-it/
+title: Heap Logic  # Optional display title
 ---
 
 

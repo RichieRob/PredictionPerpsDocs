@@ -1,4 +1,6 @@
 ---
+slug: what-is-it  # Stable ID, e.g., for linking as /what-is-it/
+title: What Is It?  # Optional display title
 comments: true
 ---
 

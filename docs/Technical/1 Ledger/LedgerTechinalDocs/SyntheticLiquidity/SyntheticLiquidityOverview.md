@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: synthetic-liquidity-overview  # Stable ID, e.g., for linking as /what-is-it/
+title: Synthetic Liquidity Overview  # Optional display title
 ---
 
 

@@ -1,5 +1,8 @@
 ---
-title: State Change — O(1) Updates (with χ factors)
+comments: true
+slug: lmsr-state-changes  # Stable ID, e.g., for linking as /what-is-it/
+
+title: LMSR State Changes
 description: How an LMSR market updates its cached state (G, R, S, denom, Z) for each action using explicit multiplicative factors χ_G and χ_{R_k}. Also clarifies the meaning and sign of t.
 ---
 

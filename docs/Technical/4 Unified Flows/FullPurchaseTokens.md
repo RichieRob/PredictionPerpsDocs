@@ -1,3 +1,8 @@
+---
+comments: true
+slug: full-purchase-tokens
+title: Full Purchase Tokens
+---
 # Token Purchase Flow
 
 

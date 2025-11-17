@@ -1,7 +1,8 @@
 ---
 comments: true
+slug: technical-read-me
+title: Technical Read Me
 ---
-
 
 # Technical Overview
 

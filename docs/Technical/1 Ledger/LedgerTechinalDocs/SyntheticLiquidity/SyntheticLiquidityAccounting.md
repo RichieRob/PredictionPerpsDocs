@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: synthetic-liquidity-accounting  # Stable ID, e.g., for linking as /what-is-it/
+title: Synthetic Liquidity Accounting  # Optional display title
 ---
 
 # Synthetic Liquidity Accounting

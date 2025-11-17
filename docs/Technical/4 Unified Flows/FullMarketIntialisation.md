@@ -1,6 +1,9 @@
 ---
 comments: true
+slug: full-market-initialisation
+title: Full Market Initialisation
 ---
+
 
 # Market Initialisation
 

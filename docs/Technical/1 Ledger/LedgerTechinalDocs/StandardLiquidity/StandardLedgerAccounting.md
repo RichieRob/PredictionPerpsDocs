@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: standard-ledger-accounting  # Stable ID, e.g., for linking as /what-is-it/
+title: Pitch  # Optional display title
 ---
 
 # Ledger Accounting

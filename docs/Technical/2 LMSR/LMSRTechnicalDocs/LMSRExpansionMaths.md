@@ -1,4 +1,11 @@
 ---
+comments: true
+slug: lmsr-expansion-maths  # Stable ID, e.g., for linking as /what-is-it/
+title: LMSR Expansion Maths  # Optional display title
+---
+
+
+---
 title: Splitting Positions in the LMSR
 description: How PredictionPerps handles adding new positions in an LMSR market while preserving prices and exposure.
 ---

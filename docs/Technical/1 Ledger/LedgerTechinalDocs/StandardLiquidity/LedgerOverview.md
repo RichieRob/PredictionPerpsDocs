@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: ledger-overview
+title: Ledger Overview
 ---
 
 # Ledger Overview

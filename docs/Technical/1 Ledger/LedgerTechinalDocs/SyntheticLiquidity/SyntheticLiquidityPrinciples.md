@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: synthetic-liquidity-principles  # Stable ID, e.g., for linking as /what-is-it/
+title: Synthetic Liquidity Principles  # Optional display title
 ---
 
 # Synthetic Liquidity Guiding Principles

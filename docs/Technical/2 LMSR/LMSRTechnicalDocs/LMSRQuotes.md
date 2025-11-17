@@ -1,4 +1,10 @@
 ---
+comments: true
+slug: lmsr-quotes  # Stable ID, e.g., for linking as /what-is-it/
+title: LMSR Quotes  # Optional display title
+---
+
+---
 title: Market Quoting — Closed-Form LMSR
 description: How the LMSR AMM computes BACK and LAY quotes for buys and sells, and how this maps to the Solidity implementation.
 ---

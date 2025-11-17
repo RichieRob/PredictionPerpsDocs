@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: glossary
+title: Glossary
 ---
 
 # Core Terminology

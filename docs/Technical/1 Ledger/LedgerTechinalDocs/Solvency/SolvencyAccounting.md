@@ -1,7 +1,8 @@
 ---
 comments: true
+slug: solvency-accounting  # Stable ID, e.g., for linking as /what-is-it/
+title: Solvency Accounting  # Optional display title
 ---
-
 
 # Solvency Accounting
 

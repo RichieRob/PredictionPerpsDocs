@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: ledger-zero-sum  # Stable ID, e.g., for linking as /what-is-it/
+title: Ledger Zero Sum  # Optional display title
 ---
 
 # Zero-Sum

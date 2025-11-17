@@ -1,3 +1,9 @@
+---
+comments: true
+slug: token-naming
+title: Token Naming
+---
+
 ## Tokens created
 
 Example of the tokens created when 4 positions Apple, Banana, Cucumber, Dragon Fruit are created in a market called Fruit.

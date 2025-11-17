@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: solvency-overview  # Stable ID, e.g., for linking as /what-is-it/
+title: Solvency Overview  # Optional display title
 ---
 
 

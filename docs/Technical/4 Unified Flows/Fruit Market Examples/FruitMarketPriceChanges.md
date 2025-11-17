@@ -1,3 +1,10 @@
+---
+comments: true
+slug: fruit-market-price-changes
+title: Fruit Market Price Changes
+---
+
+
 # Fruit Market — Worked Trading Walkthrough (Single Trade Example)
 
 This page walks through **one complete LMSR trade** on the Fruit market, showing:

@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: contracts-index
+title: Contracts Index
 ---
 
 # Contracts Index

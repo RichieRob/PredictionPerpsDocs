@@ -1,5 +1,10 @@
-# Market Initialisation Sequence
+---
+comments: true
+slug: fruit-market-intitialisation
+title: Fruit Market Initialisation
+---
 
+# Market Initialisation Sequence
 
 > ⚙️ **Before You Begin**  
 > See [ContractDeployment.md](ContractDeployment.md) for initial deployment of contracts.

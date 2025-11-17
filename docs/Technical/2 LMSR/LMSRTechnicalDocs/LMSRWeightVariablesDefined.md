@@ -1,3 +1,10 @@
+---
+comments: true
+slug: lmsr-weight-variables-defined
+title: LMSR Weight varibales Defined
+---
+
+
 # LMSR Weighting Variables: q, U, R 
 
 **core weighting variables** 

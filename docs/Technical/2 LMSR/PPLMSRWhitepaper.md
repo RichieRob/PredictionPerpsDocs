@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: pp-lmsr-whitepaper
+title: PP LMSR Whitepaper
 ---
 
 # LMSR as O(1)

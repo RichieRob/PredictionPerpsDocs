@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: prediction-perps-whitepaper
+title: Prediction Perps Whitepaper
 ---
 
 # Prediction Perps — Perpetual, Zero-Sum Leaderboards

@@ -1,5 +1,7 @@
 ---
 comments: true
+slug: unified-liquidity-discussion  # Stable ID, e.g., for linking as /what-is-it/
+title: Unified Liquidity Discussion  # Optional display title
 ---
 
 # Unifying Liquidity in Zero-Sum Markets
