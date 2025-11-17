@@ -22,7 +22,7 @@ nav:
   - ReadMe: index.md
   - Documents Needed: DocumentsNeeded.md
   - NonTechnical:
-      - Pitch: NonTechnical/Pitch.md
+      - Short Pitch: NonTechnical/ShortPitch.md
       - What Is It?: NonTechnical/WhatIsIt.md
   - Technical:
       - Technical ReadMe: Technical/TechnicalReadMe.md
@@ -32,39 +32,38 @@ nav:
           - Ledger Whitepaper: Technical/1 Ledger/LedgerWhitepaper.md
           - Ledger Technical Docs:
               - Ledger Expanding Markets: Technical/1 Ledger/LedgerTechinalDocs/LedgerExpandingMarkets.md
+              - Ledger Zero-Sum: Technical/1 Ledger/LedgerTechinalDocs/LedgerZeroSum.md
               - Solvency:
-                  - Solvency: Technical/1 Ledger/LedgerTechinalDocs/Solvency/Solvency.md
                   - Solvency Accounting: Technical/1 Ledger/LedgerTechinalDocs/Solvency/SolvencyAccounting.md
+                  - Solvency Overview: Technical/1 Ledger/LedgerTechinalDocs/Solvency/SolvencyOverview.md
               - Standard Liquidity:
                   - Heap Logic: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/HeapLogic.md
-                  - Ledger Accounting: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/LedgerAccounting.md
                   - Ledger Overview: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/LedgerOverview.md
-                  - Unified Liquidity: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/UnifiedLiquidity.md
+                  - Standard Ledger Accounting: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/StandardLedgerAccounting.md
+                  - Unified Liquidity Discussion: Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/UnifiedLiquidityDiscussion.md
               - Synthetic Liquidity:
-                  - Synthetic Accounting: Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticAccounting.md
-                  - Synthetic Overview: Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticOverview.md
-                  - Synthetic Principles: Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticPrinciples.md
-              - Zero-Sum: Technical/1 Ledger/LedgerTechinalDocs/ZeroSum.md
+                  - Synthetic Liquidity Accounting: Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticLiquidityAccounting.md
+                  - Synthetic Liquidity Overview: Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticLiquidityOverview.md
+                  - Synthetic Liquidity Principles: Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticLiquidityPrinciples.md
       - 2 LMSR:
           - LMSR ReadMe: Technical/2 LMSR/LMSRReadMe.md
           - PP LMSR Whitepaper: Technical/2 LMSR/PPLMSRWhitepaper.md
           - LMSR Technical Docs:
-              - Initialisation Storage: Technical/2 LMSR/LMSRTechnicalDocs/InitialisationStorage.md
-              - LMSR Expansion New Position LMSR Maths: Technical/2 LMSR/LMSRTechnicalDocs/LMSRExpansionNewPositionLMSRMaths.md
-              - Market Pricing: Technical/2 LMSR/LMSRTechnicalDocs/MarketPricing.md
-              - Quote: Technical/2 LMSR/LMSRTechnicalDocs/Quote.md
-              - State Changes: Technical/2 LMSR/LMSRTechnicalDocs/StateChanges.md
-              - Weight Variables: Technical/2 LMSR/LMSRTechnicalDocs/WeightVariables.md
+              - LMSR Expansion Maths: Technical/2 LMSR/LMSRTechnicalDocs/LMSRExpansionMaths.md
+              - LMSR Initialisation Storage: Technical/2 LMSR/LMSRTechnicalDocs/LMSRInitialisationStorage.md
+              - LMSR Marginal Prices: Technical/2 LMSR/LMSRTechnicalDocs/LMSRMarginalPrices.md
+              - LMSR Quotes: Technical/2 LMSR/LMSRTechnicalDocs/LMSRQuotes.md
+              - LMSR State Changes: Technical/2 LMSR/LMSRTechnicalDocs/LMSRStateChanges.md
+              - LMSR Weight Variables Defined: Technical/2 LMSR/LMSRTechnicalDocs/LMSRWeightVariablesDefined.md
       - 3 Tokens:
-          - Token Names: Technical/3 Tokens/TokenNames.md
+          - Token Naming: Technical/3 Tokens/TokenNaming.md
       - 4 Unified Flows:
-          - Contract Deployment: Technical/4 Unified Flows/ContractDeployment.md
-          - Market Initialisation: Technical/4 Unified Flows/MarketIntialisation.md
-          - Token Purchase Flow: Technical/4 Unified Flows/PurchaseToken.md
+          - Full Contract Deployment: Technical/4 Unified Flows/FullContractDeployment.md
+          - Full Market Intialisation: Technical/4 Unified Flows/FullMarketIntialisation.md
+          - Full Purchase Tokens: Technical/4 Unified Flows/FullPurchaseTokens.md
           - Fruit Market Examples:
-              - Market Initialisation: Technical/4 Unified Flows/Fruit Market Examples/MarketInitialisation.md
-              - Price Changes: Technical/4 Unified Flows/Fruit Market Examples/PriceChanges.md
-              - WIP Pricing Walkthrough: Technical/4 Unified Flows/Fruit Market Examples/WIPPricingWalkthrough.md
+              - Fruit Market Initialisation: Technical/4 Unified Flows/Fruit Market Examples/FruitMarketInitialisation.md
+              - Fruit Market Price Changes: Technical/4 Unified Flows/Fruit Market Examples/FruitMarketPriceChanges.md
       - 5 Appendices:
           - Contracts Index: Technical/5 Appendices/ContractsIndex.md
           - Glossary: Technical/5 Appendices/Glossary.md
