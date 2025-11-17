@@ -4,3 +4,4 @@ pymdown-extensions>=10.9
 markdown-include>=0.8.0
 mkdocs-mermaid2-plugin>=1.1.1
 beautifulsoup4>=4.13.4
+mkdocs-awesome-pages-plugin==2.10.1
