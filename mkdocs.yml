@@ -7,7 +7,7 @@ theme:
   features:
     - content.code.copy
     - content.code.annotate
-    - navigation.expand
+
   palette:
     - scheme: default
       toggle:
@@ -20,41 +20,53 @@ theme:
 
 nav:
   - ReadMe: index.md
-  - Overview:
-      - What Is It?: FullReadMe/WhatIsIt.md
-      - Technical Overview: FullReadMe/TechnicalReadMe.md
-      - Documents Still Needed: FullReadMe/DocumentsNeeded.md
-
-  - Accounting:
-      - Standard Liquidity:
-          - Ledger Overview: FullReadMe/Accounting/StandardLiquidity/LedgerOverview.md
-          - Unified Liquidity: FullReadMe/Accounting/StandardLiquidity/UnifiedLiquidity.md
-          - Ledger Accounting: FullReadMe/Accounting/StandardLiquidity/LedgerAccounting.md
-      - Synthetic Liquidity:
-          - Synthetic Overview: FullReadMe/Accounting/SyntheticLiquidity/SyntheticOverview.md
-          - Synthetic Principles: FullReadMe/Accounting/SyntheticLiquidity/SyntheticPrinciples.md
-          - Synthetic Accounting: FullReadMe/Accounting/SyntheticLiquidity/SyntheticAccounting.md
-      - General:
-          - Zero-Sum: FullReadMe/ZeroSum.md
-          - Solvency (Concept): FullReadMe/Solvency.md
-          - Solvency Accounting: FullReadMe/SolvencyAccounting.md
-          - Heap Logic: FullReadMe/HeapLogic.md
-  - Flows:
-      - Contract Deployment: Flows/ContractDeployment.md
-      - Market Initialisation: Flows/MarketInitialisation.md
-      - Token Names: Flows/TokenNames.md
-      - Purchase Flow: Flows/PurchaseToken.md
-  - LMSR:
-      - Whitepaper: FullReadMe/AMM.md
-      - Initialisation Storage: LMSR/InitialisationStorage.md
-      - State Changes: LMSR/StateChanges.md
-      - Market Pricing: LMSR/MarketPricing.md
-      - Price Changes: LMSR/PriceChanges.md
-      - Quotes: LMSR/Quote.md
-      - Weight Variables: LMSR/WeightVariables.md
-      - Expanding Market Maths: LMSR/NewPositionLMSRMaths.md
-  - Contracts Index: ContractsIndex.md
-  - Pitch: Pitch.md
+  - Documents Needed: DocumentsNeeded.md
+  - NonTechnical:
+      - Pitch: NonTechnical/Pitch.md
+      - What Is It?: NonTechnical/WhatIsIt.md
+  - Technical:
+      - Technical ReadMe: Technical/TechnicalReadMe.md
+      - Prediction Perps Whitepaper: Technical/PredictionPerpsWhitepaper.md
+      - 1 Ledger:
+          - Ledger ReadMe: Technical/1 Ledger/LedgerReadMe.md
+          - Ledger Whitepaper: Technical/1 Ledger/LedgerWhitepaper.md
+          - Ledger Expanding Markets: Technical/1 Ledger/LedgerExpandingMarkets.md
+          - Accounting:
+              - Solvency:
+                  - Solvency: Technical/1 Ledger/Accounting/Solvency/Solvency.md
+                  - Solvency Accounting: Technical/1 Ledger/Accounting/Solvency/SolvencyAccounting.md
+              - Standard Liquidity:
+                  - Heap Logic: Technical/1 Ledger/Accounting/StandardLiquidity/HeapLogic.md
+                  - Ledger Accounting: Technical/1 Ledger/Accounting/StandardLiquidity/LedgerAccounting.md
+                  - Ledger Overview: Technical/1 Ledger/Accounting/StandardLiquidity/LedgerOverview.md
+                  - Unified Liquidity: Technical/1 Ledger/Accounting/StandardLiquidity/UnifiedLiquidity.md
+              - Synthetic Liquidity:
+                  - Synthetic Accounting: Technical/1 Ledger/Accounting/SyntheticLiquidity/SyntheticAccounting.md
+                  - Synthetic Overview: Technical/1 Ledger/Accounting/SyntheticLiquidity/SyntheticOverview.md
+                  - Synthetic Principles: Technical/1 Ledger/Accounting/SyntheticLiquidity/SyntheticPrinciples.md
+              - Zero-Sum: Technical/1 Ledger/Accounting/ZeroSum.md
+      - 2 LMSR:
+          - LMSR ReadMe: Technical/2 LMSR/LMSRReadMe.md
+          - LMSR Implementation Whitepaper: Technical/2 LMSR/LMSRImplementationWhitepaper.md
+          - LMSR Expansion New Position LMSR Maths: Technical/2 LMSR/LMSRExpansionNewPositionLMSRMaths.md
+          - Initialisation Storage: Technical/2 LMSR/InitialisationStorage.md
+          - Market Pricing: Technical/2 LMSR/MarketPricing.md
+          - Quote: Technical/2 LMSR/Quote.md
+          - State Changes: Technical/2 LMSR/StateChanges.md
+          - Weight Variables: Technical/2 LMSR/WeightVariables.md
+      - 3 Tokens:
+          - Token Names: Technical/3 Tokens/TokenNames.md
+      - 4 Unified Flows:
+          - Contract Deployment: Technical/4 Unified Flows/ContractDeployment.md
+          - Market Initialisation: Technical/4 Unified Flows/MarketIntialisation.md
+          - Token Purchase Flow: Technical/4 Unified Flows/PurchaseToken.md
+          - Fruit Market Examples:
+              - Market Initialisation: Technical/4 Unified Flows/Fruit Market Examples/MarketInitialisation.md
+              - Price Changes: Technical/4 Unified Flows/Fruit Market Examples/PriceChanges.md
+              - WIP Pricing Walkthrough: Technical/4 Unified Flows/Fruit Market Examples/WIPPricingWalkthrough.md
+      - 5 Appendices:
+          - Contracts Index: Technical/5 Appendices/ContractsIndex.md
+          - Glossary: Technical/5 Appendices/Glossary.md
 
 markdown_extensions:
   - pymdownx.superfences:
