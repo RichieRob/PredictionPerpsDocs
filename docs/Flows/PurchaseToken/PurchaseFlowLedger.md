@@ -81,10 +81,10 @@ ensureSolvency(
 When synthetic credit (ISC) is in use, ensure **real** capital is sufficient against redeemable exposure.
 
 ```solidity
-require(
-    spentReal >= int256(maxTilt), 
-    "Redeemability: insufficient real backing"
-    )
+    if (redeemable > 0 && s.USDCSpent[mmId][marketId] < redeemable) {
+        uint256 diff = uint256(redeemable - s.USDCSpent[mmId][marketId]);
+        AllocateCapitalLib.allocate(mmId, marketId, diff);
+        }
 ```
 
 
