@@ -150,3 +150,5 @@ function _normalizeToWadTotal(
 | `R_reserve` | 0.2e18 | Reserve (“Other”) component |
 
 ---
+
+--8<-- "link-refs.md"

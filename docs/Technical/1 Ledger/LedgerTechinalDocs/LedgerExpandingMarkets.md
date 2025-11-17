@@ -108,3 +108,5 @@ When new positions are introduced, they are carved out of “Other” without af
 Market Makers remain fully solvent at all times and may choose whether or not to engage with the new positions.  
 
 This mechanism allows markets to evolve naturally as new outcomes emerge, while maintaining the same safety, accounting, and simplicity as fixed-position markets.
+
+--8<-- "link-refs.md"

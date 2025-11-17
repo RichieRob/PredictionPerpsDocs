@@ -37,3 +37,4 @@ Full explanations of contract functionality WIP. However you can browse the cont
 
 👉 [**Contracts Index**](./ContractsIndex.md).
 
+--8<-- "link-refs.md"

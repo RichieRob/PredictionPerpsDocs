@@ -187,3 +187,5 @@ The ledger ensures that a market maker never issues more tokens than its availab
 
 ## Further Reading
 For a deeper look at the full implementation of these principals see [**Ledger Accounting**](./LedgerAccounting.md)
+
+--8<-- "link-refs.md"

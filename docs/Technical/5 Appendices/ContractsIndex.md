@@ -47,3 +47,5 @@ Quick index of contracts and libraries with one‑line descriptions, linked to t
 - **[LMSRQuoteLib.sol](https://github.com/RichieRob/PredictionPerpsContracts/blob/main/Core/AMMLibraries/LMSRQuoteLib.sol)** — Generates quotes and pricing for LMSR trades.
 - **[LMSRUpdateLib.sol](https://github.com/RichieRob/PredictionPerpsContracts/blob/main/Core/AMMLibraries/LMSRUpdateLib.sol)** — Updates LMSR state after trades or events.
 - **[LMSRViewLib.sol](https://github.com/RichieRob/PredictionPerpsContracts/blob/main/Core/AMMLibraries/LMSRViewLib.sol)** — View functions for querying LMSR AMM data.
+
+--8<-- "link-refs.md"

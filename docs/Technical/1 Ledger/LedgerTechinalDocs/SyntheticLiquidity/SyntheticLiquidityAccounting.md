@@ -475,3 +475,5 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 
 ## Further Reading
 To see the implementation of these accounting principles in code see [**Ledger.sol**](../../../Contracts/Ledger.sol.md) and accompanying libraries.
+
+--8<-- "link-refs.md"

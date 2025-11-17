@@ -47,3 +47,4 @@ LMSRMarketMaker.mmId()
 ledger.allowDMM(mmId, true);
 ```
 
+--8<-- "link-refs.md"

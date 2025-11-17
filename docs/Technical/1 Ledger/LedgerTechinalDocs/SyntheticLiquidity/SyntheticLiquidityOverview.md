@@ -172,3 +172,5 @@ It gives the AMM something to quote against before any real deposits arrive, but
 
 For a full implementation guide of Synthetic liquidity see
 [**Synthetic Accounting**](./SyntheticAccounting.md)
+
+--8<-- "link-refs.md"

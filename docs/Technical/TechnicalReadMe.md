@@ -106,3 +106,5 @@ Together, these contracts ensure every trade is priced, executed, and recorded s
 - [**Synthetic Liquidity**](./Accounting/SyntheticLiquidity/SyntheticOverview.md)
 
 ---
+
+--8<-- "link-refs.md"

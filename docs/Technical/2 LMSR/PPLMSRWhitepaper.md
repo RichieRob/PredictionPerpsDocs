@@ -581,4 +581,6 @@ $$
 
 For the full implementation of the code of the LSMR AMM in Prediction Perps see [**LMSRAMM.sol**](../Contracts/AMM.sol.md) 
 
-For discussion on the internal ledger accounting which supports the implentation of the AMM start with [**Ledger Overview**](./Accounting/StandardLiquidity/LedgerOverview.md) 
+For discussion on the internal ledger accounting which supports the implentation of the AMM start with [**Ledger Overview**](./Accounting/StandardLiquidity/LedgerOverview.md)
+
+--8<-- "link-refs.md"

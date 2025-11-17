@@ -157,3 +157,5 @@ even in markets with thousands of positions.
 - [**Solvency — Concept and Enforcement**](./Solvency.md) — conceptual overview and rationale for solvency rules.  
 
 ---
+
+--8<-- "link-refs.md"

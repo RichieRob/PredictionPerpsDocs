@@ -78,4 +78,6 @@ The system defines two complementary operations that link real collateral (USDC)
 #### Issuance
 
  — converting **1 USDC → Full Basket**  
-  The act of expanding the collateral unit into unity exposure across all Positions.  
+  The act of expanding the collateral unit into unity exposure across all Positions.
+
+--8<-- "link-refs.md"

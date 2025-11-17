@@ -63,3 +63,5 @@ This encoding ensures every Back/Lay token across all markets has a distinct ID.
 All **Lay** tokens are even (`isBack = 0`),  
 and all **Back** tokens are odd (`isBack = 1`).  
 When `marketId` increases, each tokenId gains an offset of `1 << 64 = 18446744073709551616`.
+
+--8<-- "link-refs.md"

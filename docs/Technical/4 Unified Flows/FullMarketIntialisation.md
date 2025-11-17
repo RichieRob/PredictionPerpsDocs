@@ -14,3 +14,5 @@ Adding positions involves giving each one a name and ticker, such as "Tesla" wit
 Some markets have a defined finite number of positions. For these, you call lockMarket, which stops the market from ever expanding to have more positions.
 
 Throughout, solvency is maintained automatically, with expanding markets accounting for unlisted outcomes via an implicit "Other" bucket. The "Other" bucket is no longer present on locked (non-expanding) markets.
+
+--8<-- "link-refs.md"

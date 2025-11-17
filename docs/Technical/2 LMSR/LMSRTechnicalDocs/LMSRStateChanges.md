@@ -158,3 +158,4 @@ function applyUpdateInternal(
 
 **[LMSRUpdateLib.sol](https://github.com/RichieRob/PredictionPerpsContracts/blob/main/Core/AMMLibraries/LMSRUpdateLib.sol)**
 
+--8<-- "link-refs.md"

@@ -241,3 +241,5 @@ These examples illustrate how the ledger internally accounts for collateral and 
 
 ## Further Reading
 For a deeper look at implementation see [**Ledger Overview**](./LedgerOverview.md)
+
+--8<-- "link-refs.md"

@@ -82,3 +82,4 @@ u_k' = u_k + (\Delta U_k - \Delta U_{\text{rest}})
 
 ---
 
+--8<-- "link-refs.md"

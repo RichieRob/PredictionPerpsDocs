@@ -92,6 +92,10 @@ markdown_extensions:
       permalink: true
       toc_depth: 2-6
   - meta
+  - pymdownx.snippets:
+      base_path: docs
+      check_paths: true
+
 
 plugins:
   - search

@@ -92,7 +92,8 @@ the total market value always equals 1 USDC, and every movement in one position 
 
 ## Further Reading
 
-👉 [**Technical Overview**](TechnicalReadMe.md)
+👉 [**Technical Overview**][technical-read-me]
 
 👉 [**Smart Contracts Index**](../ContractsIndex.md).
 
+--8<-- "link-refs.md"

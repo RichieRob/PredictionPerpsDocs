@@ -164,3 +164,5 @@ function quoteSellForUSDC(
 - `isBack = true` → selling BACK tokens for exact USDC; `false` → selling LAY.
 
 ---
+
+--8<-- "link-refs.md"

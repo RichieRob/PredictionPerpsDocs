@@ -26,3 +26,5 @@ Trade shares in ideas, stories and people
 ---
 
 *Format: **1-1-7 Pitch** — One sentence. One paragraph. Seven words.*
+
+--8<-- "link-refs.md"

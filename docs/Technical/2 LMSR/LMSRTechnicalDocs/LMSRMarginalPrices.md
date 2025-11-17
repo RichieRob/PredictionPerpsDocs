@@ -113,3 +113,5 @@ Returned as **1e18** fixed-point.
 | **Back(Other)** | \(p_{\text{other}} = R_{\text{reserve}} / \ S\) | `getReservePriceWad` | 1e18 |
 
 ---
+
+--8<-- "link-refs.md"

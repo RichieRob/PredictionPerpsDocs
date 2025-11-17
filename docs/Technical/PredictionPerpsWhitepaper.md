@@ -132,3 +132,5 @@ Dive deeper:
 - [Synthetic Liquidity](FullReadMe/Accounting/SyntheticLiquidity/SyntheticOverview.md)  
 - [Ledger Overview](FullReadMe/Accounting/StandardLiquidity/LedgerOverview.md) · [Ledger Accounting](FullReadMe/Accounting/StandardLiquidity/LedgerAccounting.md)  
 - [Contracts Index](ContractsIndex.md)
+
+--8<-- "link-refs.md"

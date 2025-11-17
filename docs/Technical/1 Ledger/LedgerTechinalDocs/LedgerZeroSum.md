@@ -109,4 +109,6 @@ So for each market.
 ## Further Reading
 
 - For all defined terms see [**Glossary**](../Glossary.md).  
-- For accounting and solvency details see [**Ledger Overview**](Accounting/StandardLiquidity/LedgerOverview.md).  
+- For accounting and solvency details see [**Ledger Overview**](Accounting/StandardLiquidity/LedgerOverview.md).
+
+--8<-- "link-refs.md"

@@ -116,4 +116,5 @@ must pass the same invariant tests before execution.
 - [**Zero-Sum Enforcement**](ZeroSum.md) — how constant redeemability ensures conservation of value.  
 
 ---
-    
+
+--8<-- "link-refs.md"

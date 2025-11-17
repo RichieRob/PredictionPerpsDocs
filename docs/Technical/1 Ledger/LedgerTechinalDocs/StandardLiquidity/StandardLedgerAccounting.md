@@ -585,3 +585,5 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 ## Further Reading
 For the extension of how Ledger Accounting works with the introduction of Synthetic Liquidity see
 [**Synthetic Overview**](../SyntheticLiquidity/SyntheticOverview.md) and [**Synthetic Accounting**](../SyntheticLiquidity/SyntheticAccounting.md)
+
+--8<-- "link-refs.md"

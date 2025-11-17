@@ -212,3 +212,5 @@ p_{\text{Cucumber}}' = \frac{0.300000}{1.0139604} \approx 0.2959
 - Apple’s price shifted **0.4000 → ≈ 0.4083**  
 - Other prices fell slightly because \(S\) grew while their \(R_i\) stayed constant  
 - \(G\) stayed at **1.0**, so all movement was captured in the local \(R_i\) and \(S\)
+
+--8<-- "link-refs.md"

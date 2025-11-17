@@ -158,3 +158,5 @@ The smallest tilt in the entire system is always stored at the heap root, instan
 - **Predictable worst case:** “rescan + fix” costs ≈ **`16 + 4·(L−1)`** comparisons, where `L` is heap levels — a few dozen ops even at large `n`.
 
 **Bottom line:** `B = 16, d = 4` gives small, fixed block work and a shallow heap with low, predictable adjustment cost, while keeping the implementation simple and gas-friendly.
+
+--8<-- "link-refs.md"
