@@ -159,3 +159,100 @@
 .md-typeset pre {
   scrollbar-color: #3d2a5b #150631;
 }
+
+/* Mermaid HTML labels styled as links */
+.mermaid .mm-link {
+  color: #1a73e8 !important;          /* FORCE the color */
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* If Mermaid wraps it in an <a>, belt and braces: */
+.mermaid a .mm-link {
+  color: #1a73e8 !important;
+}
+
+/* Dark mode override */
+[data-md-color-scheme="slate"] .mermaid .mm-link,
+[data-md-color-scheme="slate"] .mermaid a .mm-link {
+  color: #8ab4f8 !important;
+}
+
+
+/* Optional hover */
+.mermaid .mm-link:hover {
+  opacity: 0.7;
+}
+
+
+/* Center all Mermaid diagrams globally */
+.md-content .mermaid {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.mermaid .node rect {
+  stroke-width: 3px !important;
+  rx: 10px;
+  ry: 10px;
+}
+
+/* Outer card for each node */
+.mermaid .mm-card {
+  display: inline-block;
+  width: 260px;              /* control box width */
+  min-height: 60px;          /* control box height */
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  border: 2px solid #1a73e8;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Your existing link styling, kept as-is */
+.mermaid .mm-link {
+  color: #1a73e8 !important;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mermaid .mm-link:hover {
+  opacity: 0.8;
+}
+
+/* Dark mode tweak */
+[data-md-color-scheme="slate"] .mermaid .mm-card {
+  background: #1b1c1f;
+  border-color: #8ab4f8;
+}
+[data-md-color-scheme="slate"] .mermaid .mm-link {
+  color: #8ab4f8 !important;
+}
+
+/* Remove Mermaid's default rounded box & purple outlines */
+.mermaid .node rect {
+  stroke: none !important;
+  fill: transparent !important;
+}
+.mermaid .mm-start {
+  background: #e7f2ff;
+  border-radius: 50px;
+  border: 3px solid #1a73e8;
+  width: 300px;
+  min-height: 70px;
+}
+.mermaid .mm-card {
+  display: flex;
+  align-items: center;    /* vertically center */
+  justify-content: center;/* horizontally center (already, but consistent) */
+  height: 100%;           /* required for proper vertical centering */
+}
