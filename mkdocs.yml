@@ -43,11 +43,7 @@ nav:
       - Contract Deployment: Flows/ContractDeployment.md
       - Market Initialisation: Flows/MarketInitialisation.md
       - Token Names: Flows/TokenNames.md
-      - Purchase Flow:
-        - Purchase Flow Overview: Flows/PurchaseToken/PurchaseFlowOverview
-        - Purchase Flow Front End: Flows/PurchaseToken/PurchaseFlowFrontEnd
-        - Purchase Flow LMSR: Flows/PurchaseToken/PurchaseFlowLMSR
-        - Purchase Flow Ledger: Flows/PurchaseToken/PurchaseFlowLedger
+      - Purchase Flow: Flows/PurchaseToken.md
   - LMSR:
       - Whitepaper: FullReadMe/AMM.md
       - Initialisation Storage: LMSR/InitialisationStorage.md
