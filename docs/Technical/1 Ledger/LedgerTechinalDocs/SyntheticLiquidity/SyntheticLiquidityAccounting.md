@@ -10,7 +10,7 @@ This document details the internal accounting of the ledger, including the addit
 specifically how `freeCollateral`, `USDCSpent`, `layOffset`, and `tilt` are updated
 to manage Back and Lay token operations,
 as implemented in the provided Solidity contracts.
-It assumes familiarity with the [**LedgerOverview**](LedgerOverview.md)
+It assumes familiarity with the [**LedgerOverview**][ledger-overview]
 and focuses solely on the accounting mechanics for these operations.
 
 ## Innovation
@@ -474,6 +474,6 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 - Reallocation restores effective_minShares = 0 minimally; redeemable enforced independently.
 
 ## Further Reading
-To see the implementation of these accounting principles in code see [**Ledger.sol**](../../../Contracts/Ledger.sol.md) and accompanying libraries.
+To see the implementation of these accounting principles in code see [**Ledger.sol**][ledger.sol] and accompanying [**libraries**][ledger-libraries].
 
 --8<-- "link-refs.md"

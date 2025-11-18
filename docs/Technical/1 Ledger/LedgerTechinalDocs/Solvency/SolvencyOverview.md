@@ -110,10 +110,10 @@ must pass the same invariant tests before execution.
 
 ## 6 · Further Reading
 
-- [**Synthetic Liquidity Overview**](./Accounting/SyntheticLiquidity/SyntheticOverview.md) — how ISC is introduced, used, and refilled.  
-- [**Ledger Overview**](./Accounting/StandardLiquidity/LedgerOverview.md) — full breakdown of the accounting model.  
-- [**Solvency Accounting**](./SolvencyAccounting.md) — detailed algorithmic description of how solvency checks are computed.  
-- [**Zero-Sum Enforcement**](ZeroSum.md) — how constant redeemability ensures conservation of value.  
+- [**Synthetic Liquidity Overview**][synthetic-liquidity-overview] — how ISC is introduced, used, and refilled.  
+- [**Ledger Overview**][ledger-overview] — full breakdown of the accounting model.  
+- [**Solvency Accounting**][solvency-accounting] — detailed algorithmic description of how solvency checks are computed.  
+- [**Zero-Sum Enforcement**][ledger-zero-sum] — how constant redeemability ensures conservation of value.  
 
 ---
 

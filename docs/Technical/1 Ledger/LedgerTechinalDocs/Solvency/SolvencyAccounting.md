@@ -12,9 +12,9 @@ and how solvency checks differ when **Synthetic Liquidity (ISC)** is active.
 
 It assumes familiarity with:
 
-- [**Ledger Overview**](../StandardLiquidity/LedgerOverview.md)  
-- [**Heap Logic**](../StandardLiquidity/HeapLogic.md)  
-- [**Synthetic Liquidity Accounting**](../SyntheticLiquidity/SyntheticAccounting.md)
+- [**Ledger Overview**][ledger-overview]
+- [**Heap Logic**][heap-logic]
+- [**Synthetic Liquidity Accounting**][synthetic-liquidity-accounting]
 
 ---
 
@@ -53,7 +53,7 @@ Together these ensure both per-position and aggregate solvency.
 
 ## 3 · The Heap System
 
-See full details in [**Heap Logic**](../StandardLiquidity/HeapLogic.md).
+See full details in [**Heap Logic**][heap-logic].
 
 The heap system allows the Ledger to efficiently query and update the **minimum tilt** (and when ISC is active, also the **maximum tilt**) across `n` positions.
 
@@ -151,10 +151,10 @@ even in markets with thousands of positions.
 
 ## 7 · Further Reading
 
-- [**Heap Logic**](./HeapLogic.md) — full explanation of the 4-ary min/max heap implementation.  
-- [**Synthetic Liquidity Accounting**](./Accounting/SyntheticLiquidity/SyntheticAccounting.md) — how ISC modifies solvency.  
-- [**Ledger Overview**](./Accounting/StandardLiquidity/LedgerOverview.md) — higher-level context of market-maker accounting.  
-- [**Solvency — Concept and Enforcement**](./Solvency.md) — conceptual overview and rationale for solvency rules.  
+- [**Heap Logic**][heap-logic] — full explanation of the 4-ary min/max heap implementation.  
+- [**Synthetic Liquidity Accounting**][synthetic-liquidity-accounting] — how ISC modifies solvency.  
+- [**Ledger Overview**][ledger-overview] — higher-level context of market-maker accounting.  
+- [**Solvency — Concept and Enforcement**][solvency-overview] — conceptual overview and rationale for solvency rules.  
 
 ---
 

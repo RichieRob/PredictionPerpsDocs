@@ -10,7 +10,7 @@ This document details the internal accounting of the ledger,
 specifically how `freeCollateral`, `USDCSpent`, `layOffset`, and `tilt` are updated
 to manage Back and Lay token operations,
 as implemented in the provided Solidity contracts.
-It assumes familiarity with the [LedgerOverview](LedgerOverview.md)
+It assumes familiarity with the [LedgerOverview][ledger-overview]
 and focuses solely on the accounting mechanics for these operations.
 
 ## Innovation
@@ -584,6 +584,6 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 
 ## Further Reading
 For the extension of how Ledger Accounting works with the introduction of Synthetic Liquidity see
-[**Synthetic Overview**](../SyntheticLiquidity/SyntheticOverview.md) and [**Synthetic Accounting**](../SyntheticLiquidity/SyntheticAccounting.md)
+[**Synthetic Overview**][synthetic-liquidity-overview] and [**Synthetic Accounting**][synthetic-liquidity-accounting]
 
 --8<-- "link-refs.md"

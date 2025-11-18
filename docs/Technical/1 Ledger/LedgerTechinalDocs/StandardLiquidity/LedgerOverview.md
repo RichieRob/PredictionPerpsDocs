@@ -180,12 +180,12 @@ New balance array
 This document provides a **conceptual overview** of how accounting operates within the ledger.
 
 ### On-Chain Implementation
-In the **on-chain implementation**, several optimizations are applied for efficiency, particularly when handling **Lay tokens**. Instead of updating the entire balance array, Lay accounting adjusts only the **global balance** and the **relevant Back token balance**. For a complete explanation of these implementation details, refer to the [LedgerAccounting](LedgerAccounting.md) document.
+In the **on-chain implementation**, several optimizations are applied for efficiency, particularly when handling **Lay tokens**. Instead of updating the entire balance array, Lay accounting adjusts only the **global balance** and the **relevant Back token balance**. For a complete explanation of these implementation details, refer to the [LedgerAccounting][ledger-accounting] document.
 
 ### Market Maker Constraints
-The ledger ensures that a market maker never issues more tokens than its available potential. To enforce this, it continuously tracks the **minimum balance value** within the array, along with the **position** where that minimum occurs. Efficiently maintaining this information across large arrays is non-trivial and is described in detail in the [HeapLogic](../../HeapLogic.md) document.
+The ledger ensures that a market maker never issues more tokens than its available potential. To enforce this, it continuously tracks the **minimum balance value** within the array, along with the **position** where that minimum occurs. Efficiently maintaining this information across large arrays is non-trivial and is described in detail in the [HeapLogic][heap-logic] document.
 
 ## Further Reading
-For a deeper look at the full implementation of these principals see [**Ledger Accounting**](./LedgerAccounting.md)
+For a deeper look at the full implementation of these principals see [**Ledger Accounting**][ledger-accounting]
 
 --8<-- "link-refs.md"
