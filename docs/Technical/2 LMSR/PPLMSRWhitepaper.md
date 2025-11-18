@@ -8,7 +8,8 @@ title: PP LMSR Whitepaper
 
 This AMM implements a **closed-form version** of Robin Hanson’s  
 *Logarithmic Market Scoring Rule (LMSR)*  
-(*Combinatorial Information Market Design*, 2003; *Journal of Prediction Markets*, 2007).
+([*Combinatorial Information Market Design*, 2003](https://mason.gmu.edu/~rhanson/combobet.pdf);  
+[*Logarithmic Market Scoring Rules for Modular Combinatorial Information Aggregation*, 2007](http://hanson.gmu.edu/mktscore.pdf)).
 
 It supports both **BACK** (buying outcome *i*) and **true LAY** (buying *not-i*) orders.  
 All updates are done in **O(1)** time using a cached decomposition of the exponential sum.
@@ -574,8 +575,15 @@ $$
 ### References
 
 - **Hanson, R. (2003)** — *Combinatorial Information Market Design*, George Mason University.  
+  <https://mason.gmu.edu/~rhanson/combobet.pdf> 
+
 - **Hanson, R. (2007)** — *Logarithmic Market Scoring Rules for Modular Combinatorial Information Aggregation*, *Journal of Prediction Markets*, 1(1).  
-- **Abernethy, J., Chen, Y., Wortman Vaughan, J. (2011)** — *Efficient Market Making via Convex Optimization*, EC’11.
+  <http://hanson.gmu.edu/mktscore.pdf> 
+
+- **Abernethy, J., Chen, Y., Wortman Vaughan, J. (2011/2013)** — *Efficient Market Making via Convex Optimization*, *ACM Transactions on Economics and Computation*, 1(1).  
+  <https://dl.acm.org/doi/10.1145/2465769.2465777> 
+  
+
 
 ## Further Reading
 
