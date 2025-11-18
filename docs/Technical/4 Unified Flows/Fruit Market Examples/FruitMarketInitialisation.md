@@ -7,7 +7,7 @@ title: Fruit Market Initialisation
 # Market Initialisation Sequence
 
 > ⚙️ **Before You Begin**  
-> See [ContractDeployment.md](ContractDeployment.md) for initial deployment of contracts.
+> See [ContractDeployment.md][full-contract-deployment] for initial deployment of contracts.
 
 ## 0 · About the market being created
 
@@ -137,6 +137,6 @@ listPosition(
 ---
 ## Token Names
 
-See [**Token Names**](TokenNames.md)
+See [**Token Names**][token-naming]
 
 --8<-- "link-refs.md"

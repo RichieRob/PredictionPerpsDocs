@@ -2,6 +2,7 @@
 import os
 import sys
 import urllib.parse
+import re
 
 try:
     import yaml
@@ -15,9 +16,10 @@ OUTPUT_MD = "slugs.md"
 LINK_REFS_MD = os.path.join("docs", "link-refs.md")
 INCLUDE_LINE = '--8<-- "link-refs.md"'
 
-# Static mapping: contract filename -> GitHub URL
+
+# Static mapping: contract filename or collection → GitHub URL
 CONTRACT_REFS = {
-   # === Root repo ===
+    # === Root repo ===
     "contracts-root": "https://github.com/RichieRob/PredictionPerpsContracts/tree/main",
 
     # === Folders ===
@@ -60,7 +62,6 @@ CONTRACT_REFS = {
     "LMSRQuoteLib.sol": "https://github.com/RichieRob/PredictionPerpsContracts/blob/main/Core/AMMLibraries/LMSRQuoteLib.sol",
     "LMSRUpdateLib.sol": "https://github.com/RichieRob/PredictionPerpsContracts/blob/main/Core/AMMLibraries/LMSRUpdateLib.sol",
     "LMSRViewLib.sol": "https://github.com/RichieRob/PredictionPerpsContracts/blob/main/Core/AMMLibraries/LMSRViewLib.sol",
-
 }
 
 
@@ -102,6 +103,9 @@ def extract_paths_from_nav(nav_section):
 
 
 def parse_front_matter(md_path: str):
+    """
+    Returns (title, slug) from YAML front matter, or (None, None) if absent.
+    """
     if not os.path.isfile(md_path):
         return None, None
 
@@ -129,7 +133,69 @@ def parse_front_matter(md_path: str):
     return data.get("title"), data.get("slug")
 
 
+def slugify_heading(text: str) -> str:
+    """
+    Roughly match MkDocs/Markdown heading → ID generation:
+    - lower-case
+    - replace spaces with '-'
+    - remove invalid chars
+    - collapse multiple '-'
+    """
+    text = text.strip().lower()
+    # Replace spaces with dash
+    text = re.sub(r"\s+", "-", text)
+    # Remove anything not alphanumeric, dash or underscore
+    text = re.sub(r"[^a-z0-9\-_]", "", text)
+    # Collapse multiple dashes
+    text = re.sub(r"-{2,}", "-", text)
+    # Strip leading/trailing dashes
+    text = text.strip("-")
+    return text
+
+
+def extract_anchors(md_path: str) -> list:
+    """
+    Extract heading-based anchors from a markdown file (ignoring front matter).
+    Returns a list of anchor IDs like ["position", "liquidity", ...].
+    """
+    if not os.path.isfile(md_path):
+        return []
+
+    with open(md_path, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+
+    anchors = []
+
+    # Skip front matter if present
+    start_idx = 0
+    if lines and lines[0].strip().startswith("---"):
+        for i in range(1, len(lines)):
+            if lines[i].strip().startswith("---"):
+                start_idx = i + 1
+                break
+
+    for line in lines[start_idx:]:
+        stripped = line.lstrip()
+        if not stripped.startswith("#"):
+            continue
+
+        # Heading line like "## Position" or "# Glossary"
+        # Remove leading hashes and whitespace
+        heading_text = stripped.lstrip("#").strip()
+        if not heading_text:
+            continue
+
+        anchor = slugify_heading(heading_text)
+        if anchor:
+            anchors.append(anchor)
+
+    return anchors
+
+
 def ensure_link_include(full_path):
+    """
+    Append the snippets include line if not already present.
+    """
     with open(full_path, "r+", encoding="utf-8") as f:
         content = f.read()
 
@@ -171,7 +237,7 @@ def main():
             "full_path": full_path,
         })
 
-    # slugs.md (for overview)
+    # slugs.md (overview)
     with open(OUTPUT_MD, "w", encoding="utf-8") as out:
         out.write("# Slugs\n\n")
         out.write("| Path | Title | Slug |\n")
@@ -179,36 +245,54 @@ def main():
         for row in rows:
             out.write(f"| `{row['path']}` | {row['title']} | `{row['slug']}` |\n")
 
-    # link-refs.md (used everywhere via snippets)
+    # Build base slug refs and anchor refs
     os.makedirs(docs_dir, exist_ok=True)
-    link_lines = []
-    seen_slugs = set()
+
+    slug_refs = {}     # slug → URL
+    anchor_refs = {}   # "slug#anchor" → URL#anchor
 
     for row in rows:
-        slug = row["slug"].strip()
+        slug = (row["slug"] or "").strip()
         rel_path = row["path"].strip()
-        if not slug or slug in seen_slugs:
+        if not slug:
             continue
-        seen_slugs.add(slug)
 
         # Strip .md
         rel_no_ext = rel_path[:-3] if rel_path.lower().endswith(".md") else rel_path
-        # URL-encode (spaces etc), keep "/"
+        # URL-encode path (spaces, etc.), keep "/"
         encoded = urllib.parse.quote(rel_no_ext, safe="/")
 
         if encoded == "index":
-            link_target = "/"
+            base_url = "/"
         else:
-            link_target = "/" + encoded
+            base_url = "/" + encoded
 
-        link_lines.append(f"[{slug}]: {link_target}")
+        # Base slug ref
+        slug_refs[slug] = base_url
 
+        # Anchor refs: scan headings in this file
+        full_path = row["full_path"]
+        anchors = extract_anchors(full_path)
+        for anchor in anchors:
+            label = f"{slug}#{anchor}"
+            # e.g. /Technical/5%20Appendices/Glossary#position
+            anchor_refs[label] = f"{base_url}#{anchor}"
+
+    # Write docs/link-refs.md
     with open(LINK_REFS_MD, "w", encoding="utf-8") as f:
-        # First: slug-based internal links
-        for line in sorted(link_lines):
-            f.write(line + "\n")
+        # 1) Slug-based internal pages
+        for slug in sorted(slug_refs.keys()):
+            f.write(f"[{slug}]: {slug_refs[slug]}\n")
+
         f.write("\n")
-        # Then: contract GitHub links
+
+        # 2) Anchored refs like glossary#position
+        for label in sorted(anchor_refs.keys()):
+            f.write(f"[{label}]: {anchor_refs[label]}\n")
+
+        f.write("\n")
+
+        # 3) Contract / folder refs (GitHub)
         for name, url in sorted(CONTRACT_REFS.items()):
             f.write(f"[{name}]: {url}\n")
 
@@ -219,7 +303,8 @@ def main():
             changed += 1
 
     print(f"Wrote {len(rows)} entries to {OUTPUT_MD}")
-    print(f"Wrote {len(link_lines)} slug refs and {len(CONTRACT_REFS)} contract refs to {LINK_REFS_MD}")
+    print(f"Wrote {len(slug_refs)} slug refs, {len(anchor_refs)} anchor refs "
+          f"and {len(CONTRACT_REFS)} contract refs to {LINK_REFS_MD}")
     print(f"Injected include line into {changed} files")
 
 

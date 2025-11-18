@@ -15,26 +15,26 @@ Prediction Perps turn ideas, stories, people, and memes into massive multi-posit
 
 ## 📘 NonTechnical Overview
 
-👉 [**What Is It?**](./FullReadMe/WhatIsIt.md)
+👉 [**What Is It?**][what-is-it]
 
 
 ## 🧩 Technical Architecture
 
-👉 [**Technical Overview**](./FullReadMe/TechnicalReadMe.md)
+👉 [**Technical Overview**][technical-overview]
 
 ### Flows
 
-👉 [**Contract Deployment**](./Flows/ContractDeployment.md)
+👉 [**Contract Deployment**][full-contract-deployment]
 
-👉 [**Market Initialisation**](./Flows/MarketInitialisation.md)
+👉 [**Market Initialisation**][full-market-initialisation]
       
-👉 [**Token Purchase Flow Overview**](./Flows/PurchaseToken/PurchaseFlowOverview)
+👉 [**Token Purchase Flow Overview**][full-purchase-tokens]
 
 
 ## ⚙️ Smart Contracts
 
 Full explanations of contract functionality WIP. However you can browse the contracts here:
 
-👉 [**Contracts Index**](./ContractsIndex.md).
+👉 [**Contracts Index**][contracts-index].
 
 --8<-- "link-refs.md"
