@@ -3,6 +3,7 @@
 | Path | Title | Slug |
 | --- | --- | --- |
 | `index.md` | Index | `index` |
+| `testing/Invariants/Prototype/LedgerPrototypeInvariants.md` | Prototype Ledger Invariants — Single MM, Single Market | `prototype-invariants` |
 | `DocumentsNeeded.md` | Documents-Needed | `documents-needed` |
 | `NonTechnical/ShortPitch.md` | Pitch | `short-pitch` |
 | `NonTechnical/WhatIsIt.md` | What Is It? | `what-is-it` |
@@ -16,7 +17,7 @@
 | `Technical/1 Ledger/LedgerTechinalDocs/Solvency/SolvencyOverview.md` | Solvency Overview | `solvency-overview` |
 | `Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/HeapLogic.md` | Heap Logic | `heap-logic` |
 | `Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/LedgerOverview.md` | Ledger Overview | `ledger-overview` |
-| `Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/StandardLedgerAccounting.md` | Pitch | `standard-ledger-accounting` |
+| `Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/StandardLedgerAccounting.md` | Standard Ledger Accounting | `standard-ledger-accounting` |
 | `Technical/1 Ledger/LedgerTechinalDocs/StandardLiquidity/UnifiedLiquidityDiscussion.md` | Unified Liquidity Discussion | `unified-liquidity-discussion` |
 | `Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticLiquidityAccounting.md` | Synthetic Liquidity Accounting | `synthetic-liquidity-accounting` |
 | `Technical/1 Ledger/LedgerTechinalDocs/SyntheticLiquidity/SyntheticLiquidityOverview.md` | Synthetic Liquidity Overview | `synthetic-liquidity-overview` |
