@@ -288,14 +288,17 @@ ensureSolvency(
 )
 ```
 
+
 ### Enforce Redeemability (Ledger Internal)
 When synthetic credit (ISC) is in use, ensure **real** capital is sufficient against redeemable exposure.
 
 ```solidity
-if (redeemable > 0 && s.USDCSpent[mmId][marketId] < redeemable) {
-    uint256 diff = uint256(redeemable - s.USDCSpent[mmId][marketId]);
-    AllocateCapitalLib.allocate(mmId, marketId, diff);
-}
+   if (redeemable > 0) {
+        int256 netAlloc = _netUSDCAllocationSigned(s, mmId, marketId);
+        if (netAlloc < redeemable) {
+            uint256 diff = uint256(redeemable - netAlloc);
+            AllocateCapitalLib.allocate(mmId, marketId, diff);
+        }
 ```
 
 ### Mint Instruction (Ledger → ERC‑1155)

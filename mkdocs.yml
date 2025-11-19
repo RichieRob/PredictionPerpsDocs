@@ -20,6 +20,7 @@ theme:
 
 nav:
   - ReadMe: index.md
+  - Prototype Invariants: testing/Invariants/Prototype/LedgerPrototypeInvariants.md
   - Documents Needed: DocumentsNeeded.md
   - NonTechnical:
       - Short Pitch: NonTechnical/ShortPitch.md
@@ -103,7 +104,6 @@ plugins:
       version: "10.9.1"
       arguments:
         securityLevel: 'loose'
-  - awesome-pages  # New: Enables frontmatter slugs for URLs
 
 extra_css:
   - stylesheets/extra.css

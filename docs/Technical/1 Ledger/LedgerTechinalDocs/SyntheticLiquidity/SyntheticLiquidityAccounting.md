@@ -4,10 +4,12 @@ slug: synthetic-liquidity-accounting  # Stable ID, e.g., for linking as /what-is
 title: Synthetic Liquidity Accounting  # Optional display title
 ---
 
+
+
 # Synthetic Liquidity Accounting
 
 This document details the internal accounting of the ledger, including the addition of the synthetic Liquidity,
-specifically how `freeCollateral`, `USDCSpent`, `layOffset`, and `tilt` are updated
+specifically how `freeCollateral`, `USDCSpent`, `redeemedUSDC`, `layOffset`, and `tilt` are updated
 to manage Back and Lay token operations,
 as implemented in the provided Solidity contracts.
 It assumes familiarity with the [**LedgerOverview**][ledger-overview]
@@ -23,7 +25,7 @@ With synthetic liquidity (ISC), markets bootstrap with virtual depth for the des
 
 ## Accounting Components
 
-The ledger uses four variables in `StorageLib.sol` 
+The ledger uses five variables in `StorageLib.sol` 
 to track the market maker's (MM) balance
 for each market (`marketId`) and position (`positionId`):
 
@@ -31,10 +33,17 @@ for each market (`marketId`) and position (`positionId`):
   tracks unallocated USDC for an MM (`mmId`),
   representing liquid capital.
 
-- **USDC Spent**: `mapping(uint256 => mapping(uint256 => int256)) USDCSpent`
-  tracks the net USDC committed to a market.
-  Positive values indicate USDC deposited;
-  negative values indicate profit received (only allowed when ISC is refilled for DMM).
+- **USDC Spent**: `mapping(uint256 => mapping(uint256 => uint256)) USDCSpent`
+  tracks the USDC spent by a market maker into a market.
+  monotone
+  cumulative
+  increasing and always positive
+
+- **redeemed USDC**: `mapping(uint256 => mapping(uint256 => uint256)) redeemedUSDC`
+  tracks the USDC redeeened by a market maker from a market through matching sets.
+  monotone
+  cumulative
+  increasing and always positive
 
 - **Lay Offset**: `mapping(uint256 => mapping(uint256 => int256)) layOffset`
   tracks the net Lay token flow for a market.
@@ -53,15 +62,26 @@ for each market (`marketId`) and position (`positionId`):
 
 For DMMs, **ISC** (syntheticCollateral[marketId]) is virtually added to freeCollateral in views and solvency, acting like real USDC for trading depth.
 
+USDCSpent is the amount of USDC (monotone cumulative only increasing) that the market maker has spent into the market
+redeemedUSDC is the amont of USDC (monotone cumaltive only increasing) that the market maker has removed from the market by matching sets
+
+thus
+
+\[
+\text{netUSDCAllocation} = \text{USDCSpent} - \text{redeemedUSDC}
+\]
+
+
+
 The available shares for a position \( k \), denoted \( H_k \), are:
 
 \[
-H_k = \text{freeCollateral}[\text{mmId}] + (\text{if DMM then ISC else 0}) + \text{USDCSpent}[\text{mmId}][\text{marketId}] + \text{layOffset}[\text{mmId}][\text{marketId}] + \text{tilt}[\text{mmId}][\text{marketId}][k]
+H_k = \text{freeCollateral}[\text{mmId}] + (\text{if DMM then ISC else 0}) + \text{netUSDCAllocation}[\text{mmId}][\text{marketId}] + \text{layOffset}[\text{mmId}][\text{marketId}] + \text{tilt}[\text{mmId}][\text{marketId}][k]
 \]
 
 ## Accounting for Back and Lay Tokens
 
-The ledger updates `freeCollateral`, `USDCSpent`, `layOffset`, and `tilt`
+The ledger updates `freeCollateral`, `USDCSpent`, `redeemedUSDC` `layOffset`, and `tilt`
 in `TradingLib.sol`
 to reflect the issuance and receipt of Back and Lay tokens,
 matching the operations in the Ledger Overview.
@@ -82,7 +102,7 @@ to ensure effective \( H_k \geq 0 \), with real backing for redeemables.
 
 - **Solvency Enforcement**:
   Calls `ensureSolvency`,
-  which computes real_minShares = minTilt + USDCSpent + layOffset,
+  which computes real_minShares = minTilt + netUSDCAllocation + layOffset,
   effective_minShares = real_minShares + (DMM ? ISC : 0).
   If effective_minShares < 0,
   allocates real from `freeCollateral` to `USDCSpent`.
@@ -103,9 +123,9 @@ to ensure effective \( H_k \geq 0 \), with real backing for redeemables.
 - **Solvency Enforcement**:
   Calls `deallocateExcess`,
   which computes effective_minShares.
-  If >0, deallocates excess from `USDCSpent` to `freeCollateral`,
-  but caps for redeemable (keep USDCSpent >= redeemable if >0)
-  and for DMM if real_minShares <0 (prevent negative USDCSpent).
+  If >0, deallocates:  increasing `redeemedUSDC` and increasing `freeCollateral`,
+  but caps for redeemable (keep netUSDCAllocation >= redeemable if >0)
+  and for DMM if real_minShares <0 (prevent negative netUSDCAllocation).
 
 
 
@@ -176,25 +196,24 @@ to ensure effective \( H_k \geq 0 \), with real backing for redeemables.
 
 ## Worked Examples 
 
-These examples show, step by step, how the ledger updates `freeCollateral`, `USDCSpent`, `layOffset`, and `tilt` through Back, Lay, and USDC operations.
+These examples show, step by step, how the ledger updates `freeCollateral`, `USDCSpent`, `redeemedUSDC`,`layOffset`, and `tilt` through Back, Lay, and USDC operations.
 
 Each step follows this format:
 
-1. **Token Change** – the direct change to `tilt` or `layOffset` or `USDCSpent`
-2. **Solvency Check** – compute `minTilt`, real_minShares = USDCSpent + layOffset + minTilt, effective_minShares = real_minShares + ISC (for DMM), redeemable = -layOffset - maxTilt
-3. **Solvency Action** – allocate real if effective_minShares <0 or USDCSpent < redeemable (>0); deallocate with caps if effective_minShares >0
+1. **Token Change** – the direct change to `tilt` or `layOffset` or `USDCSpent` or `redeemedUSDC`
+2. **Solvency Check** – compute `minTilt`, real_minShares = netUSDCAllocation + layOffset + minTilt, effective_minShares = real_minShares + ISC (for DMM), redeemable = -layOffset - maxTilt
+3. **Solvency Action** – allocate real if effective_minShares <0 or netUSDCAllocation < redeemable (>0); deallocate with caps if effective_minShares >0
 4. **Result** – new ledger state after adjustments
 
 All examples are cumulative, beginning with ISC=100 (DMM), 0 real USDC, positions **A**, **B**, **C**, **D**.  
 Available shares:  
 \\[
-H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[k]
+H_k = \text{freeCollateral} + \text{ISC} + \text{netUSDCAllocation} + \text{layOffset} + \text{tilt}[k]
 \\]
 
 ---
 
-// ADD ISC TO THESE TABLES FOR ALL EXAMPLES!
-
+Note ISC is neither increased or decreased, it is just used in the solvency checks.
 
 ### Initial State
 
@@ -205,6 +224,8 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | freeCollateral | 0 |
 | ISC | 100 |
 | USDCSpent | 0 |
+| redeemedUSDC | 0 |
+| netUSDCAllocation | 0 |
 | layOffset | 0 |
 | tilt[A] | 0 |
 | tilt[B] | 0 |
@@ -245,6 +266,8 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | freeCollateral | 0 | 0 | 0 | 0 |
 | ISC | 100 | 0 | 0 | 100 |
 | USDCSpent | 0 | 0 | 0 | 0 |
+| redeemedUSDC | 0 | 0 | 0 | 0 |
+| netUSDCAllocation | 0 | 0 | 0 | 0 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | 0 | −10 | 0 | −10 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -285,6 +308,8 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | freeCollateral | 0 | +20 | 0 | 20 |
 | ISC | 100 | 0 | 0 | 100 |
 | USDCSpent | 0 | 0 | 0 | 0 |
+| redeemedUSDC | 0 | 0 | 0 | 0 |
+| netUSDCAllocation | 0 | 0 | 0 | 0 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | −10 | 0 | 0 | −10 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -325,6 +350,8 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 | freeCollateral | 20 | 0 | −20 | 0 |
 | ISC | 100 | 0 | 0 | 100 |
 | USDCSpent | 0 | 0 | +20 | 20 |
+| redeemedUSDC | 0 | 0 | 0 | 0 |
+| netUSDCAllocation | 0 | 0 | +20 | 20 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | −10 | −110 | 0 | −120 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -352,11 +379,12 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 - redeemable = 0 - 0 = 0  
 
 ##### Solvency Action
-- deallocate 50, but since real_minShares <0, cap to USDCSpent=20 (keep >=0); dealloc 20
+- deallocate 50, but since real_minShares <0, cap to netUSDCAllocation=20 (keep >=0); dealloc 20
 
 ##### Result
 - `freeCollateral = 20`
-- `USDCSpent = 0`
+- `USDCSpent = 20`
+- `redeemedUSDC = 20`
 - `layOffset = 0`
 - `tilt[A] = −70`
 
@@ -364,7 +392,9 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 |---| ---:|---:|---:|---:|
 | freeCollateral | 0 | 0 | +20 | 20 |
 | ISC | 100 | 0 | 0 | 100 |
-| USDCSpent | 20 | 0 | −20 | 0 |
+| USDCSpent | 20 | 0 | 0 | 20 |
+| redeemedUSDC | 0 | 0 | +20 | 20 |
+| netUSDCAllocation | 0 | 0 | +20 | 0 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | −120 | +50 | 0 | −70 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -405,7 +435,9 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 |---| ---:|---:|---:|---:|
 | freeCollateral | 20 | 0 | 0 | 20 |
 | ISC | 100 | 0 | 0 | 100 |
-| USDCSpent | 0 | 0 | 0 | 0 |
+| USDCSpent | 20 | 0 | 0 | 20 |
+| redeemedUSDC | 20 | 0 | 0 | 20 |
+| netUSDCAllocation | 0 | 0 | 0 | 0 |
 | layOffset | 0 | −30 | 0 | −30 |
 | tilt[A] | −70 | 0 | 0 | −70 |
 | tilt[B] | 0 | +30 | 0 | 30 |
@@ -434,7 +466,7 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 - redeemable = - (−20) - 20 = 0  
 
 ##### Solvency Action
-- deallocate 10, but since real_minShares <0, cap to USDCSpent=0 (dealloc 0)
+- deallocate 10, but since real_minShares <0, cap to netUSDCAllocation=0 (dealloc 0)
 
 ##### Result
 - `freeCollateral = 20`
@@ -446,7 +478,9 @@ H_k = \text{freeCollateral} + \text{ISC} + \text{USDCSpent} + \text{layOffset} +
 |---| ---:|---:|---:|---:|
 | freeCollateral | 20 | 0 | 0 | 20 |
 | ISC | 100 | 0 | 0 | 100 |
-| USDCSpent | 0 | 0 | 0 | 0 |
+| USDCAllocated | 20 | 0 | 0 | 20 |
+| redeemedUSDC | 20 | 0 | 0 | 20 |
+| netUSDCAllocation | 0 | 0 | 0 | 0 |
 | layOffset | −30 | +10 | 0 | −20 |
 | tilt[A] | −70 | 0 | 0 | −70 |
 | tilt[B] | 30 | −10 | 0 | 20 |

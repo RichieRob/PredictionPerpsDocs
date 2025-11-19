@@ -75,8 +75,17 @@ not currently required to maintain solvency.
 
 Before any withdrawal, the Ledger re-evaluates:
 
+USDCSpent is the amount of USDC (monotone cumulative only increasing) that the market maker has spent into the market
+redeemedUSDC is the amont of USDC (monotone cumaltive only increasing) that the market maker has removed from the market by matching sets
+
+thus
+
 \[
-\min_k(\text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[k]) \ge 0
+\text{netUSDCAllocation} = \text{USDCSpent} - \text{redeemedUSDC}
+\]
+
+\[
+\min_k(\text{freeCollateral} + \text{netUSDCAllocation} + \text{layOffset} + \text{tilt}[k]) \ge 0
 \]
 
 If withdrawing would cause this expression to fall below zero,  
@@ -86,7 +95,7 @@ the transaction reverts — preventing the maker from over-withdrawing and break
 For a DMM operating with synthetic liquidity, a single additional condition applies:
 
 - **Profit Realisation Only When Fully Covered** —  
-  The DMM can realise profits (negative `USDCSpent`) only after all synthetic exposure  
+  The DMM can realise profits (negative `netUSDCAllocation`) only after all synthetic exposure  
   has been fully replaced with real USDC and the market remains redeemable.
 
 This ensures that ISC-backed liquidity cannot leak out as profit  

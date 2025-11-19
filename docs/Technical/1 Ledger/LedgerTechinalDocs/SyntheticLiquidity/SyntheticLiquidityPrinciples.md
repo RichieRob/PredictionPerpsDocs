@@ -39,11 +39,11 @@ Redeemable shares issued by DMM is = -layoffset - maxTilt (can be negative)
 
 so for DMM
 
- USDCSpent >= Redeemable shares
+ netUSDCAllocation >= Redeemable shares
 
 and thus 
 
-USDCSpent >= -layoffset - maxTilt
+netUSDCAllocation >= -layoffset - maxTilt
 
 ## Further Reading
 The synthetic principles are founding principles for the development of synthetic liquidity within the prediction perps ledger. For discussion about their implementation start with [**Synthetic Overview**][synthetic-overview]

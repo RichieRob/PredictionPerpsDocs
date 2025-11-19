@@ -22,8 +22,19 @@ It assumes familiarity with:
 
 At any time, for a given market maker \( \text{mmId} \) and market \( \text{marketId} \):
 
+USDCSpent is the amount of USDC (monotone cumulative only increasing) that the market maker has spent into the market
+redeemedUSDC is the amont of USDC (monotone cumaltive only increasing) that the market maker has removed from the market by matching sets
+
+thus
+
 \[
-H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[k]
+\text{netUSDCAllocation} = \text{USDCSpent} - \text{redeemedUSDC}
+\]
+
+
+
+\[
+H_k = \text{freeCollateral} + \text{netUSDCAllocation} + \text{layOffset} + \text{tilt}[k]
 \]
 
 Each \( H_k \) represents the *effective collateral* behind position \( k \).
@@ -63,7 +74,7 @@ Only the **minimum tilt** matters.
 Solvency is determined by:
 
 \[
-\text{minShares} = \text{USDCSpent} + \text{layOffset} + \text{minTilt}
+\text{minShares} = \text{netUSDCAllocation} + \text{layOffset} + \text{minTilt}
 \]
 
 If `minShares` falls below zero, the Ledger allocates real USDC from `freeCollateral` to `USDCSpent` until it reaches zero again.  
@@ -84,7 +95,7 @@ the Ledger performs two heap lookups:
 The calculations become:
 
 \[
-\text{realminShares} = \text{USDCSpent} + \text{layOffset} + \text{minTilt}
+\text{realminShares} = \text{netUSDCAllocation} + \text{layOffset} + \text{minTilt}
 \]
 
 \[
@@ -98,7 +109,7 @@ The calculations become:
 Rules enforced:
 
 - If `effective_minShares < 0`: allocate real from `freeCollateral → USDCSpent`.  
-- If `USDCSpent < redeemableSets`: allocate real to ensure redeemability.  
+- If `netUSDCAllocation < redeemableSets`: allocate real to ensure redeemability.  
 - When deallocating, cap by these same constraints.
 
 Thus, solvency is guarded by **minTilt**, and redeemability by **maxTilt**,  
@@ -114,10 +125,10 @@ as if executing a trade — ensuring that removing capital never breaks coverage
 | Actor | Condition | Effect |
 |--------|------------|--------|
 | **Market Maker (MM)** | `minShares ≥ 0` after withdrawal | Prevents removing collateral needed to back active exposure. |
-| **Designated Market Maker (DMM)** | `effective_minShares ≥ 0` **and** `USDCSpent ≥ redeemableSets` | Ensures synthetic exposure is still covered and redeemability remains intact. |
+| **Designated Market Maker (DMM)** | `effective_minShares ≥ 0` **and** `netUSDCAllocation ≥ redeemableSets` | Ensures synthetic exposure is still covered and redeemability remains intact. |
 
 Additionally, DMM withdrawals are subject to the rule:  
-**profits (negative `USDCSpent`) can only be realised once ISC = 0**  
+**profits (negative `netUSDCAllocation`) can only be realised once ISC = 0**  
 — meaning all synthetic credit has been refilled by real inflows.
 
 ---
@@ -142,7 +153,7 @@ reusing the same block structure (`B = 16`, `d = 4`) described in [Heap Logic](.
 | Mode | Heaps Used | Constraints Enforced | Description |
 |------|-------------|----------------------|--------------|
 | **Without ISC** | `minTilt` only | `minShares ≥ 0` | Real-collateral solvency only |
-| **With ISC** | `minTilt` + `maxTilt` | `effective_minShares ≥ 0` and `USDCSpent ≥ redeemableSets` (+ ISC refill before profit) | Synthetic solvency + redemption constraint |
+| **With ISC** | `minTilt` + `maxTilt` | `effective_minShares ≥ 0` and `netUSDCAllocation ≥ redeemableSets` (+ ISC refill before profit) | Synthetic solvency + redemption constraint |
 
 This dual-heap design allows real-time solvency checks at near-constant gas cost,  
 even in markets with thousands of positions.

@@ -1,13 +1,13 @@
 ---
 comments: true
 slug: standard-ledger-accounting  # Stable ID, e.g., for linking as /what-is-it/
-title: Pitch  # Optional display title
+title: Standard Ledger Accounting
 ---
 
 # Ledger Accounting
 
 This document details the internal accounting of the ledger,
-specifically how `freeCollateral`, `USDCSpent`, `layOffset`, and `tilt` are updated
+specifically how `freeCollateral`, `USDCSpent`, `redeemedUSDC`,`layOffset`, and `tilt` are updated
 to manage Back and Lay token operations,
 as implemented in the provided Solidity contracts.
 It assumes familiarity with the [LedgerOverview][ledger-overview]
@@ -21,7 +21,7 @@ This unlocks unparalleled flexibility in providing liquidity within and across m
 
 ## Accounting Components
 
-The ledger uses four variables in `StorageLib.sol` 
+The ledger uses five variables in `StorageLib.sol` 
 to track the market maker's (MM) balance
 for each market (`marketId`) and position (`positionId`):
 
@@ -29,10 +29,17 @@ for each market (`marketId`) and position (`positionId`):
   tracks unallocated USDC for an MM (`mmId`),
   representing liquid capital.
 
-- **USDC Spent**: `mapping(uint256 => mapping(uint256 => int256)) USDCSpent`
-  tracks the net USDC committed to a market.
-  Positive values indicate USDC deposited;
-  negative values indicate profit received.
+- **USDC Spent**: `mapping(uint256 => mapping(uint256 => uint256)) USDCSpent`
+  tracks the USDC spent by a market maker into a market.
+  monotone
+  cumulative
+  increasing and always positive
+
+- **redeemed USDC**: `mapping(uint256 => mapping(uint256 => uint256)) redeemedUSDC`
+  tracks the USDC redeeened by a market maker from a market through matching sets.
+  monotone
+  cumulative
+  increasing and always positive
 
 - **Lay Offset**: `mapping(uint256 => mapping(uint256 => int256)) layOffset`
   tracks the net Lay token flow for a market.
@@ -44,15 +51,28 @@ for each market (`marketId`) and position (`positionId`):
   Positive `tilt` increases available shares;
   negative `tilt` decreases them.
 
-The available shares for a position \( k \), denoted \( H_k \), are:
+
+USDCSpent is the amount of USDC (monotone cumulative only increasing) that the market maker has spent into the market
+redeemedUSDC is the amont of USDC (monotone cumaltive only increasing) that the market maker has removed from the market by matching sets
+
+thus
 
 \[
-H_k = \text{freeCollateral}[\text{mmId}] + \text{USDCSpent}[\text{mmId}][\text{marketId}] + \text{layOffset}[\text{mmId}][\text{marketId}] + \text{tilt}[\text{mmId}][\text{marketId}][k]
+\text{netUSDCAllocation} = \text{USDCSpent} - \text{redeemedUSDC}
+\]
+
+
+The available shares for a position \( k \), denoted \( H_k \), are:
+
+
+
+\[
+H_k = \text{freeCollateral}[\text{mmId}] + \text{netUSDCAllocation}(\text{mmId},\text{marketId}) + \text{layOffset}[\text{mmId}][\text{marketId}] + \text{tilt}[\text{mmId}][\text{marketId}][k]
 \]
 
 ## Accounting for Back and Lay Tokens
 
-The ledger updates `freeCollateral`, `USDCSpent`, `layOffset`, and `tilt`
+The ledger updates `freeCollateral`, `USDCSpent`, `redeemedUSDC` `layOffset`, and `tilt`
 in `TradingLib.sol`
 to reflect the issuance and receipt of Back and Lay tokens,
 matching the operations in the Ledger Overview.
@@ -73,7 +93,7 @@ to ensure \( H_k \geq 0 \).
 
 - **Solvency Enforcement**:
   Calls `ensureSolvency`,
-  which checks `minShares = minTilt + USDCSpent[mmId][marketId] + layOffset[mmId][marketId]`.
+  which checks `minShares = minTilt + netUSDCAllocation(mmId,marketId) + layOffset[mmId][marketId]`.
   If `minShares < 0`,
   allocates from `freeCollateral` to `USDCSpent`
   to make `minShares >= 0`.
@@ -91,8 +111,8 @@ to ensure \( H_k \geq 0 \).
 
 - **Solvency Enforcement**:
   Calls `deallocateExcess`,
-  which checks if `USDCSpent[mmId][marketId] + layOffset[mmId][marketId] + minTilt > 0`.
-  If so, deallocates excess from `USDCSpent` back to `freeCollateral`.
+  which checks if `netUSDCAllocation(mmId,marketId) + layOffset[mmId][marketId] + minTilt > 0`.
+  If so, increases `redeemedUSDC` and increases `freeCollateral`.
 
 
 
@@ -112,7 +132,7 @@ to ensure \( H_k \geq 0 \).
 
 - **Solvency Enforcement**:
   Calls `ensureSolvency`,
-  checking `minShares = minTilt + USDCSpent[mmId][marketId] + layOffset[mmId][marketId]`.
+  checking `minShares = minTilt + netUSDCAllocation(mmId,marketId) + layOffset[mmId][marketId]`.
   If `minShares < 0`,
   allocates from `freeCollateral` to `USDCSpent`.
 
@@ -131,7 +151,7 @@ to ensure \( H_k \geq 0 \).
 
 - **Solvency Enforcement**:
   Calls `deallocateExcess`,
-  deallocating excess if `USDCSpent[mmId][marketId] + layOffset[mmId][marketId] + minTilt > 0`.
+  deallocating excess if `netUSDCAllocation(mmId,marketId) + layOffset[mmId][marketId] + minTilt > 0`.
 
 
 ### USDC Operations
@@ -162,19 +182,19 @@ to ensure \( H_k \geq 0 \).
 
 ## Worked Examples 
 
-These examples show, step by step, how the ledger updates `freeCollateral`, `USDCSpent`, `layOffset`, and `tilt` through Back, Lay, and USDC operations.
+These examples show, step by step, how the ledger updates `freeCollateral`, `USDCSpent`, `redeemedUSDC,`layOffset`, and `tilt` through Back, Lay, and USDC operations.
 
 Each step follows this format:
 
 1. **Token Change** – the direct change to `tilt` or `layOffset` or `USDCSpent`
-2. **Solvency Check** – compute `minTilt` and `minShares = USDCSpent + layOffset + minTilt`
+2. **Solvency Check** – compute `minTilt` and `minShares = netUSDCAllocation + layOffset + minTilt`
 3. **Solvency Action** – minimal reallocation to bring `minShares` back to 0
 4. **Result** – new ledger state after adjustments
 
 All examples are cumulative, beginning with 100 USDC and positions **A**, **B**, **C**, **D**.  
 Available shares:  
 \\[
-H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[k]
+H_k = \text{freeCollateral} + \text{netUSDCAllocation} + \text{layOffset} + \text{tilt}[k]
 \\]
 
 ---
@@ -185,6 +205,8 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 |-----------|------:|
 | freeCollateral | 100 |
 | USDCSpent | 0 |
+| redeemedUSDC | 0 |
+| netUSDCAllocation | 0 |
 | layOffset | 0 |
 | tilt[A] | 0 |
 | tilt[B] | 0 |
@@ -207,7 +229,7 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 
 ##### Solvency Check 
 - `minTilt = −10` (A is min)  
-- `minShares = USDCSpent + layOffset + minTilt = 0 + 0 + (−10) = −10`  
+- `minShares = netUSDCAllocation + layOffset + minTilt = 0 + 0 + (−10) = −10`  
 
 ##### Solvency Action
 - allocate `10` from `freeCollateral` → `USDCSpent`
@@ -215,6 +237,7 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 ##### Result
 - `freeCollateral = 90`
 - `USDCSpent = 10`
+- `redeemedUSDC = 0`
 - `layOffset = 0`
 - `tilt[A] = −10`
 
@@ -222,6 +245,8 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 |---| ---:|---:|---:|---:|
 | freeCollateral | 100 | 0 | −10 | 90 |
 | USDCSpent | 0 | 0 | +10 | 10 |
+| redeemedUSDC | 0 | 0 | 0 | 0 |
+| netUSDCAllocation | 0 | 0 | +10 | 10 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | 0 | −10 | 0 | −10 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -247,18 +272,24 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 - `minShares = 10 + 0 + (−6) = 4`  
 
 ##### Solvency Action
-- deallocate `4` from `USDCSpent` → `freeCollateral`
+- deallocate `4`
+- `redeemedUSDC` +4
+- `freeCollateral` +4
 
 ##### Result
 - `freeCollateral = 94`
-- `USDCSpent = 6`
+- `USDCSpent = 10`
+- `redeemedUSDC = 4`
+- `netUSDCAllocation = 6`
 - `layOffset = 0`
 - `tilt[A] = −6`
 
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 90 | 0 | +4 | 94 |
-| USDCSpent | 10 | 0 | −4 | 6 |
+| USDCSpent | 10 | 0 | 0 | 10 |
+| redeeemedUSDC | 0 | 0 | +4 | 4 |
+| netUSDCAllocation | 10 | 0 | −4 | 6 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | −10 | +4 | 0 | −6 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -289,14 +320,18 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 
 ##### Result
 - `freeCollateral = 92`
-- `USDCSpent = 8`
+- `USDCSpent = 12`
+- `redeemedUSDC = 4`
+- `netUSDCAllocation =8`
 - `layOffset = −8`
 - `tilt[A] = +2`
 
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 94 | 0 | −2 | 92 |
-| USDCSpent | 6 | 0 | +2 | 8 |
+| USDCSpent | 10 | 0 | +2 | 12 |
+| redeemedUSDC | 4 | 0 | 0 | 4 |
+| netUSDCAllocation | 6 | 0 | +2 | 8 |
 | layOffset | 0 | −8 | 0 | −8 |
 | tilt[A] | −6 | +8 | 0 | +2 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -323,18 +358,23 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 - `minShares = 8 + (−5) + (−1) = 2`
 
 ##### Solvency Action
-- deallocate `2` from `USDCSpent` → `freeCollateral`
+- deallocate `2`
+- `redeemedUSDC` +2
+- `freeCollateral` +2
 
 ##### Result
 - `freeCollateral = 94`
-- `USDCSpent = 6`
+- `USDCSpent = 12`
+- `redeemedUSDC = 6`
 - `layOffset = −5`
 - `tilt[A] = −1`
 
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 92 | 0 | +2 | 94 |
-| USDCSpent | 8 | 0 | −2 | 6 |
+| USDCSpent | 6 | 0 | 0 | 6 |
+| redeemedUSDC | 4 | 0 | +2 | 6 |
+| netUSDCAllocation | 8 | 0 | −2 | 6 |
 | layOffset | −8 | +3 | 0 | −5 |
 | tilt[A] | +2 | −3 | 0 | −1 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -363,14 +403,17 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 
 ##### Result
 - `freeCollateral = 106`
-- `USDCSpent = 6`
+- `USDCSpent = 12`
+- `redeemedUSDC = 6`
 - `layOffset = −5`
 - `tilt[A] = −1`
 
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 94 | +12 | 0 | 106 |
-| USDCSpent | 6 | 0 | 0 | 6 |
+| USDCSpent | 12 | 0 | 0 | 12 |
+| redeemedUSDC | 6 | 0 | 0 | 6 |
+| netUSDCAllocation | 6 | 0 | 0 | 6 |
 | layOffset | −5 | 0 | 0 | −5 |
 | tilt[A] | −1 | 0 | 0 | −1 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -399,14 +442,16 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 
 ##### Result
 - `freeCollateral = 99`
-- `USDCSpent = 6`
+- `USDCSpent = 12`
 - `layOffset = −5`
 - `tilt[A] = −1`
 
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 106 | −7 | 0 | 99 |
-| USDCSpent | 6 | 0 | 0 | 6 |
+| USDCSpent | 12 | 0 | 0 | 12 |
+| redeemedUSDC | 6 | 0 | 0 | 6 |
+| netUSDCAllocation | 6 | 0 | 0 | 6 |
 | layOffset | −5 | 0 | 0 | −5 |
 | tilt[A] | −1 | 0 | 0 | −1 |
 | tilt[B] | 0 | 0 | 0 | 0 |
@@ -436,14 +481,16 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 
 ##### Result
 - `freeCollateral = 95`
-- `USDCSpent = 10`
+- `USDCSpent = 16`
 - `layOffset = −5`
 - `tilt[B] = −5`
 
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 99 | 0 | −4 | 95 |
-| USDCSpent | 6 | 0 | +4 | 10 |
+| USDCSpent | 12| 0 | +4 | 16 |
+| redeemedUSDC | 6| 0 | 0 | 6 |
+| netUSDCAllocation | 6| 0 | 0 | 10 |
 | layOffset | −5 | 0 | 0 | −5 |
 | tilt[A] | −1 | 0 | 0 | −1 |
 | tilt[B] | 0 | −5 | 0 | −5 |
@@ -469,18 +516,23 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 - `minShares = 10 + (−5) + (−3) = 2`
 
 ##### Solvency Action
-- deallocate `2` from `USDCSpent` → `freeCollateral`
+- deallocate `2` 
+- `redeemedUSDC` +2
+- `freeCollateral` +2
 
 ##### Result
 - `freeCollateral = 97`
-- `USDCSpent = 8`
+- `USDCSpent = 16`
+- `redeemedUSDC = 8`
 - `layOffset = −5`
 - `tilt[B] = −3`
 
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 95 | 0 | +2 | 97 |
-| USDCSpent | 10 | 0 | −2 | 8 |
+| USDCSpent | 16 | 0 | 0 | 16 |
+| redeemedUSDC | 6 | 0 | +2 | 8 |
+| netUSDCAllocation | 10 | 0 | -2 | 8 |
 | layOffset | −5 | 0 | 0 | −5 |
 | tilt[A] | −1 | 0 | 0 | −1 |
 | tilt[B] | −5 | +2 | 0 | −3 |
@@ -511,14 +563,16 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 
 ##### Result
 - `freeCollateral = 91`
-- `USDCSpent = 14`
+- `USDCSpent = 22`
 - `layOffset = −11`
 - `tilt[C] = +6`
 
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 97 | 0 | −6 | 91 |
-| USDCSpent | 8 | 0 | +6 | 14 |
+| USDCSpent | 16 | 0 | +6 | 22 |
+| redeemedUSDC | 8 | 0 | 0 | 8 |
+| netUSDCAllocation | 8 | 0 | +6 | 14 |
 | layOffset | −5 | −6 | 0 | −11 |
 | tilt[A] | −1 | 0 | 0 | −1 |
 | tilt[B] | −3 | 0 | 0 | −3 |
@@ -545,7 +599,9 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 - `minShares = 14 + (−8) + (−3) = 3`
 
 ##### Solvency Action
-- deallocate `3` from `USDCSpent` → `freeCollateral`
+- deallocate `3`
+- `redeemedUSDC` +3
+- `freeCollateral` +3
 
 ##### Result
 - `freeCollateral = 94`
@@ -556,7 +612,9 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 91 | 0 | +3 | 94 |
-| USDCSpent | 14 | 0 | −3 | 11 |
+| USDCSpent | 22 | 0 | 0 | 22 |
+| redeemedUSDC | 8 | 0 | +3 | 11 |
+| netUSDCAllocation | 14 | 0 | −3 | 11 |
 | layOffset | −11 | +3 | 0 | −8 |
 | tilt[A] | −1 | 0 | 0 | −1 |
 | tilt[B] | −3 | 0 | 0 | −3 |
@@ -574,9 +632,9 @@ H_k = \text{freeCollateral} + \text{USDCSpent} + \text{layOffset} + \text{tilt}[
 
 ### Notes
 
-- **minShares = USDCSpent + layOffset + minTilt** is the solvency gauge.
-- If `minShares < 0`: allocate from `freeCollateral` → `USDCSpent`.  
-- If `minShares > 0`: deallocate from `USDCSpent` → `freeCollateral`.  
+- **minShares = netUSDCAllocation + layOffset + minTilt** is the solvency gauge.
+- If `minShares < 0`: allocate  `freeCollateral` - amount  `USDCSpent`+ amount until minShares=0 
+- If `minShares > 0`: deallocate  `redeemedUSDC`+ amount  `freeCollateral`+ amount until minShares=0  
 - **Back k:** adjusts only `tilt[k]`.  
 - **Lay k:** adjusts `layOffset` and `tilt[k]`.  
 - **USDC:** affects only `freeCollateral`.  

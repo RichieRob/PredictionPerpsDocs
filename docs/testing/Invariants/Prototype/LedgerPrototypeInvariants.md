@@ -1,5 +1,7 @@
 ---
+comment: true
 title: Prototype Ledger Invariants — Single MM, Single Market
+slug: prototype-invariants
 description: Invariants and implementation plan for the first minimal ledger prototype with one Market Maker, one Market, and dummy Aave.
 ---
 
@@ -530,3 +532,5 @@ is the same for each position across the market.
   ```
 
 These are your **minimum working invariants** for the prototype, in the simple 1-MM, 1-market, dummy-Aave world. They give you a very tight invariant harness without pulling in LMSR yet.
+
+--8<-- "link-refs.md"
