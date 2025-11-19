@@ -9,7 +9,7 @@ title: Synthetic Liquidity Overview  # Optional display title
 
 ## Overview
 
-Synthetic Liquidity builds on the general properties of the [**ledger system for Prediction Perps**](../StandardLiquidity//LedgerOverview.md) this discussion assumes some familiaritly with that system. 
+Synthetic Liquidity builds on the general properties of the [**ledger system for Prediction Perps**][ledger-overview] this discussion assumes some familiaritly with that system. 
 
 Synthetic liquidity gives each market the ability to trade immediately — even before any real capital has been deposited.
 
@@ -51,21 +51,21 @@ In a standard (Resolving) Market, outstanding claims must be paid out to a singl
 ---
 
 ### Why It Works for Non-Resolving Markets
-Because Prediction Perps [**Markets**](../Glossary.md#market) are **non-resolving** the markets never pay out an external settlement. ISC can be used to shape the **price response** (depth); all trades still move **real USDC** between users, but because there is no terminal payout, ISC never needs to “fund” a resolution—it merely affects prices.
+Because Prediction Perps [**Markets**][glossary] are **non-resolving** the markets never pay out an external settlement. ISC can be used to shape the **price response** (depth); all trades still move **real USDC** between users, but because there is no terminal payout, ISC never needs to “fund” a resolution—it merely affects prices.
 
 ---
 
 ### Important Restriction - The Redemption Constraint
 
-However, as with any prediction market, with Prediction Perps we are able to [**Redeem**](../Glossary.md#redemption) [**Full Baskets**](../Glossary.md#full-basket) of tokens like {Back_A, Lay_A} for 1 USDC. 
+However, as with any prediction market, with Prediction Perps we are able to [**Redeem**][glossary#redemption] [**Full Baskets**][glossary#full-basket] of tokens like {Back_A, Lay_A} for 1 USDC. 
 
-This means the protocol enforces a strict lower-bound invariant on how much real USDC the Designated Market Maker must hold in the market, in order to cover all possible [**Redemptions**](../Glossary.md#redemption). 
+This means the protocol enforces a strict lower-bound invariant on how much real USDC the Designated Market Maker must hold in the market, in order to cover all possible [**Redemptions**][glossary#redemption]. 
 
-> **At all times, the protocol must hold at least enough real collateral to redeem every outstanding [**Full Basket**](../Glossary.md#full-basket) at the fixed unit value.**  
+> **At all times, the protocol must hold at least enough real collateral to redeem every outstanding [**Full Basket**][glossary#full-basket] at the fixed unit value.**  
 
 > Formally, `RealCollateral >= (OutstandingFullBaskets * UnitRedeemable)`, with `UnitRedeemable = 1 USDC`.  
 
-With this guardrail  **ISC is safe in non-resolving [**Markets**](../Glossary.md#market) because [**Redemption**](../Glossary.md#redemption) is defined on [**Full Baskets**](../Glossary.md#full-basket) and the system always holds at least the real collateral required to redeem them.**
+With this guardrail  **ISC is safe in non-resolving [**Markets**][glossary#market] because [**Redemption**][glossary#redemption] is defined on [**Full Baskets**][glossary#full-basket] and the system always holds at least the real collateral required to redeem them.**
 
 ---
 
@@ -171,6 +171,6 @@ It gives the AMM something to quote against before any real deposits arrive, but
 ## Further Reading
 
 For a full implementation guide of Synthetic liquidity see
-[**Synthetic Accounting**][synthetic-accounting]
+[**Synthetic Accounting**][synthetic-liquidity-accounting]
 
 --8<-- "link-refs.md"

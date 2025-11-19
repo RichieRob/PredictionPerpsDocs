@@ -51,7 +51,7 @@ There is **no event**, **no oracle**, and **no settlement**. Prices reflect curr
 The **Ledger** maintains each **market maker’s (MM) balances** and enforces deterministic checks on MM-side accounting and invariants. It underpins issuance/redemption paths that keep the market’s **constant redeemability** intact while preventing unbacked exposure.
 
 - Concepts: [Ledger Overview][ledger-overview]  
-- Accounting details: [Ledger Accounting][ledger-accounting]
+- Accounting details: [Ledger Accounting][standard-ledger-accounting]
 - Contract: [Ledger.sol][ledger.sol] · [Contracts Index][contracts-index]
 
 ### Synthetic Liquidity (Instant Start)

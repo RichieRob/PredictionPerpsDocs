@@ -63,7 +63,7 @@ for each market (`marketId`) and position (`positionId`):
 For DMMs, **ISC** (syntheticCollateral[marketId]) is virtually added to freeCollateral in views and solvency, acting like real USDC for trading depth.
 
 USDCSpent is the amount of USDC (monotone cumulative only increasing) that the market maker has spent into the market
-redeemedUSDC is the amont of USDC (monotone cumaltive only increasing) that the market maker has removed from the market by matching sets
+redeemedUSDC is the amount of USDC (monotone cumulative only increasing) that the market maker has removed from the market by matching sets
 
 thus
 
@@ -427,9 +427,9 @@ Note ISC is neither increased or decreased, it is just used in the solvency chec
 
 ##### Result
 - `freeCollateral = 20`
-- `USDCSpent = 0`
+- `USDCSpent = 20`
 - `layOffset = −30`
-- `tilt[B] = 30`
+- `tilt[B] = 30`  
 
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
@@ -470,7 +470,7 @@ Note ISC is neither increased or decreased, it is just used in the solvency chec
 
 ##### Result
 - `freeCollateral = 20`
-- `USDCSpent = 0`
+- `USDCSpent = 20`
 - `layOffset = −20`
 - `tilt[B] = 20`
 
@@ -478,7 +478,7 @@ Note ISC is neither increased or decreased, it is just used in the solvency chec
 |---| ---:|---:|---:|---:|
 | freeCollateral | 20 | 0 | 0 | 20 |
 | ISC | 100 | 0 | 0 | 100 |
-| USDCAllocated | 20 | 0 | 0 | 20 |
+| USDCSpent | 20 | 0 | 0 | 20 |
 | redeemedUSDC | 20 | 0 | 0 | 20 |
 | netUSDCAllocation | 0 | 0 | 0 | 0 |
 | layOffset | −30 | +10 | 0 | −20 |

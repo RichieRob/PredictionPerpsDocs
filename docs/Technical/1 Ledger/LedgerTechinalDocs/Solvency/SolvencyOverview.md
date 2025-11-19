@@ -76,7 +76,7 @@ not currently required to maintain solvency.
 Before any withdrawal, the Ledger re-evaluates:
 
 USDCSpent is the amount of USDC (monotone cumulative only increasing) that the market maker has spent into the market
-redeemedUSDC is the amont of USDC (monotone cumaltive only increasing) that the market maker has removed from the market by matching sets
+redeemedUSDC is the amount of USDC (monotone cumulative only increasing) that the market maker has removed from the market by matching sets
 
 thus
 

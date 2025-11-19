@@ -15,7 +15,7 @@ and focuses solely on the accounting mechanics for these operations.
 
 ## Innovation
 
-The ledger's accounting revolutionizes liquidity provision by unifying the market maker's supplied liquitidy.
+The ledger's accounting revolutionizes liquidity provision by unifying the market maker's supplied liquidity.
  
 This unlocks unparalleled flexibility in providing liquidity within and across multi-position markets simultaneously from a singular deposit.
 
@@ -53,7 +53,7 @@ for each market (`marketId`) and position (`positionId`):
 
 
 USDCSpent is the amount of USDC (monotone cumulative only increasing) that the market maker has spent into the market
-redeemedUSDC is the amont of USDC (monotone cumaltive only increasing) that the market maker has removed from the market by matching sets
+redeemedUSDC is the amount of USDC (monotone cumulative only increasing) that the market maker has removed from the market by matching sets
 
 thus
 
@@ -288,7 +288,7 @@ H_k = \text{freeCollateral} + \text{netUSDCAllocation} + \text{layOffset} + \tex
 |---| ---:|---:|---:|---:|
 | freeCollateral | 90 | 0 | +4 | 94 |
 | USDCSpent | 10 | 0 | 0 | 10 |
-| redeeemedUSDC | 0 | 0 | +4 | 4 |
+| redeemedUSDC | 0 | 0 | +4 | 4 |
 | netUSDCAllocation | 10 | 0 | −4 | 6 |
 | layOffset | 0 | 0 | 0 | 0 |
 | tilt[A] | −10 | +4 | 0 | −6 |
@@ -372,7 +372,7 @@ H_k = \text{freeCollateral} + \text{netUSDCAllocation} + \text{layOffset} + \tex
 | Variable | Before | Δ (token) | Δ (solvency) | After |
 |---| ---:|---:|---:|---:|
 | freeCollateral | 92 | 0 | +2 | 94 |
-| USDCSpent | 6 | 0 | 0 | 6 |
+| USDCSpent | 6 | 0 | 0 | 12 |
 | redeemedUSDC | 4 | 0 | +2 | 6 |
 | netUSDCAllocation | 8 | 0 | −2 | 6 |
 | layOffset | −8 | +3 | 0 | −5 |
@@ -490,7 +490,7 @@ H_k = \text{freeCollateral} + \text{netUSDCAllocation} + \text{layOffset} + \tex
 | freeCollateral | 99 | 0 | −4 | 95 |
 | USDCSpent | 12| 0 | +4 | 16 |
 | redeemedUSDC | 6| 0 | 0 | 6 |
-| netUSDCAllocation | 6| 0 | 0 | 10 |
+| netUSDCAllocation | 6| 0 | +4 | 10 |
 | layOffset | −5 | 0 | 0 | −5 |
 | tilt[A] | −1 | 0 | 0 | −1 |
 | tilt[B] | 0 | −5 | 0 | −5 |

@@ -19,10 +19,10 @@ The synthetic liquidity (ISC) is added to freeCollateral in availableShares and 
 The synthetic liquidity can only be used by the designated market maker
 
 ### Principle 3
-Synthetic liquidty is created once at market creation
+Synthetic liquidity is created once at market creation
 
 ### Principle 4
-Designated market maker doesnt change
+Designated market maker doesn't change
 
 ### Principle 5
 Profit only when ISC is refilled
@@ -46,6 +46,6 @@ and thus
 netUSDCAllocation >= -layoffset - maxTilt
 
 ## Further Reading
-The synthetic principles are founding principles for the development of synthetic liquidity within the prediction perps ledger. For discussion about their implementation start with [**Synthetic Overview**][synthetic-overview]
+The synthetic principles are founding principles for the development of synthetic liquidity within the prediction perps ledger. For discussion about their implementation start with [**Synthetic Overview**][synthetic-liquidity-overview]
 
 --8<-- "link-refs.md"

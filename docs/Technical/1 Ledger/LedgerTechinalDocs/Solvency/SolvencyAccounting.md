@@ -23,7 +23,7 @@ It assumes familiarity with:
 At any time, for a given market maker \( \text{mmId} \) and market \( \text{marketId} \):
 
 USDCSpent is the amount of USDC (monotone cumulative only increasing) that the market maker has spent into the market
-redeemedUSDC is the amont of USDC (monotone cumaltive only increasing) that the market maker has removed from the market by matching sets
+redeemedUSDC is the amount of USDC (monotone cumulative only increasing) that the market maker has removed from the market by matching sets
 
 thus
 
