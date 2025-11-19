@@ -3,6 +3,7 @@
 | Path | Title | Slug |
 | --- | --- | --- |
 | `index.md` | Index | `index` |
+| `testing/Invariants/Prototype/LedgerInvariantViews.md` | Ledger Invariant Views — Prototype | `ledger-invariant-views` |
 | `testing/Invariants/Prototype/LedgerPrototypeInvariants.md` | Ledger Prototype — Invariants (1 MM, 1 Market) | `ledger-prototype-invariants` |
 | `DocumentsNeeded.md` | Documents-Needed | `documents-needed` |
 | `NonTechnical/ShortPitch.md` | Pitch | `short-pitch` |

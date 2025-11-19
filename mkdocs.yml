@@ -20,6 +20,7 @@ theme:
 
 nav:
   - ReadMe: index.md
+  - Prototype Invariant views: testing/Invariants/Prototype/LedgerInvariantViews.md
   - Prototype Invariants: testing/Invariants/Prototype/LedgerPrototypeInvariants.md
   - Documents Needed: DocumentsNeeded.md
   - NonTechnical:
